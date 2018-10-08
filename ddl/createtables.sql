@@ -216,12 +216,10 @@ CREATE TABLE gwas_run (
   missing_snp_cutoff_value NUMERIC NOT NULL,
   missing_line_cutoff_value NUMERIC NOT NULL,
   minor_allele_frequency_cutoff_value NUMERIC NOT NULL,
-  gwas_run_imputation_method INTEGER NOT NULL REFERENCES imputation_method (imputation_method_id)
+  gwas_run_imputation_method INTEGER NOT NULL REFERENCES imputation_method (imputation_method_id),
   gwas_run_kinship INTEGER NOT NULL REFERENCES kinship (kinship_id),
   gwas_run_population_structure INTEGER NOT NULL REFERENCES population_structure (population_structure_id),
-  -- not sure if it will work to name a unique constraint in table creation statement like so:
-  unique unique_combination_of_all_fields (gwas_run_trait, nsnps, nlines, gwas_run_gwas_algorithm, gwas_run_genotype_version, missing_snp_cutoff_value, missing_line_cutoff_value, minor_allele_frequency_cutoff_value, gwas_run_imputation_method, gwas_run_kinship, gwas_run_population_structure)
-  --unique (gwas_run_trait, nsnps, nlines, gwas_run_gwas_algorithm, gwas_run_genotype_version, missing_snp_cutoff_value, missing_line_cutoff_value, minor_allele_frequency_cutoff_value, gwas_run_imputation_method, gwas_run_kinship, gwas_run_population_structure)
+  unique (gwas_run_trait, nsnps, nlines, gwas_run_gwas_algorithm, gwas_run_genotype_version, missing_snp_cutoff_value, missing_line_cutoff_value, minor_allele_frequency_cutoff_value, gwas_run_imputation_method, gwas_run_kinship, gwas_run_population_structure)
   );
 
 -- ----------------------------
@@ -240,5 +238,5 @@ CREATE TABLE gwas_result (
   model_added_pval NUMERIC CHECK (model_added_pval > 0),
   model TEXT,
   pcs INTEGER[],
-  unique unique_multi_column_gwas_result (gwas_result_chromosome, basepair, gwas_result_gwas_run, model) 
+  unique (gwas_result_chromosome, basepair, gwas_result_gwas_run, model) 
   );
