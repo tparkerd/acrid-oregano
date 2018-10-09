@@ -16,6 +16,8 @@ mkdir -p -m 755 "$PG_INSTALLDIR" || { printf "Unable to create directory '$pg_in
 )
 
 (
+    printf "=================================Libdir====================================\n"
+    printf "$libdir and $PG_LIBDIR"
     cd ./lib/tinyint-0.1.1 &&
     make &&
     sed -i -e '1i\\\connect baxdb' -e 's|$libdir\/tinyint|$libdir/baxdb/tinyint|g' tinyint.sql &&
