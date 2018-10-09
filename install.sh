@@ -9,7 +9,7 @@
 yum -y update
 yum -y install wget unzip gcc perl dos2unix
 yum -y install epel-release
-yum -y install https://download.postgresql.org/pub/repos/yum/9.5/redhat/rhel-7-x86_64/pgdg-centos7-9.5-3.noarch.rpm
+yum -y install https://download.postgresql.org/pub/repos/yum/9.5/redhat/rhel-7-x86_64/pgdg-centos95-9.5-3.noarch.rpm
 yum -y install postgresql95 postgresql95-server postgresql95-contrib postgresql95-libs postgresql95-devel
 export PATH=/usr/pgsql-9.5/bin:$PATH
 postgresql95-setup initdb
