@@ -16,8 +16,8 @@ yum -y install https://download.postgresql.org/pub/repos/yum/9.4/redhat/rhel-7-x
 yum -y install postgresql94 postgresql94-server postgresql94-contrib postgresql94-libs postgresql94-devel
 export PATH=/usr/pgsql-9.5/bin:$PATH
 postgresql94-setup initdb
-systemctl enable postgresql-9.5.service
-systemctl start postgresql-9.5.service
+systemctl enable postgresql-9.4.service
+systemctl start postgresql-9.4.service
 
 # Run script that creates the TINYINT datatype and then create the tables
 ./setup.sh
