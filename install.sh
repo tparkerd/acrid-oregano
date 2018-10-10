@@ -15,6 +15,7 @@ yum -y install epel-release
 yum -y install https://download.postgresql.org/pub/repos/yum/9.4/redhat/rhel-7-x86_64/pgdg-centos94-9.4-3.noarch.rpm
 yum -y install postgresql94 postgresql94-server postgresql94-contrib postgresql94-libs postgresql94-devel
 export PATH=/usr/pgsql-9.4/bin:$PATH
+"export PATH=/usr/pgsql-9.4/bin:$PATH" >> ~/.bash_profile
 postgresql94-setup initdb
 systemctl enable postgresql-9.4.service
 systemctl start postgresql-9.4.service
