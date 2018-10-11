@@ -28,17 +28,18 @@ mkdir -p -m 755 "$pg_installdir" || { printf "Unable to create directory '$pg_in
 )
 
 # Move the remaining SQL scripts to a location accessible by postgres user
-cp ./ddl/setup.sql ./ddl/createtables.sql "$pg_installdir"
-printf "Relocated 'setup' and 'createtables' SQL files to $pg_installdir.\n"
+cp ./ddl/setup.sql ./ddl/createtables.sql ./ddl/updatepermissions.sql "$pg_installdir"
+printf "Relocated $(ls ./ddl) to $pg_installdir.\n"
 
 sudo -u postgres psql -q -U postgres -f "$pg_installdir/setup.sql" || { printf "Unable to perform setup for 'baxdb' database as user 'postgres'. Check UNIX account privileges and pg_hba.conf. Aborting.\n" 1>&2; exit 1; }
 sudo -u postgres psql -q -U postgres -f "$pg_installdir/tinyint.sql" || { printf "Unable to add 'tinyint' type to database 'baxdb'. Aborting.\n" 1>&2; exit 1; }
 sudo -u postgres psql -q -U postgres -f "$pg_installdir/createtables.sql" || { printf "Unable to perform setup for 'baxdb' database as user 'postgres'. Check UNIX account privileges and pg_hba.conf. Aborting.\n" 1>&2; exit 1; }
+sudo -u postgres psql -q -U postgres -f "$pg_installdir/updatepermissions.sql" || { printf "Unable to perform setup for 'baxdb' database as user 'postgres'. Check UNIX account privileges and pg_hba.conf. Aborting.\n" 1>&2; exit 1; }
 sed -i "1s/^/local baxdb baxdb_owner trust\n/" "$(sudo -u postgres psql -t -P "format=unaligned" -c "SHOW hba_file;")"
 sudo -u postgres psql -t -P "format=unaligned" -c "SELECT pg_reload_conf();"
 
 # Remove the installation files from the database directory
-rm -f "$pg_installdir/setup.sql $pg_installdir/createtables.sql"
+rm -f "$pg_installdir/setup.sql $pg_installdir/createtables.sql $pg_installdir/updatepermissions.sql"
 printf "Removed the temporary SQL files for building 'baxdb' database.\n"
 printf "Setup completed successfully.\n"
 printf "Please consider checking your 'pg_hba.conf' file to alter permissions to access the database. Permissions are currently set as 'local baxdb baxdb_owner trust'.\n"
