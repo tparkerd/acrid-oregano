@@ -12,12 +12,12 @@
 yum -y update
 yum -y install wget unzip gcc perl dos2unix
 yum -y install epel-release
-yum -y install https://download.postgresql.org/pub/repos/yum/9.5/redhat/rhel-7-x86_64/pgdg-centos95-9.5-3.noarch.rpm
-yum -y install postgresql95 postgresql95-server postgresql95-contrib postgresql95-libs postgresql95-devel
-export PATH=/usr/pgsql-9.5/bin:$PATH
-postgresql95-setup initdb
-systemctl enable postgresql-9.5.service
-systemctl start postgresql-9.5.service
+yum -y install https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-7-x86_64/pgdg-centos96-9.6-3.noarch.rpm
+yum -y install postgresql96 postgresql96-server postgresql96-contrib postgresql96-libs postgresql96-devel
+export PATH=/usr/pgsql-9.6/bin:$PATH
+postgresql96-setup initdb
+systemctl enable postgresql-9.6.service
+systemctl start postgresql-9.6.service
 
 # Run script that creates the TINYINT datatype and then create the tables
 ./setup.sh
