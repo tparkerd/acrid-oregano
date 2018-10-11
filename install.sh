@@ -2,11 +2,11 @@
 
 # Candidate installation script for BaxDB (i.e., GWAS database)
 # Operating system: CentOS 7
-# RDBMS: PostgreSQL 9.5
+# RDBMS: PostgreSQL 9.6
 # NOTE: Make sure to run this under `root` user
 
 # Known issues: 
-# During ./setup.sh, the build throws the error that a parameter is unused (postgresql v9.5)
+# During ./setup.sh, the build throws the error that a parameter is unused (postgresql v9.6)
 
 # Install the dependencies
 yum -y update

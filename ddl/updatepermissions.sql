@@ -1,3 +1,5 @@
 \connect baxdb
 
 GRANT SELECT, INSERT, UPDATE ON ALL TABLES IN SCHEMA public TO baxdb_owner;
+
+GRANT USAGE, SELECT, INSERT, UPDATE ON ALL SEQUENCES IN SCHEMA public TO baxdb_owner;
