@@ -1,7 +1,7 @@
 \connect postgres
 
-DROP DATABASE baxdb;
-DROP ROLE baxdb_owner;
+DROP DATABASE IF EXISTS baxdb;
+DROP ROLE IF EXISTS baxdb_owner;
 
 CREATE ROLE baxdb_owner WITH
     LOGIN
