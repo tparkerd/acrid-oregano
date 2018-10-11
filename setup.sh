@@ -26,7 +26,10 @@ mkdir -p -m 755 "$PG_INSTALLDIR" || { printf "Unable to create directory '$pg_in
 )
 
 sudo -u postgres psql -q -U postgres -f ./ddl/setup.sql || { printf "Unable to perform setup for 'baxdb' database as user 'postgres'. Check UNIX account privileges and pg_hba.conf. Aborting.\n" 1>&2; exit 1; }
-
 sudo -u postgres psql -q -U postgres -f ./lib/tinyint-0.1.1/tinyint.sql || { printf "Unable to add 'tinyint' type to database 'baxdb'. Aborting.\n" 1>&2; exit 1; }
-
 sudo -u postgres psql -q -U postgres -f ./ddl/createtables.sql || { printf "Unable to perform setup for 'baxdb' database as user 'postgres'. Check UNIX account privileges and pg_hba.conf. Aborting.\n" 1>&2; exit 1; }
+sed -i "1s/^/local baxdb baxdb_owner trust\n/" "$(sudo -u postgres psql -t -P "format=unaligned" -c "SHOW hba_file;")"
+sudo -u postgres psql -t -P "format=unaligned" -c "SELECT pg_reload_conf();"
+
+printf "Setup completed successfully.\n"
+printf "Please consider checking your 'pg_hba.conf' file to alter permissions to access the database. Permissions are currently set as 'local pgsql_genomics pgsql_genomics_owner trust'.\n"
