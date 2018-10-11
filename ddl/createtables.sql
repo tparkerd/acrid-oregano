@@ -33,6 +33,18 @@ CREATE TABLE growout_type (
   growout_type VARCHAR(45) UNIQUE NOT NULL
   );
 
+-- -------------------------
+-- Create the location table
+-- -------------------------
+DROP TABLE IF EXISTS location;
+CREATE TABLE location (
+  location_id SERIAL PRIMARY KEY,
+  country VARCHAR(75) NOT NULL,
+  state VARCHAR(75),
+  city VARCHAR(75),
+  code VARCHAR(2) NOT NULL
+  );
+
 -- ------------------------
 -- Create the growout table
 -- ------------------------
@@ -44,18 +56,6 @@ CREATE TABLE growout (
   growout_location INTEGER REFERENCES location (location_id),
   year INTEGER NOT NULL,
   growout_growout_type INTEGER NOT NULL REFERENCES growout_type (growout_type_id)
-  );
-
--- -------------------------
--- Create the location table
--- -------------------------
-DROP TABLE IF EXISTS location;
-CREATE TABLE location (
-  location_id SERIAL PRIMARY KEY,
-  country VARCHAR(75) NOT NULL,
-  state VARCHAR(75),
-  city VARCHAR(75),
-  code VARCHAR(2) NOT NULL
   );
 
 -- ---------------------
@@ -90,6 +90,19 @@ CREATE TABLE variant (
   variant_chromosome INTEGER NOT NULL REFERENCES chromosome (chromosome_id),
   variant_pos INTEGER NOT NULL,
   unique (variant_species,variant_chromosome, variant_pos)
+  );
+
+-- ---------------------------------
+-- Create the genotype_version table
+-- ---------------------------------
+DROP TABLE IF EXISTS genotype_version;
+CREATE TABLE genotype_version (
+  genotype_version_id SERIAL PRIMARY KEY,
+  genotype_version_name VARCHAR(75) UNIQUE NOT NULL,
+  genotype_version VARCHAR(50) NOT NULL,
+  reference_genome INTEGER NOT NULL REFERENCES line (line_id),
+  genotype_version_population INTEGER NOT NULL REFERENCES population (population_id),
+  unique (genotype_version, reference_genome)
   );
 
 -- -------------------------
@@ -148,7 +161,6 @@ CREATE TABLE imputation_method (
   imputation_method TEXT UNIQUE NOT NULL
   );
 
-
 -- ----------------------------------
 -- Create the kinship_algorithm table
 -- ----------------------------------
@@ -157,7 +169,6 @@ CREATE TABLE kinship_algorithm (
   kinship_algorithm_id SERIAL PRIMARY KEY,
   kinship_algorithm TEXT NOT NULL
 );
-
 
 -- ------------------------
 -- Create the kinship table
@@ -187,19 +198,6 @@ CREATE TABLE population_structure (
   population_structure_id SERIAL PRIMARY KEY,
   population_structure_algorithm INTEGER NOT NULL REFERENCES population_structure_algorithm (population_structure_algorithm_id),
   population_structure_file_path TEXT NOT NULL
-  );
-
--- ---------------------------------
--- Create the genotype_version table
--- ---------------------------------
-DROP TABLE IF EXISTS genotype_version;
-CREATE TABLE genotype_version (
-  genotype_version_id SERIAL PRIMARY KEY,
-  genotype_version_name VARCHAR(75) UNIQUE NOT NULL,
-  genotype_version VARCHAR(50) NOT NULL,
-  reference_genome INTEGER NOT NULL REFERENCES line (line_id),
-  genotype_version_population INTEGER NOT NULL REFERENCES population (population_id),
-  unique (genotype_version, reference_genome)
   );
 
 -- -------------------------

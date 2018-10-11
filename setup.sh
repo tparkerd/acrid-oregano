@@ -37,5 +37,8 @@ sudo -u postgres psql -q -U postgres -f "$pg_installdir/createtables.sql" || { p
 sed -i "1s/^/local baxdb baxdb_owner trust\n/" "$(sudo -u postgres psql -t -P "format=unaligned" -c "SHOW hba_file;")"
 sudo -u postgres psql -t -P "format=unaligned" -c "SELECT pg_reload_conf();"
 
+# Remove the installation files from the database directory
+rm -f "$pg_installdir/setup.sql $pg_installdir/createtables.sql"
+printf "Removed the temporary SQL files for building 'baxdb' database.\n"
 printf "Setup completed successfully.\n"
 printf "Please consider checking your 'pg_hba.conf' file to alter permissions to access the database. Permissions are currently set as 'local pgsql_genomics pgsql_genomics_owner trust'.\n"
