@@ -14,7 +14,7 @@ mkdir -p -m 755 "$PG_INSTALLDIR" || { printf "Unable to create directory '$pg_in
     make &&
     cp array_multi_index.so imputed_genotype.so summarize_variant.so "$PG_INSTALLDIR" &&
     chmod -R 755 "$PG_INSTALLDIR"
-    printf "Created array_multi_index, imputed_genotype, and summarize_variant."
+    printf "Created array_multi_index, imputed_genotype, and summarize_variant.\n"
 )
 
 (
@@ -24,18 +24,18 @@ mkdir -p -m 755 "$PG_INSTALLDIR" || { printf "Unable to create directory '$pg_in
     cp tinyint.so "$PG_INSTALLDIR" &&
     chmod -R 755 "$PG_INSTALLDIR"
     cp tinyint.sql "$pg_installdir" # move the tinyint.sql into a location accessible by postgres user
+    printf "Created TINYINT SQL and moved to $pg_installdir.\n"
 )
 
 # Move the remaining SQL scripts to a location accessible by postgres user
 cp ./ddl/setup.sql ./ddl/createtables.sql "$pg_installdir"
+printf "Relocated 'setup' and 'createtables' SQL files to $pg_installdir.\n"
 
 sudo -u postgres psql -q -U postgres -f "$pg_installdir/setup.sql" || { printf "Unable to perform setup for 'baxdb' database as user 'postgres'. Check UNIX account privileges and pg_hba.conf. Aborting.\n" 1>&2; exit 1; }
 sudo -u postgres psql -q -U postgres -f "$pg_installdir/tinyint.sql" || { printf "Unable to add 'tinyint' type to database 'baxdb'. Aborting.\n" 1>&2; exit 1; }
 sudo -u postgres psql -q -U postgres -f "$pg_installdir/createtables.sql" || { printf "Unable to perform setup for 'baxdb' database as user 'postgres'. Check UNIX account privileges and pg_hba.conf. Aborting.\n" 1>&2; exit 1; }
 sed -i "1s/^/local baxdb baxdb_owner trust\n/" "$(sudo -u postgres psql -t -P "format=unaligned" -c "SHOW hba_file;")"
 sudo -u postgres psql -t -P "format=unaligned" -c "SELECT pg_reload_conf();"
-
-
 
 printf "Setup completed successfully.\n"
 printf "Please consider checking your 'pg_hba.conf' file to alter permissions to access the database. Permissions are currently set as 'local pgsql_genomics pgsql_genomics_owner trust'.\n"
