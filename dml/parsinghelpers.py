@@ -1,5 +1,6 @@
 import pandas as pd
 import csv
+import find
 
 # Create a list of chromosome names in the format "Chr#" for specified number of chromosomes
 def generate_chromosome_list(numChromosomes):

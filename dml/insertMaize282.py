@@ -1,3 +1,4 @@
+#!/bin/python
 # This script contains most of the code executed to insert all of the Maize282 dataset into the GWAS database.
 # It uses functions from the other modules in the BaxDB code -- insert functions from insert.py, find functions from find.py, helper functions from parsinghelpers.py, classes defined in models.py, and connection/configuration functions from dbconnect.py
 
@@ -19,15 +20,15 @@ if __name__ == '__main__':
   insertedSpeciesID = insert.insert_species(conn, mySpecies)
   print(insertedSpeciesID)
 
-  # ADD A HARD-CODED POPULATION TO DB USING insert_population()
-  myPopulation = population('Maize282',maizeSpeciesID)
-  insertedPopulationID = insert.insert_population(conn, myPopulation)
-  print(insertedPopulationID)
-
   # LOOK UP ID OF A HARD-CODED SPECIES USING find_species()
   maizeSpeciesID = find.find_species(conn, 'maize')
   print("SpeciesID of maize:")
   print(maizeSpeciesID)
+
+  # ADD A HARD-CODED POPULATION TO DB USING insert_population()
+  myPopulation = population('Maize282',maizeSpeciesID)
+  insertedPopulationID = insert.insert_population(conn, myPopulation)
+  print(insertedPopulationID)
 
   # LOOK UP ID OF A HARD-CODED POPULATION USING find_population()
   maize282popID = find.find_population(conn, 'Maize282')
@@ -57,7 +58,7 @@ if __name__ == '__main__':
   MOlocID = find.find_location(conn, "MO")
 
   # GET LINES FROM SPECIFIED 012.indv FILE AND ADD TO DB
-  insertedLineIDs = insert.insert_lines_from_file(conn, '/home/mwohl/Downloads/GWASdata/chr10_282_agpv4.012.indv', maize282popID)
+  insertedLineIDs = insert.insert_lines_from_file(conn, '../data/chr10_282_agpv4.012.indv', maize282popID)
   print("Inserted line IDs:")
   print(insertedLineIDs)
 
@@ -67,17 +68,17 @@ if __name__ == '__main__':
   print(insertedChromosomeIDs)
 
   # ADD ALL GENOTYPES FROM A ONE-CHROMOSOME .012 FILE TO DB
-  insertedGenotypeIDs = insert.insert_genotypes_from_file(conn,'/home/mwohl/Downloads/GWASdata/chr10_282_agpv4.012' , '/home/mwohl/Downloads/GWASdata/chr10_282_agpv4.012.indv', maizeChr10ID, maize282popID)
+  insertedGenotypeIDs = insert.insert_genotypes_from_file(conn,'../data/chr10_282_agpv4.012' , '../data/chr10_282_agpv4.012.indv', maizeChr10ID, maize282popID)
   print("Inserted genotype IDs:")
   print(insertedGenotypeIDs)
 
   # GET VARIANTS FROM .012.pos FILE AND ADD TO  DB
-  insertedVariantIDs = insert.insert_variants_from_file(conn, '/home/mwohl/Downloads/GWASdata/chr10_282_agpv4.012.pos', maizeSpeciesID, maizeChr10ID)
+  insertedVariantIDs = insert.insert_variants_from_file(conn, '../data/chr10_282_agpv4.012.pos', maizeSpeciesID, maizeChr10ID)
   print("num inserted variants:")
   print(len(insertedVariantIDs))
 
   # PARSE TRAITS FROM PHENOTYPE FILE AND ADD TO DB
-  phenotypeRawData = pd.read_csv('/home/mwohl/Downloads/GWASdata/5.mergedWeightNorm.LM.rankAvg.longFormat.csv', index_col=0)
+  phenotypeRawData = pd.read_csv('../data/5.mergedWeightNorm.LM.rankAvg.longFormat.csv', index_col=0)
   traits = list(phenotypeRawData)
   insertedTraitIDs = insert.insert_traits_from_traitlist(conn, traits)
   print("num inserted traits:")
@@ -86,7 +87,8 @@ if __name__ == '__main__':
   print(insertedTraitIDs)
   
   # PARSE PHENOTYPES FROM FILE AND ADD TO DB
-  insertedPhenoIDs = insert.insert_phenotypes_from_file(conn, '/home/mwohl/Downloads/GWASdata/5.mergedWeightNorm.LM.rankAvg.longFormat.csv', maize282popID)
+  # NOTE(timp): Cannot find file
+  insertedPhenoIDs = insert.insert_phenotypes_from_file(conn, '../data/5.mergedWeightNorm.LM.rankAvg.longFormat.csv', maize282popID)
   print("num phenotypes inserted:")
   print(len(insertedPhenoIDs))
   print("phenoIDs:")
@@ -167,7 +169,8 @@ if __name__ == '__main__':
   print(VanRadenID)  
 
   # ADD NEW HARD-CODED KINSHIP TO DB
-  newKinship = kinship(VanRadenID, "/opt/BaxDB/file_storage/kinship_files/4.AstleBalding.synbreed.kinship.csv")
+  # NOTE(timp): Cannot find file
+  newKinship = kinship(VanRadenID, "../data/4.AstleBalding.synbreed.kinship.csv")
   newKinshipID = insert.insert_kinship(conn, newKinship)
   print("New kinship ID:")
   print(newKinshipID)
@@ -186,7 +189,7 @@ if __name__ == '__main__':
   print(EigenstratID)
 
   # ADD NEW HARD-CODED POPULATION_STRUCTURE TO DB
-  newPopulationStructure = population_structure(EigenstratID, "/opt/BaxDB/file_storage/population_structure_files/4.Eigenstrat.population.structure.10PCs.csv")
+  newPopulationStructure = population_structure(EigenstratID, "../data/4.Eigenstrat.population.structure.10PCs.csv")
   newPopulationStructureID = insert.insert_population_structure(conn, newPopulationStructure)
   print("New population structure ID:")
   print(newPopulationStructureID)
@@ -207,21 +210,27 @@ if __name__ == '__main__':
   print(majorAlleleImputationID)  
 
   # LOOK UP ID OF A HARD-CODED KINSHIP
-  kinshipID = find.find_kinship(conn, "/opt/BaxDB/file_storage/kinship_files/4.AstleBalding.synbreed.kinship.csv")
+  # NOTE(timp): I could not find this file, but I found a R data file (.rda) that may contain the information.
+  #             Although, the data may not be in the correct format.
+  #             The temporary file is the one with 'export' in its name.
+  # kinshipID = find.find_kinship(conn, "/opt/BaxDB/file_storage/kinship_files/4.AstleBalding.synbreed.kinship.csv")
+  kinshipID = find.find_kinship(conn, "../data/4.AstleBalding.synbreed.kinship.export.csv")
   print("kinshipID: ")
   print(kinshipID)  
 
   # LOOK UP ID OF A HARD-CODED POPULATION_STRUCTURE
-  populationStructureID = find.find_population_structure(conn, "/opt/BaxDB/file_storage/population_structure_files/4.Eigenstrat.population.structure.10PCs.csv")
+  populationStructureID = find.find_population_structure(conn, "../data/4.Eigenstrat.population.structure.10PCs.csv")
   print("population structure ID: ")
   print(populationStructureID)
 
   # PARSE GWAS_RUNS FROM FILE AND ADD TO DB
-  insertedGwasRunIDs = insert.insert_gwas_runs_from_gwas_results_file(conn, '/home/mwohl/Downloads/GWASdata/9.mlmmResults.csv', MLMMalgorithmID, B73_agpv4_maize282_versionID, 0.2, 0.2, 0.1, majorAlleleImputationID, kinshipID, populationStructureID)
+  # NOTE(timp): Could not find file or possible equivalent
+  insertedGwasRunIDs = insert.insert_gwas_runs_from_gwas_results_file(conn, '../data/9.mlmmResults.csv', MLMMalgorithmID, B73_agpv4_maize282_versionID, 0.2, 0.2, 0.1, majorAlleleImputationID, kinshipID, populationStructureID)
   print("Inserted gwas_run IDs:")
   print(insertedGwasRunIDs)
 
   # PARSE GWAS_RESULTS FROM FILE AND ADD TO DB
-  insertedGwasResultIDs = insert.insert_gwas_results_from_file(conn, maizeSpeciesID, '/home/mwohl/Downloads/GWASdata/9.mlmmResults.csv', MLMMalgorithmID, 0.2, 0.2, majorAlleleImputationID, B73_agpv4_maize282_versionID, kinshipID, populationStructureID, 0.1)
+  # NOTE(timp): Could not find file or possible equivalent
+  insertedGwasResultIDs = insert.insert_gwas_results_from_file(conn, maizeSpeciesID, '../data/9.mlmmResults.csv', MLMMalgorithmID, 0.2, 0.2, majorAlleleImputationID, B73_agpv4_maize282_versionID, kinshipID, populationStructureID, 0.1)
   print("Inserted gwas result IDs: ")
   print(insertedGwasResultIDs)
