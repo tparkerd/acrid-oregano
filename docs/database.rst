@@ -5,7 +5,7 @@ ER Diagram
 ----------
 .. image:: _static/erdiagram.png
    :alt: Entity-Relation Diagram
-   :target: https://github.com/tparkerd/BaxDB/docs/_static/erdiagram.png
+   :target: https://github.com/tparkerd/BaxDB/blob/master/docs/_static/erdiagram.png
 
 Tables
 ------
@@ -16,6 +16,8 @@ Chromosome
    :language: postgresql
    :linenos:
    :lines: 76-81
+
+.. 
 
 Genotype
 ^^^^^^^^
