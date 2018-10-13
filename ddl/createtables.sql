@@ -183,12 +183,11 @@ CREATE TABLE kinship (
 -- -----------------------------------------------
 -- Create the population_structure_algorithm table
 -- -----------------------------------------------
-DROP TABLE IF EXISTS population_structure_algorith;
+DROP TABLE IF EXISTS population_structure_algorithm;
 CREATE TABLE population_structure_algorithm (
   population_structure_algorithm_id SERIAL PRIMARY KEY,
   population_structure_algorithm TEXT NOT NULL
 );
-
 
 -- -------------------------------------
 -- Create the population_structure table
