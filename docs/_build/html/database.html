@@ -1,0 +1,328 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Database &mdash; GWAS Database 1.0.0-alpha documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Indices and tables" href="sitemap.html" />
+    <link rel="prev" title="Quick Start" href="quickstart.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> GWAS Database
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Database</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#er-diagram">ER Diagram</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#tables">Tables</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#chromosome">Chromosome</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#genotype">Genotype</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#genotype-version">Genotype Version</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#growout">Growout</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#growout-type">Growout Type</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gwas-algorithm">GWAS Algorithm</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gwas-result">GWAS Result</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gwas-run">GWAS Run</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#imputation-method">Imputation Method</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#kinship-algorithm">Kinship Algorithm</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#kinship">Kinship</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#line">Line</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#location">Location</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#phenotype">Phenotype</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#population">Population</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#population-structure-algorithm">Population Structure Algorithm</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#population-structure">Population Structure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#species">Species</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#trait">Trait</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#variant">Variant</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="sitemap.html">Indices and tables</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">GWAS Database</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Database</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/database.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="database">
+<h1>Database<a class="headerlink" href="#database" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="er-diagram">
+<h2>ER Diagram<a class="headerlink" href="#er-diagram" title="Permalink to this headline">¶</a></h2>
+<a class="reference external image-reference" href="https://github.com/tparkerd/BaxDB/docs/_static/erdiagram.png"><img alt="Entity-Relation Diagram" src="_images/erdiagram.png" /></a>
+</div>
+<div class="section" id="tables">
+<h2>Tables<a class="headerlink" href="#tables" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="chromosome">
+<h3>Chromosome<a class="headerlink" href="#chromosome" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-postgresql notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">chromosome</span> <span class="p">(</span>
+  <span class="n">chromosome_id</span> <span class="nb">SERIAL</span> <span class="k">PRIMARY</span> <span class="k">KEY</span><span class="p">,</span>
+  <span class="n">chromosome_name</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mf">45</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="n">chromosome_species</span> <span class="nb">INTEGER</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">REFERENCES</span> <span class="n">species</span> <span class="p">(</span><span class="n">species_id</span><span class="p">),</span>
+  <span class="k">unique</span> <span class="p">(</span><span class="n">chromosome_name</span><span class="p">,</span> <span class="n">chromosome_species</span><span class="p">)</span>
+  <span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+<div class="section" id="genotype">
+<h3>Genotype<a class="headerlink" href="#genotype" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="genotype-version">
+<h3>Genotype Version<a class="headerlink" href="#genotype-version" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="growout">
+<h3>Growout<a class="headerlink" href="#growout" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="growout-type">
+<h3>Growout Type<a class="headerlink" href="#growout-type" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="gwas-algorithm">
+<h3>GWAS Algorithm<a class="headerlink" href="#gwas-algorithm" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="gwas-result">
+<h3>GWAS Result<a class="headerlink" href="#gwas-result" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="gwas-run">
+<h3>GWAS Run<a class="headerlink" href="#gwas-run" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="imputation-method">
+<h3>Imputation Method<a class="headerlink" href="#imputation-method" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="kinship-algorithm">
+<h3>Kinship Algorithm<a class="headerlink" href="#kinship-algorithm" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="kinship">
+<h3>Kinship<a class="headerlink" href="#kinship" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="line">
+<h3>Line<a class="headerlink" href="#line" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="location">
+<h3>Location<a class="headerlink" href="#location" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="phenotype">
+<h3>Phenotype<a class="headerlink" href="#phenotype" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="population">
+<h3>Population<a class="headerlink" href="#population" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="population-structure-algorithm">
+<h3>Population Structure Algorithm<a class="headerlink" href="#population-structure-algorithm" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="population-structure">
+<h3>Population Structure<a class="headerlink" href="#population-structure" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="species">
+<h3>Species<a class="headerlink" href="#species" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="trait">
+<h3>Trait<a class="headerlink" href="#trait" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="variant">
+<h3>Variant<a class="headerlink" href="#variant" title="Permalink to this headline">¶</a></h3>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="sitemap.html" class="btn btn-neutral float-right" title="Indices and tables" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="quickstart.html" class="btn btn-neutral" title="Quick Start" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Molly Wohl, Tim Parker
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'./',
+              VERSION:'1.0.0-alpha',
+              LANGUAGE:'None',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+    
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

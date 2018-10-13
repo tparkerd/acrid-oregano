@@ -202,7 +202,7 @@ def insert_phenotypes_from_file(conn, phenotypeFile, populationID):
   insertedPhenoIDs = []
   for key, value in phenotypeRawData.iteritems():
     print("***********KEY**************:")
-    print key
+    print(key)
     traitID = find_trait(conn, key)
     for index, traitval in value.iteritems():
       print("index:")
