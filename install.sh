@@ -10,7 +10,8 @@ yum -y install wget unzip gcc perl dos2unix
 yum -y install epel-release
 
 # Install PostgreSQL 9.6 if not already installed
-psql_status="$(systemctl status postgresql-9.6 1>/dev/null ; $?)"
+systemctl status postgresql-9.6
+psql_status=$?
 if [ $psql_status -ne 0 ]
   then
     # Attempt to start service if not running
