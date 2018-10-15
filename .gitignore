@@ -5,3 +5,4 @@ file_storage/
 *.pyc
 *.log
 .vscode/
+docs/_build/*
