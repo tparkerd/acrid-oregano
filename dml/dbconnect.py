@@ -1,8 +1,31 @@
+"""This module helps connect to a PostgreSQL database"""
 from configparser import ConfigParser
 import psycopg2
 
 # Use the parameters in database.ini to configure the database connection
 def config(filename='database.ini', section='postgresql'):
+  """Parses ini file 
+
+    This function parsers out the PostgreSQL credentials from input .ini
+
+    :param filename: input file
+    :type filename: str
+    :param section: section within .ini
+    :type j: str
+    :return: database connection credentials
+    :rtype: dict
+    :raises: :exc:`FileNotFound`
+
+    :example .ini:
+      .. code-block:: ini
+
+        [postgresql]
+        database=database_name
+        user=database_owner
+        password=password
+        host=localhost
+        port=5432
+  """
   # create a parser
   parser = ConfigParser()
   # read config file
@@ -21,6 +44,14 @@ def config(filename='database.ini', section='postgresql'):
 
 # Return a connection to the database
 def connect():
+  """Creates connection object to database 
+
+    This function creates a connection object to database
+
+    :return: connection to database
+    :rtype: connection object
+  """
+
   conn = None
   try:
     # read connection parameters

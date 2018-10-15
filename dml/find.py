@@ -1,4 +1,4 @@
-# Look up IDs of various elements in the database
+"""Looks up IDs of various elements in the database"""
 
 import pandas as pd
 import numpy as np
@@ -9,6 +9,17 @@ from dbconnect import config, connect
 from models import species, population, line, chromosome, variant, genotype, trait, phenotype, growout_type, growout, location, gwas_algorithm, genotype_version, imputation_method, kinship_algorithm, kinship, population_structure_algorithm, population_structure, gwas_run, gwas_result
 
 def find_species(conn, speciesShortname):
+  """Finds species by shortname 
+
+    This function finds species_id for a species by its shortname
+
+    :param conn: psycopg2 connection
+    :type conn: connection object
+    :param speciesShortname: shortname of species
+    :type speciesShortname: str
+    :return: species_id
+    :rtype: integer
+  """
   cur = conn.cursor()
   cur.execute("SELECT species_id FROM species WHERE shortname = '%s';" %  speciesShortname)
   row = cur.fetchone()
@@ -20,6 +31,17 @@ def find_species(conn, speciesShortname):
     return None
 
 def find_population(conn, populationName):
+  """Placeholder 
+
+    This function placeholder
+
+    :param conn: psycopg2 connection
+    :type conn: connection object
+    :param populationName: placeholder
+    :type populationName: str
+    :return: population_id
+    :rtype: integer
+  """
   cur = conn.cursor()
   cur.execute("SELECT population_id FROM population WHERE population_name = '%s';" % populationName)
   row = cur.fetchone()
@@ -31,6 +53,19 @@ def find_population(conn, populationName):
     return None
 
 def find_chromosome(conn, chromosome_name, chromosome_species):
+  """Placeholder 
+
+    This function placeholder
+
+    :param conn: psycopg2 connection
+    :type conn: connection object
+    :param chromosome_name: placeholder
+    :type chromosome_name: str
+    :param chromosome_species: placeholder
+    :type chromosome_species: str
+    :return: chromosome_id
+    :rtype: integer
+  """
   cur = conn.cursor()
   # not sure if next line is correct...
   cur.execute("SELECT chromosome_id FROM chromosome WHERE chromosome_name = '%s' AND chromosome_species = '%s';" % (chromosome_name, chromosome_species))
@@ -43,6 +78,19 @@ def find_chromosome(conn, chromosome_name, chromosome_species):
     return None
 
 def find_line(conn, line_name, line_population):
+  """Placeholder 
+
+    This function placeholder
+
+    :param conn: psycopg2 connection
+    :type conn: connection object
+    :param line_name: placeholder
+    :type line_name: str
+    :param line_population: placeholder
+    :type line_population: str
+    :return: line_id
+    :rtype: integer
+  """
   cur = conn.cursor()
   cur.execute("SELECT line_id FROM line WHERE line_name = '%s' AND line_population = '%s';" % (line_name, line_population))
   row = cur.fetchone()
@@ -54,6 +102,17 @@ def find_line(conn, line_name, line_population):
     return None
 
 def find_trait(conn, traitName):
+  """Placeholder 
+
+    This function placeholder
+
+    :param conn: psycopg2 connection
+    :type conn: connection object
+    :param traitName: placeholder
+    :type traitName: str
+    :return: trait_id
+    :rtype: integer
+  """
   cur = conn.cursor()
   cur.execute("SELECT trait_id FROM trait WHERE trait_name = '%s';" % traitName)
   row = cur.fetchone()
@@ -65,6 +124,17 @@ def find_trait(conn, traitName):
     return None
 
 def find_growout_type(conn, growout_type):
+  """Placeholder 
+
+    This function placeholder
+
+    :param conn: psycopg2 connection
+    :type conn: connection object
+    :param growout_type: placeholder
+    :type growout_type: str
+    :return: growout_type_id
+    :rtype: integer
+  """
   cur = conn.cursor()
   cur.execute("SELECT growout_type_id FROM growout_type WHERE growout_type = '%s';" % growout_type)
   row = cur.fetchone()
@@ -76,6 +146,17 @@ def find_growout_type(conn, growout_type):
     return None
    
 def find_location(conn, code):
+  """Placeholder 
+
+    This function placeholder
+
+    :param conn: psycopg2 connection
+    :type conn: connection object
+    :param code: placeholder
+    :type code: str
+    :return: location_id
+    :rtype: integer
+  """
   cur = conn.cursor()
   cur.execute("SELECT location_id FROM location WHERE code = '%s';" % code)
   row = cur.fetchone()
@@ -87,6 +168,17 @@ def find_location(conn, code):
     return None
 
 def find_kinship_algorithm(conn, algorithm):
+  """Placeholder 
+
+    This function placeholder
+
+    :param conn: psycopg2 connection
+    :type conn: connection object
+    :param algorithm: placeholder
+    :type algorithm: str
+    :return: kinship_algorithm_id
+    :rtype: integer
+  """
   cur = conn.cursor()
   cur.execute("SELECT kinship_algorithm_id FROM kinship_algorithm WHERE kinship_algorithm = '%s';" % algorithm)
   row = cur.fetchone()
@@ -98,6 +190,17 @@ def find_kinship_algorithm(conn, algorithm):
     return None
 
 def find_population_structure_algorithm(conn, algorithm):
+  """Placeholder 
+
+    This function placeholder
+
+    :param conn: psycopg2 connection
+    :type conn: connection object
+    :param algorithm: placeholder
+    :type algorithm: str
+    :return: population_structure_algorithm_id
+    :rtype: integer
+  """
   cur = conn.cursor()
   cur.execute("SELECT population_structure_algorithm_id FROM population_structure_algorithm WHERE population_structure_algorithm = '%s';" % algorithm)
   row = cur.fetchone()
@@ -109,6 +212,17 @@ def find_population_structure_algorithm(conn, algorithm):
     return None
 
 def find_gwas_algorithm(conn, gwas_algorithm):
+  """Placeholder 
+
+    This function placeholder
+
+    :param conn: psycopg2 connection
+    :type conn: connection object
+    :param gwas_algorithm: placeholder
+    :type gwas_algorithm: str
+    :return: gwas_algorithm_id
+    :rtype: integer
+  """
   cur = conn.cursor()
   cur.execute("SELECT gwas_algorithm_id FROM gwas_algorithm WHERE gwas_algorithm = '%s';" % gwas_algorithm)
   row = cur.fetchone()
@@ -120,6 +234,17 @@ def find_gwas_algorithm(conn, gwas_algorithm):
     return None
 
 def find_genotype_version(conn, genotype_version_name):
+  """Placeholder 
+
+    This function placeholder
+
+    :param conn: psycopg2 connection
+    :type conn: connection object
+    :param genotype_version_name: placeholder
+    :type genotype_version_name: str
+    :return: genotype_version_id
+    :rtype: integer
+  """
   cur = conn.cursor()
   cur.execute("SELECT genotype_version_id FROM genotype_version WHERE genotype_version_name = '%s';" % genotype_version_name)
   row = cur.fetchone()
@@ -131,6 +256,17 @@ def find_genotype_version(conn, genotype_version_name):
     return None
 
 def find_imputation_method(conn, imputation_method):
+  """Placeholder 
+
+    This function placeholder
+
+    :param conn: psycopg2 connection
+    :type conn: connection object
+    :param imputation_method: placeholder
+    :type imputation_method: str
+    :return: imputation_method_id
+    :rtype: integer
+  """
   cur = conn.cursor()
   cur.execute("SELECT imputation_method_id FROM imputation_method WHERE imputation_method = '%s';" % imputation_method)
   row = cur.fetchone()
@@ -142,6 +278,17 @@ def find_imputation_method(conn, imputation_method):
     return None
 
 def find_kinship(conn, kinship_file_path):
+  """Placeholder 
+
+    This function placeholder
+
+    :param conn: psycopg2 connection
+    :type conn: connection object
+    :param kinship_file_path: placeholder
+    :type kinship_file_path: str
+    :return: kinship_id
+    :rtype: integer
+  """
   cur = conn.cursor()
   cur.execute("SELECT kinship_id FROM kinship WHERE kinship_file_path = '%s';" % kinship_file_path)
   row = cur.fetchone()
@@ -153,6 +300,17 @@ def find_kinship(conn, kinship_file_path):
     return None
 
 def find_population_structure(conn, population_structure_file_path):
+  """Placeholder 
+
+    This function placeholder
+
+    :param conn: psycopg2 connection
+    :type conn: connection object
+    :param population_structure_file_path: placeholder
+    :type population_structure_file_path: str
+    :return: population_structure_id
+    :rtype: integer
+  """
   cur = conn.cursor()
   cur.execute("SELECT population_structure_id FROM population_structure WHERE population_structure_file_path = '%s';" % population_structure_file_path)
   row = cur.fetchone()
@@ -164,6 +322,17 @@ def find_population_structure(conn, population_structure_file_path):
     return None
 
 def find_trait(conn, trait_name):
+  """Placeholder 
+
+    This function placeholder
+
+    :param conn: psycopg2 connection
+    :type conn: connection object
+    :param trait_name: placeholder
+    :type trait_name: str
+    :return: trait_id
+    :rtype: integer
+  """
   cur = conn.cursor()
   cur.execute("SELECT trait_id FROM trait WHERE trait_name = '%s';" % trait_name)
   row = cur.fetchone()
@@ -175,6 +344,40 @@ def find_trait(conn, trait_name):
     return None
 
 def find_gwas_run(conn, gwas_algorithm, missing_snp_cutoff_value, missing_line_cutoff_value, gwas_run_imputation_method, gwas_run_trait, nsnps, nlines, gwas_run_genotype_version, gwas_run_kinship, gwas_run_population_structure, minor_allele_frequency_cutoff_value):
+  """Placeholder 
+
+    This function placeholder
+
+    :param conn: psycopg2 connection
+    :type conn: connection object
+    :param populationName: placeholder
+    :type populationName: str
+
+    :param gwas_algorithm: placeholder
+    :type gwas_algorithm: -
+    :param missing_snp_cutoff_value: placeholder
+    :type missing_snp_cutoff_value: -
+    :param missing_line_cutoff_value: placeholder
+    :type missing_line_cutoff_value: -
+    :param gwas_run_imputation_method: placeholder
+    :type gwas_run_imputation_method: -
+    :param gwas_run_trait: placeholder
+    :type gwas_run_trait: -
+    :param nsnps: placeholder
+    :type nsnps: -
+    :param nlines: placeholder
+    :type nlines: -
+    :param gwas_run_genotype_version: placeholder
+    :type gwas_run_genotype_version: -
+    :param gwas_run_kinship: placeholder
+    :type gwas_run_kinship: -
+    :param gwas_run_population_structure: placeholder
+    :type gwas_run_population_structure: -
+    :param minor_allele_frequency_cutoff_value: placeholder
+    :type minor_allele_frequency_cutoff_value: -
+    :return: gwas_run_id
+    :rtype: integer
+  """
   cur = conn.cursor()
   cur.execute("SELECT gwas_run_id FROM gwas_run WHERE gwas_run_gwas_algorithm = '%s' AND missing_snp_cutoff_value = '%s' AND missing_line_cutoff_value = '%s' AND gwas_run_imputation_method = '%s' AND gwas_run_trait = '%s' AND nsnps = '%s' AND nlines = '%s' AND gwas_run_genotype_version = '%s' AND gwas_run_kinship = '%s' AND gwas_run_population_structure = '%s' AND minor_allele_frequency_cutoff_value = '%s';" % (gwas_algorithm, missing_snp_cutoff_value, missing_line_cutoff_value, gwas_run_imputation_method, gwas_run_trait, nsnps, nlines, gwas_run_genotype_version, gwas_run_kinship, gwas_run_population_structure, minor_allele_frequency_cutoff_value))
   row = cur.fetchone()

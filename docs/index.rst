@@ -9,9 +9,10 @@ Genome-wide association study (GWAS) Database
 .. toctree::
    :maxdepth: 3
 
-   intro
    quickstart
+   installation
    database
-   modules
+   datasets
+   /modules/modules
+   extras
    sitemap
-

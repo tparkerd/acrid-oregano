@@ -1,11 +1,8 @@
 -- Connect to the baxdb database
 \connect baxdb
 
--- ------------------------
 -- Create the species table
--- ------------------------
 DROP TABLE IF EXISTS species;
--- CREATE TABLE IF NOT EXISTS species (
 CREATE TABLE species (
   species_id SERIAL PRIMARY KEY,
   shortname VARCHAR(45) UNIQUE NOT NULL,
@@ -14,9 +11,7 @@ CREATE TABLE species (
   variety VARCHAR(45)
   );
 
--- ---------------------------
 -- Create the population table
--- ---------------------------
 DROP TABLE IF EXISTS population;
 CREATE TABLE population (
   population_id SERIAL PRIMARY KEY,
@@ -24,18 +19,14 @@ CREATE TABLE population (
   population_species INTEGER REFERENCES species (species_id)
   );
 
--- -----------------------------
 -- Create the growout_type table
--- -----------------------------
 DROP TABLE IF EXISTS growout_type;
 CREATE TABLE growout_type (
   growout_type_id SERIAL PRIMARY KEY,
   growout_type VARCHAR(45) UNIQUE NOT NULL
   );
 
--- -------------------------
 -- Create the location table
--- -------------------------
 DROP TABLE IF EXISTS location;
 CREATE TABLE location (
   location_id SERIAL PRIMARY KEY,
@@ -45,9 +36,7 @@ CREATE TABLE location (
   code VARCHAR(2) NOT NULL
   );
 
--- ------------------------
 -- Create the growout table
--- ------------------------
 DROP TABLE IF EXISTS growout;
 CREATE TABLE growout (
   growout_id SERIAL PRIMARY KEY,
@@ -58,9 +47,7 @@ CREATE TABLE growout (
   growout_growout_type INTEGER NOT NULL REFERENCES growout_type (growout_type_id)
   );
 
--- ---------------------
 -- Create the line table
--- ---------------------
 DROP TABLE IF EXISTS line;
 CREATE TABLE line (
   line_id SERIAL PRIMARY KEY,
@@ -69,9 +56,7 @@ CREATE TABLE line (
   unique (line_name, line_population)
   );
 
--- ---------------------------
 -- Create the chromosome table
--- ---------------------------
 DROP TABLE IF EXISTS chromosome;
 CREATE TABLE chromosome (
   chromosome_id SERIAL PRIMARY KEY,
@@ -80,9 +65,7 @@ CREATE TABLE chromosome (
   unique (chromosome_name, chromosome_species)
   );
 
--- -------------------------
 -- Create the variant table
--- -------------------------
 DROP TABLE IF EXISTS variant;
 CREATE TABLE variant (
   variant_id SERIAL PRIMARY KEY,
@@ -92,9 +75,7 @@ CREATE TABLE variant (
   unique (variant_species,variant_chromosome, variant_pos)
   );
 
--- ---------------------------------
 -- Create the genotype_version table
--- ---------------------------------
 DROP TABLE IF EXISTS genotype_version;
 CREATE TABLE genotype_version (
   genotype_version_id SERIAL PRIMARY KEY,
@@ -105,9 +86,7 @@ CREATE TABLE genotype_version (
   unique (genotype_version, reference_genome)
   );
 
--- -------------------------
 -- Create the genotype table
--- -------------------------
 DROP TABLE IF EXISTS genotype;
 CREATE TABLE genotype (
   genotype_id SERIAL PRIMARY KEY,
@@ -120,9 +99,7 @@ CREATE TABLE genotype (
   unique (genotype_line, genotype_chromosome)
   );
 
--- ----------------------
 -- Create the trait table
--- ----------------------
 DROP TABLE IF EXISTS trait;
 CREATE TABLE trait (
   trait_id SERIAL PRIMARY KEY,
@@ -132,9 +109,7 @@ CREATE TABLE trait (
   description TEXT
   );
 
--- --------------------------
 -- Create the phenotype table
--- --------------------------
 DROP TABLE IF EXISTS phenotype;
 CREATE TABLE phenotype (
   phenotype_id SERIAL PRIMARY KEY,
@@ -143,36 +118,28 @@ CREATE TABLE phenotype (
   phenotype_value VARCHAR(45) NOT NULL
   );
 
--- -------------------------------
 -- Create the gwas_algorithm table
--- -------------------------------
 DROP TABLE IF EXISTS gwas_algorithm;
 CREATE TABLE gwas_algorithm (
   gwas_algorithm_id SERIAL PRIMARY KEY,
   gwas_algorithm VARCHAR(45) UNIQUE NOT NULL
   );
 
--- ----------------------------------
 -- Create the imputation_method table
--- ----------------------------------
 DROP TABLE IF EXISTS imputation_method;
 CREATE TABLE imputation_method (
   imputation_method_id SERIAL PRIMARY KEY,
   imputation_method TEXT UNIQUE NOT NULL
   );
 
--- ----------------------------------
 -- Create the kinship_algorithm table
--- ----------------------------------
 DROP TABLE IF EXISTS kinship_algorithm;
 CREATE TABLE kinship_algorithm (
   kinship_algorithm_id SERIAL PRIMARY KEY,
   kinship_algorithm TEXT NOT NULL
 );
 
--- ------------------------
 -- Create the kinship table
--- ------------------------
 DROP TABLE IF EXISTS kinship;
 CREATE TABLE kinship (
   kinship_id SERIAL PRIMARY KEY,
@@ -180,18 +147,14 @@ CREATE TABLE kinship (
   kinship_file_path TEXT NOT NULL
   );
 
--- -----------------------------------------------
 -- Create the population_structure_algorithm table
--- -----------------------------------------------
 DROP TABLE IF EXISTS population_structure_algorithm;
 CREATE TABLE population_structure_algorithm (
   population_structure_algorithm_id SERIAL PRIMARY KEY,
   population_structure_algorithm TEXT NOT NULL
 );
 
--- -------------------------------------
 -- Create the population_structure table
--- -------------------------------------
 DROP TABLE IF EXISTS population_structure;
 CREATE TABLE population_structure (
   population_structure_id SERIAL PRIMARY KEY,
@@ -199,9 +162,7 @@ CREATE TABLE population_structure (
   population_structure_file_path TEXT NOT NULL
   );
 
--- -------------------------
 -- Create the gwas_run table
--- -------------------------
 DROP TABLE IF EXISTS gwas_run;
 CREATE TABLE gwas_run (
   gwas_run_id SERIAL PRIMARY KEY,
@@ -219,9 +180,7 @@ CREATE TABLE gwas_run (
   unique (gwas_run_trait, nsnps, nlines, gwas_run_gwas_algorithm, gwas_run_genotype_version, missing_snp_cutoff_value, missing_line_cutoff_value, minor_allele_frequency_cutoff_value, gwas_run_imputation_method, gwas_run_kinship, gwas_run_population_structure)
   );
 
--- ----------------------------
 -- Create the gwas_result table
--- ----------------------------
 DROP TABLE IF EXISTS gwas_result;
 CREATE TABLE gwas_result (
   gwas_result_id SERIAL PRIMARY KEY,
@@ -237,3 +196,4 @@ CREATE TABLE gwas_result (
   pcs INTEGER[],
   unique (gwas_result_chromosome, basepair, gwas_result_gwas_run, model) 
   );
+--

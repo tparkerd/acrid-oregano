@@ -24,7 +24,7 @@ copyright = '2018, Molly Wohl, Tim Parker'
 author = 'Molly Wohl, Tim Parker'
 
 # The short X.Y version
-version = ''
+version = '1.0'
 # The full version, including alpha/beta/rc tags
 release = '1.0.0-alpha'
 
@@ -41,7 +41,7 @@ release = '1.0.0-alpha'
 extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.viewcode',
-    'sphinx.ext.todo'
+    'sphinx.ext.todo',
 ]
 
 # Add any paths that contain templates here, relative to this directory.
