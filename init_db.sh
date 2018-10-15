@@ -1,9 +1,15 @@
-#! /bin/sh
+#!/bin/bash
+# Database initalization script for BaxDB (i.e., GWAS database)
+# Operating system: CentOS 7
+# RDBMS: PostgreSQL 9.6
+# NOTE: Make sure to run this under `root` user
 
 # Install extentions into PostgreSQL
 # Verify that pg_config is accessible to the user
 command -v pg_config > /dev/null 2>&1 || { printf "Command 'pg_config' is required but not found in path. Make sure PostgreSQL client tools are installed. Aborting.\n" 1>&2; exit 1; }
 
+
+# Compile TINYINT extention and install it into PostgreSQL
 pg_libdir=$(pg_config --pkglibdir)
 pg_installdir="$pg_libdir/baxdb"
 mkdir -p -m 755 "$pg_installdir" || { printf "Unable to create directory '$pg_installdir' for installation into PostgreSQL. Aborting.
