@@ -15,8 +15,8 @@ def find_species(conn, speciesShortname):
 
     :param conn: psycopg2 connection
     :type conn: connection object
-    :param speciesShortname: shortname of species
-    :type speciesShortname: str
+    :param speciesShortname: human-readable shortname of species
+    :type speciesShortname: string
     :return: species_id
     :rtype: integer
   """
@@ -31,14 +31,14 @@ def find_species(conn, speciesShortname):
     return None
 
 def find_population(conn, populationName):
-  """Placeholder 
+  """Finds species by population name  
 
-    This function placeholder
+    This function finds the population_id for a population by its name
 
     :param conn: psycopg2 connection
     :type conn: connection object
-    :param populationName: placeholder
-    :type populationName: str
+    :param populationName: human-readable name of population
+    :type populationName: string
     :return: population_id
     :rtype: integer
   """
@@ -53,21 +53,22 @@ def find_population(conn, populationName):
     return None
 
 def find_chromosome(conn, chromosome_name, chromosome_species):
-  """Placeholder 
+  """Finds chromosome by name and species 
 
-    This function placeholder
+    This function finds the chromosome_id for a chromosome by its name and species name
 
     :param conn: psycopg2 connection
     :type conn: connection object
-    :param chromosome_name: placeholder
-    :type chromosome_name: str
-    :param chromosome_species: placeholder
-    :type chromosome_species: str
+    :param chromosome_name: abbreviation of choromosome name
+    :type chromosome_name: string
+    :param chromosome_species: human-readable species name
+    :type chromosome_species: string
     :return: chromosome_id
     :rtype: integer
   """
   cur = conn.cursor()
   # not sure if next line is correct...
+  # TODO(timp): Check if this line meets functional requirements
   cur.execute("SELECT chromosome_id FROM chromosome WHERE chromosome_name = '%s' AND chromosome_species = '%s';" % (chromosome_name, chromosome_species))
   row = cur.fetchone()
   if row is not None:
@@ -78,16 +79,16 @@ def find_chromosome(conn, chromosome_name, chromosome_species):
     return None
 
 def find_line(conn, line_name, line_population):
-  """Placeholder 
+  """Finds line by its name and population name 
 
-    This function placeholder
+    This function finds the line_id for a line by its name and population name
 
     :param conn: psycopg2 connection
     :type conn: connection object
-    :param line_name: placeholder
-    :type line_name: str
-    :param line_population: placeholder
-    :type line_population: str
+    :param line_name: human-readable name of line
+    :type line_name: string
+    :param line_population: human-readable name of population
+    :type line_population: string
     :return: line_id
     :rtype: integer
   """
@@ -101,37 +102,15 @@ def find_line(conn, line_name, line_population):
   else:
     return None
 
-def find_trait(conn, traitName):
-  """Placeholder 
-
-    This function placeholder
-
-    :param conn: psycopg2 connection
-    :type conn: connection object
-    :param traitName: placeholder
-    :type traitName: str
-    :return: trait_id
-    :rtype: integer
-  """
-  cur = conn.cursor()
-  cur.execute("SELECT trait_id FROM trait WHERE trait_name = '%s';" % traitName)
-  row = cur.fetchone()
-  if row is not None:
-    traitID = row[0]
-    cur.close()
-    return traitID
-  else:
-    return None
-
 def find_growout_type(conn, growout_type):
-  """Placeholder 
+  """Finds growout type by its name  
 
-    This function placeholder
+    This function finds the growout_id for a growout type by its name
 
     :param conn: psycopg2 connection
     :type conn: connection object
-    :param growout_type: placeholder
-    :type growout_type: str
+    :param growout_type: human-readable name of growout type
+    :type growout_type: string
     :return: growout_type_id
     :rtype: integer
   """
@@ -146,14 +125,14 @@ def find_growout_type(conn, growout_type):
     return None
    
 def find_location(conn, code):
-  """Placeholder 
+  """Finds location by its code 
 
-    This function placeholder
+    This function finds the location_id for a location by its code
 
     :param conn: psycopg2 connection
     :type conn: connection object
-    :param code: placeholder
-    :type code: str
+    :param code: human-readable code assigned to a location
+    :type code: string
     :return: location_id
     :rtype: integer
   """
@@ -168,14 +147,14 @@ def find_location(conn, code):
     return None
 
 def find_kinship_algorithm(conn, algorithm):
-  """Placeholder 
+  """Finds kinship algorithm by algorithm name 
 
-    This function placeholder
+    This function finds the kinship_algorithm_id by its name
 
     :param conn: psycopg2 connection
     :type conn: connection object
-    :param algorithm: placeholder
-    :type algorithm: str
+    :param algorithm: human-readable name for algorithm
+    :type algorithm: string
     :return: kinship_algorithm_id
     :rtype: integer
   """
@@ -190,14 +169,14 @@ def find_kinship_algorithm(conn, algorithm):
     return None
 
 def find_population_structure_algorithm(conn, algorithm):
-  """Placeholder 
+  """Finds population structure algorithm by algorithm name
 
-    This function placeholder
+    This function finds the population_structure_id by the name of its algorithm
 
     :param conn: psycopg2 connection
     :type conn: connection object
-    :param algorithm: placeholder
-    :type algorithm: str
+    :param algorithm: human-readable name for algorithm
+    :type algorithm: string
     :return: population_structure_algorithm_id
     :rtype: integer
   """
@@ -212,14 +191,14 @@ def find_population_structure_algorithm(conn, algorithm):
     return None
 
 def find_gwas_algorithm(conn, gwas_algorithm):
-  """Placeholder 
+  """Finds algorithm used for genome-wide association study by algorithm name
 
-    This function placeholder
+    This function finds the gwas_algorithm_id by the name of the algorithm used in a genome-wide association study
 
     :param conn: psycopg2 connection
     :type conn: connection object
-    :param gwas_algorithm: placeholder
-    :type gwas_algorithm: str
+    :param gwas_algorithm: human-readable name of a GWAS algorithm
+    :type gwas_algorithm: string
     :return: gwas_algorithm_id
     :rtype: integer
   """
@@ -234,14 +213,14 @@ def find_gwas_algorithm(conn, gwas_algorithm):
     return None
 
 def find_genotype_version(conn, genotype_version_name):
-  """Placeholder 
+  """Finds version of genotype by name 
 
-    This function placeholder
+    This function finds the genotype_version_id of a genotype by its name
 
     :param conn: psycopg2 connection
     :type conn: connection object
-    :param genotype_version_name: placeholder
-    :type genotype_version_name: str
+    :param genotype_version_name: human-readable name of genotype version
+    :type genotype_version_name: string
     :return: genotype_version_id
     :rtype: integer
   """
@@ -256,14 +235,14 @@ def find_genotype_version(conn, genotype_version_name):
     return None
 
 def find_imputation_method(conn, imputation_method):
-  """Placeholder 
+  """Finds imputation methodo by name
 
-    This function placeholder
+    This function finds the imputation_method_id by its name
 
     :param conn: psycopg2 connection
     :type conn: connection object
-    :param imputation_method: placeholder
-    :type imputation_method: str
+    :param imputation_method: human-readable name of method
+    :type imputation_method: string
     :return: imputation_method_id
     :rtype: integer
   """
@@ -278,14 +257,15 @@ def find_imputation_method(conn, imputation_method):
     return None
 
 def find_kinship(conn, kinship_file_path):
-  """Placeholder 
+  """Finds kinship by its location on a file system 
 
-    This function placeholder
+    This function finds the kinship_id by its location within a file system
 
     :param conn: psycopg2 connection
     :type conn: connection object
-    :param kinship_file_path: placeholder
-    :type kinship_file_path: str
+    :param kinship_file_path: path to kinship file
+    :example path: ``todo``
+    :type kinship_file_path: string
     :return: kinship_id
     :rtype: integer
   """
@@ -300,14 +280,15 @@ def find_kinship(conn, kinship_file_path):
     return None
 
 def find_population_structure(conn, population_structure_file_path):
-  """Placeholder 
+  """Finds population_structure by its location within a file system 
 
     This function placeholder
 
     :param conn: psycopg2 connection
     :type conn: connection object
-    :param population_structure_file_path: placeholder
-    :type population_structure_file_path: str
+    :param population_structure_file_path: path to kinship file
+    :example path: ``todo``
+    :type population_structure_file_path: string
     :return: population_structure_id
     :rtype: integer
   """
@@ -322,14 +303,14 @@ def find_population_structure(conn, population_structure_file_path):
     return None
 
 def find_trait(conn, trait_name):
-  """Placeholder 
+  """Finds trait by its name 
 
-    This function placeholder
+    This function finds the traid_id for a trait by its name
 
     :param conn: psycopg2 connection
     :type conn: connection object
-    :param trait_name: placeholder
-    :type trait_name: str
+    :param traitName: human-readable name of trait
+    :type traitName: string
     :return: trait_id
     :rtype: integer
   """
@@ -344,37 +325,37 @@ def find_trait(conn, trait_name):
     return None
 
 def find_gwas_run(conn, gwas_algorithm, missing_snp_cutoff_value, missing_line_cutoff_value, gwas_run_imputation_method, gwas_run_trait, nsnps, nlines, gwas_run_genotype_version, gwas_run_kinship, gwas_run_population_structure, minor_allele_frequency_cutoff_value):
-  """Placeholder 
+  """Finds GWAS run by its parameters
 
-    This function placeholder
+    This function finds the gwas_run_id by its parameters
 
     :param conn: psycopg2 connection
     :type conn: connection object
-    :param populationName: placeholder
-    :type populationName: str
+    :param populationName: human-readable name of population
+    :type populationName: string
 
-    :param gwas_algorithm: placeholder
-    :type gwas_algorithm: -
-    :param missing_snp_cutoff_value: placeholder
-    :type missing_snp_cutoff_value: -
-    :param missing_line_cutoff_value: placeholder
-    :type missing_line_cutoff_value: -
-    :param gwas_run_imputation_method: placeholder
-    :type gwas_run_imputation_method: -
-    :param gwas_run_trait: placeholder
-    :type gwas_run_trait: -
-    :param nsnps: placeholder
-    :type nsnps: -
-    :param nlines: placeholder
-    :type nlines: -
-    :param gwas_run_genotype_version: placeholder
-    :type gwas_run_genotype_version: -
-    :param gwas_run_kinship: placeholder
-    :type gwas_run_kinship: -
-    :param gwas_run_population_structure: placeholder
-    :type gwas_run_population_structure: -
-    :param minor_allele_frequency_cutoff_value: placeholder
-    :type minor_allele_frequency_cutoff_value: -
+    :param gwas_algorithm: algorithm id
+    :type gwas_algorithm: integer
+    :param missing_snp_cutoff_value: ``todo``
+    :type missing_snp_cutoff_value: numeric
+    :param missing_line_cutoff_value: ``todo``
+    :type missing_line_cutoff_value: numeric
+    :param gwas_run_imputation_method: imputation method id
+    :type gwas_run_imputation_method: integer
+    :param gwas_run_trait: trait id
+    :type gwas_run_trait: integer
+    :param nsnps: ``todo``
+    :type nsnps: integer
+    :param nlines: ``todo``
+    :type nlines: integer
+    :param gwas_run_genotype_version: genotype version id
+    :type gwas_run_genotype_version: integer
+    :param gwas_run_kinship: kinship id
+    :type gwas_run_kinship: integer
+    :param gwas_run_population_structure: population structure id
+    :type gwas_run_population_structure: integer
+    :param minor_allele_frequency_cutoff_value: ``todo``
+    :type minor_allele_frequency_cutoff_value: numeric
     :return: gwas_run_id
     :rtype: integer
   """
