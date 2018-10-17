@@ -3,6 +3,7 @@
 import pandas as pd
 import numpy as np
 import parsinghelpers as ph
+import find
 from models import species, population, line, chromosome, variant, genotype, trait, phenotype, growout_type, growout, location, gwas_algorithm, genotype_version, imputation_method, kinship_algorithm, kinship, population_structure_algorithm, population_structure, gwas_run, gwas_result
 
 def insert_species(conn, species):
@@ -214,11 +215,11 @@ def insert_phenotypes_from_file(conn, phenotypeFile, populationID):
   for key, value in phenotypeRawData.iteritems():
     print("***********KEY**************:")
     print(key)
-    traitID = find_trait(conn, key)
+    traitID = find.find_trait(conn, key)
     for index, traitval in value.iteritems():
       print("index:")
       print(index)
-      lineID = find_line(conn, index, maize282popID)
+      lineID = find.find_line(conn, index, maize282popID)
       if lineID is None:
         newline = line(index, maize282popID)
         lineID = insert_line(conn, newline)
@@ -411,7 +412,7 @@ def insert_gwas_runs_from_gwas_results_file(conn, gwas_results_file, gwasRunAlgo
   gwas_run_list = ph.parse_unique_runs_from_gwas_results_file(gwas_results_file)
   insertedGwasRunIDs = []
   for gwas_run_item in gwas_run_list:
-    traitID = find_trait(conn, gwas_run_item[0])
+    traitID = find.find_trait(conn, gwas_run_item[0])
     gwas_run_obj = gwas_run(traitID, gwas_run_item[1], gwas_run_item[2], gwasRunAlgorithmID, gwasRunGenotypeVersionID, missing_snp_cutoff_value, missing_line_cutoff_value, minor_allele_frequency_cutoff_value, gwasRunImputationMethodID, gwasRunKinshipID, gwasRunPopulationStructureID)
     insertedGwasRunID = insert_gwas_run(conn, gwas_run_obj)
     insertedGwasRunIDs.append(insertedGwasRunID)

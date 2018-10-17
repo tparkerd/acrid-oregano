@@ -358,6 +358,18 @@ def find_gwas_run(conn, gwas_algorithm, missing_snp_cutoff_value, missing_line_c
     :type minor_allele_frequency_cutoff_value: numeric
     :return: gwas_run_id
     :rtype: integer
+
+    .. note::
+      Needs additional information on the
+        - basepair (possible the number of bps, but of what? the chromosome or the snp, or what?)
+        - pval (is this significance *p-value*?)
+        - cofactor (???)
+        - _order (???)
+        - null_pval (is there a *p-value* for a null hypothesis?)
+        - model_added_pval (???)
+        - model (is this a call of models used? Where is a list?)
+        - pcs (???) - in the Maize282, there are 18 different permutations of the pcs, comprised of 1-3 integers. Are they the chromosome found significant?
+
   """
   cur = conn.cursor()
   cur.execute("SELECT gwas_run_id FROM gwas_run WHERE gwas_run_gwas_algorithm = '%s' AND missing_snp_cutoff_value = '%s' AND missing_line_cutoff_value = '%s' AND gwas_run_imputation_method = '%s' AND gwas_run_trait = '%s' AND nsnps = '%s' AND nlines = '%s' AND gwas_run_genotype_version = '%s' AND gwas_run_kinship = '%s' AND gwas_run_population_structure = '%s' AND minor_allele_frequency_cutoff_value = '%s';" % (gwas_algorithm, missing_snp_cutoff_value, missing_line_cutoff_value, gwas_run_imputation_method, gwas_run_trait, nsnps, nlines, gwas_run_genotype_version, gwas_run_kinship, gwas_run_population_structure, minor_allele_frequency_cutoff_value))
