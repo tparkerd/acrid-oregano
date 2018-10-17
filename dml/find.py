@@ -11,14 +11,14 @@ from models import species, population, line, chromosome, variant, genotype, tra
 def find_species(conn, speciesShortname):
   """Finds species by shortname 
 
-    This function finds species_id for a species by its shortname
+  This function finds species_id for a species by its shortname
 
-    :param conn: psycopg2 connection
-    :type conn: connection object
-    :param speciesShortname: human-readable shortname of species
-    :type speciesShortname: string
-    :return: species_id
-    :rtype: integer
+  :param conn: psycopg2 connection
+  :type conn: connection object
+  :param speciesShortname: human-readable shortname of species
+  :type speciesShortname: string
+  :return: species_id
+  :rtype: integer
   """
   cur = conn.cursor()
   cur.execute("SELECT species_id FROM species WHERE shortname = '%s';" %  speciesShortname)

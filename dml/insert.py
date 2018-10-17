@@ -6,6 +6,17 @@ import parsinghelpers as ph
 from models import species, population, line, chromosome, variant, genotype, trait, phenotype, growout_type, growout, location, gwas_algorithm, genotype_version, imputation_method, kinship_algorithm, kinship, population_structure_algorithm, population_structure, gwas_run, gwas_result
 
 def insert_species(conn, species):
+  """Inserts species into database by its shortname, binomial, subspecies, and variety
+
+  This function inserts a species into a database
+
+  :param conn: psycopg2 connection
+  :type conn: connection object
+  :param species: :ref:`species <species_class>` object
+  :type species: string
+  :return: species_id
+  :rtype: integer
+  """
   cur = conn.cursor()
   SQL = """INSERT INTO species (shortname, binomial, subspecies, variety)
         VALUES (%s, %s, %s, %s)
