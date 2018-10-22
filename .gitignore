@@ -8,3 +8,4 @@ file_storage/
 docs/_build/*
 docs/modules/*
 modules/
+data/*
