@@ -67,8 +67,14 @@ if __name__ == '__main__':
   print("Inserted chromosome IDs:")
   print(insertedChromosomeIDs)
 
+  # ADD NEW HARD-CODED GENOTYPE_VERSION TO DB
+  newGenotypeVersion = genotype_version("maize282_agpv4_B73", "apgv4", B73lineID, maize282popID)
+  newGenotypeVersionID = insert.insert_genotype_version(conn, newGenotypeVersion)
+  print("New genotype_version ID:")
+  print(newGenotypeVersionID)
+
   # ADD ALL GENOTYPES FROM A ONE-CHROMOSOME .012 FILE TO DB
-  insertedGenotypeIDs = insert.insert_genotypes_from_file(conn,'../data/chr10_282_agpv4.012' , '../data/chr10_282_agpv4.012.indv', maizeChr10ID, maize282popID)
+  insertedGenotypeIDs = insert.insert_genotypes_from_file(conn,'../data/chr10_282_agpv4.012' , '../data/chr10_282_agpv4.012.indv', maizeChr10ID, maize282popID, newGenotypeVersionID)
   print("Inserted genotype IDs:")
   print(insertedGenotypeIDs)
 
@@ -137,12 +143,6 @@ if __name__ == '__main__':
   newGWASalgorithmID = insert.insert_gwas_algorithm(conn, newGWASalgorithm)
   print("new GWAS algorithm ID:")
   print(newGWASalgorithmID)
-
-  # ADD NEW HARD-CODED GENOTYPE_VERSION TO DB
-  newGenotypeVersion = genotype_version("maize282_agpv4_B73", "apgv4", B73lineID, maize282popID)
-  newGenotypeVersionID = insert.insert_genotype_version(conn, newGenotypeVersion)
-  print("New genotype_version ID:")
-  print(newGenotypeVersionID)
 
   # ADD NEW HARD-CODED IMPUTATION_METHOD TO DB
   newImputationMethod = imputation_method("impute to major allele")
