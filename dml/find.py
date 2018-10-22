@@ -11,14 +11,14 @@ from models import species, population, line, chromosome, variant, genotype, tra
 def find_species(conn, speciesShortname):
   """Finds species by shortname 
 
-  This function finds species_id for a species by its shortname
+    This function finds species_id for a species by its shortname
 
-  :param conn: psycopg2 connection
-  :type conn: connection object
-  :param speciesShortname: human-readable shortname of species
-  :type speciesShortname: string
-  :return: species_id
-  :rtype: integer
+    :param conn: psycopg2 connection
+    :type conn: connection object
+    :param speciesShortname: human-readable shortname of species
+    :type speciesShortname: string
+    :return: species_id
+    :rtype: integer
   """
   cur = conn.cursor()
   cur.execute("SELECT species_id FROM species WHERE shortname = '%s';" %  speciesShortname)
@@ -53,16 +53,16 @@ def find_population(conn, populationName):
     return None
 
 def find_chromosome(conn, chromosome_name, chromosome_species):
-  """Finds chromosome by name and species 
+  """Finds chromosome by name and species id
 
-    This function finds the chromosome_id for a chromosome by its name and species name
+    This function finds the chromosome_id for a chromosome by its name and species id
 
     :param conn: psycopg2 connection
     :type conn: connection object
     :param chromosome_name: abbreviation of choromosome name
     :type chromosome_name: string
-    :param chromosome_species: human-readable species name
-    :type chromosome_species: string
+    :param chromosome_species: :ref:`species id <species_class>`
+    :type chromosome_species: integer
     :return: chromosome_id
     :rtype: integer
   """
@@ -81,14 +81,14 @@ def find_chromosome(conn, chromosome_name, chromosome_species):
 def find_line(conn, line_name, line_population):
   """Finds line by its name and population name 
 
-    This function finds the line_id for a line by its name and population name
+    This function finds the line_id for a line by its name and population id
 
     :param conn: psycopg2 connection
     :type conn: connection object
     :param line_name: human-readable name of line
     :type line_name: string
-    :param line_population: human-readable name of population
-    :type line_population: string
+    :param line_population: :ref:`population id <population_class>`
+    :type line_population: integer
     :return: line_id
     :rtype: integer
   """
@@ -264,7 +264,7 @@ def find_kinship(conn, kinship_file_path):
     :param conn: psycopg2 connection
     :type conn: connection object
     :param kinship_file_path: path to kinship file
-    :example path: ``todo``
+    :example path: ``/opt/BaxDB/file_storage/kinship_files/4.AstleBalding.synbreed.kinship.csv``
     :type kinship_file_path: string
     :return: kinship_id
     :rtype: integer
@@ -287,7 +287,7 @@ def find_population_structure(conn, population_structure_file_path):
     :param conn: psycopg2 connection
     :type conn: connection object
     :param population_structure_file_path: path to kinship file
-    :example path: ``todo``
+    :example path: ``/opt/BaxDB/file_storage/population_structure_files/4.Eigenstrat.population.structure.10PCs.csv``
     :type population_structure_file_path: string
     :return: population_structure_id
     :rtype: integer
@@ -331,28 +331,25 @@ def find_gwas_run(conn, gwas_algorithm, missing_snp_cutoff_value, missing_line_c
 
     :param conn: psycopg2 connection
     :type conn: connection object
-    :param populationName: human-readable name of population
-    :type populationName: string
-
-    :param gwas_algorithm: algorithm id
+    :param gwas_algorithm: :ref:`gwas_algorithm_id <gwas_algorithm_class>`
     :type gwas_algorithm: integer
     :param missing_snp_cutoff_value: ``todo``
     :type missing_snp_cutoff_value: numeric
     :param missing_line_cutoff_value: ``todo``
     :type missing_line_cutoff_value: numeric
-    :param gwas_run_imputation_method: imputation method id
+    :param gwas_run_imputation_method: :ref:`imputation_method_id <imputation_method_class>`
     :type gwas_run_imputation_method: integer
-    :param gwas_run_trait: trait id
+    :param gwas_run_trait: :ref:`traid_id <trait_class>`
     :type gwas_run_trait: integer
     :param nsnps: ``todo``
     :type nsnps: integer
     :param nlines: ``todo``
     :type nlines: integer
-    :param gwas_run_genotype_version: genotype version id
+    :param gwas_run_genotype_version: :ref:`genotype_version_id <genotype_version_class>`
     :type gwas_run_genotype_version: integer
     :param gwas_run_kinship: kinship id
     :type gwas_run_kinship: integer
-    :param gwas_run_population_structure: population structure id
+    :param gwas_run_population_structure: :ref:`population_structure_id <population_structure_class>`
     :type gwas_run_population_structure: integer
     :param minor_allele_frequency_cutoff_value: ``todo``
     :type minor_allele_frequency_cutoff_value: numeric
@@ -361,14 +358,11 @@ def find_gwas_run(conn, gwas_algorithm, missing_snp_cutoff_value, missing_line_c
 
     .. note::
       Needs additional information on the
-        - basepair (possible the number of bps, but of what? the chromosome or the snp, or what?)
-        - pval (is this significance *p-value*?)
-        - cofactor (???)
-        - _order (???)
-        - null_pval (is there a *p-value* for a null hypothesis?)
-        - model_added_pval (???)
-        - model (is this a call of models used? Where is a list?)
-        - pcs (???) - in the Maize282, there are 18 different permutations of the pcs, comprised of 1-3 integers. Are they the chromosome found significant?
+        - missing_snp_cutoff_value
+        - missing_line_cutoff_value
+        - nsnps
+        - nlines
+        - minor_allele_frequency_cutoff_value
 
   """
   cur = conn.cursor()

@@ -72,8 +72,8 @@ def insert_chromosome(conn, chromosome):
   :type conn: connection object
   :param chromosome: :ref:`chromosome <chromosome_class>` object
   :type chromosome: chromosome object
-  :return: species_id
-  :rtype: integer
+  :return: chromosome_id
+  :rtype: integers
   """
   cur = conn.cursor()
   SQL = """INSERT INTO chromosome (chromosome_name, chromosome_species)
@@ -99,12 +99,12 @@ def insert_all_chromosomes_for_species(conn, numChromosomes, speciesID):
 
   :param conn: psycopg2 connection
   :type conn: connection object
-  :param numChromosomes: upper-bound number of chromosomes species has
+  :param numChromosomes: upper-bound number of chromosomes to consider for a species
   :type numChromosomes: integer
   :param species: :ref:`species <species_class>` object
   :type species: species object
-  :return: species_id
-  :rtype: integer
+  :return: list of species_id
+  :rtype: list of integers
   """
   chrlist = ph.generate_chromosome_list(numChromosomes)
   insertedChromosomeIDs = []
@@ -151,11 +151,11 @@ def insert_lines_from_file(conn, lineFile, populationID):
 
   :param conn: psycopg2 connection
   :type conn: connection object
-  :param lineFile: path to input file
+  :param lineFile: absolute path to input file
   :type lineFile: string
   :param populationID: :ref:`population <population_class>`
   :type populationID: integer
-  :return: list of population IDs
+  :return: list of population_id
   :rtype: list of integers
   """
   linelist = ph.parse_lines_from_file(lineFile)
@@ -204,13 +204,13 @@ def insert_variants_from_file(conn, variantPosFile, speciesID, chromosomeID):
 
   :param conn: psycopg2 connection
   :type conn: connection object
-  :param variantPosFile: path to input file
+  :param variantPosFile: absolute path to input file
   :type variantPosFile: string
   :param speciesID: :ref:`species <species_class>`
   :type speciesID: integer
   :param chromosomeID: :ref:`chromosome <chromosome_class>`
   :type chromosomeID: integer
-  :return: list of variant IDs
+  :return: list of variant_id
   :rtype: list of integers
   """
   variantlist = ph.parse_variants_from_file(variantPosFile)
@@ -257,9 +257,9 @@ def insert_genotypes_from_file(conn, genotypeFile, lineFile, chromosomeID, popul
 
   :param conn: psycopg2 connection
   :type conn: connection object
-  :param genotypeFile: path to input file
+  :param genotypeFile: absolute path to input file
   :type genotypeFile: string
-  :param lineFile: path to input file
+  :param lineFile: absolute path to input file
   :type lineFile: string
   :param chromosomeID: :ref:`chromosome <chromosome_class>`
   :type chromosomeID: integer
@@ -366,16 +366,18 @@ def insert_phenotype(conn, phenotype):
     return None
 
 def insert_phenotypes_from_file(conn, phenotypeFile, populationID):
-  """Inserts genotype into database
+  """Inserts phenotypes into database
 
-  This function inserts a genotype into a database
+  This function inserts phenotypes from a file into a database
 
   :param conn: psycopg2 connection
   :type conn: connection object
-  :param genotype: :ref:`genotype <genotype_class>` object
-  :type genotype: integer[]
-  :return: genotype_id
-  :rtype: integer
+  :param phenotypeFile: absolute path to input file
+  :type phenotypeFile: string
+  :param populationID: :ref:`population_id <population_class>`
+  :type populationID: integer
+  :return: list of phenotype_id
+  :rtype: list of integers
   """
   phenotypeRawData = pd.read_csv(phenotypeFile, index_col=0)
   insertedPhenoIDs = []
@@ -434,8 +436,8 @@ def insert_traits_from_traitlist(conn, traitlist):
 
   :param conn: psycopg2 connection
   :type conn: connection object
-  :param traitlist: 
-  :type traitlist: 
+  :param traitlist: list of trait names
+  :type traitlist: list of strings
   :return: list of trait IDs
   :rtype: list of integers
   """
@@ -483,7 +485,7 @@ def insert_gwas_algorithm(conn, gwas_algorithm):
 
   :param conn: psycopg2 connection
   :type conn: connection object
-  :param gwas_algorithm: :ref:`gwas_algorithm <phenotype_class>` object
+  :param gwas_algorithm: :ref:`gwas_algorithm <gwas_algorithm_class>` object
   :type gwas_algorithm: gwas_algorithm object
   :return: gwas algorithm ID
   :rtype: integer
@@ -506,15 +508,15 @@ def insert_gwas_algorithm(conn, gwas_algorithm):
 
 
 def insert_genotype_version(conn, genotype_version):
-  """Inserts phenotype into database
+  """Inserts genotype version into database
 
-  This function inserts a phenotype into a database
+  This function inserts a genotype version into a database
 
   :param conn: psycopg2 connection
   :type conn: connection object
-  :param phenotype: :ref:`phenotype <phenotype_class>` object
-  :type phenotype: phenotype object
-  :return: phenotype_id
+  :param genotype_version: :ref:`genotype_version <genotype_version_class>` object
+  :type genotype_version: genotype_version object
+  :return: genotype_version_id
   :rtype: integer
   """
   cur = conn.cursor()
@@ -535,15 +537,15 @@ def insert_genotype_version(conn, genotype_version):
 
 
 def insert_imputation_method(conn, imputation_method):
-  """Inserts phenotype into database
+  """Inserts imputation method into database
 
-  This function inserts a phenotype into a database
+  This function inserts a imputation method into a database
 
   :param conn: psycopg2 connection
   :type conn: connection object
-  :param phenotype: :ref:`phenotype <phenotype_class>` object
-  :type phenotype: phenotype object
-  :return: phenotype_id
+  :param imputation_method: :ref:`imputation_method <imputation_method_class>` object
+  :type imputation_method: imputation_method object
+  :return: imputation_method_id
   :rtype: integer
   """
   cur = conn.cursor()
@@ -564,15 +566,15 @@ def insert_imputation_method(conn, imputation_method):
 
 
 def insert_kinship_algorithm(conn, kinship_algorithm):
-  """Inserts phenotype into database
+  """Inserts kinship_algorithm into database
 
-  This function inserts a phenotype into a database
+  This function inserts a kinship_algorithm into a database
 
   :param conn: psycopg2 connection
   :type conn: connection object
-  :param phenotype: :ref:`phenotype <phenotype_class>` object
-  :type phenotype: phenotype object
-  :return: phenotype_id
+  :param kinship_algorithm: :ref:`kinship_algorithm <kinship_algorithm_class>` object
+  :type kinship_algorithm: kinship_algorithm object
+  :return: kinship_algorithm_id
   :rtype: integer
   """
   cur = conn.cursor()
@@ -593,15 +595,15 @@ def insert_kinship_algorithm(conn, kinship_algorithm):
 
 
 def insert_kinship(conn, kinship):
-  """Inserts phenotype into database
+  """Inserts kinship into database
 
-  This function inserts a phenotype into a database
+  This function inserts a kinship into a database
 
   :param conn: psycopg2 connection
   :type conn: connection object
-  :param phenotype: :ref:`phenotype <phenotype_class>` object
-  :type phenotype: phenotype object
-  :return: phenotype_id
+  :param kinship: :ref:`kinship <kinship_class>` object
+  :type kinship: kinship object
+  :return: kinship_id
   :rtype: integer
   """
   cur = conn.cursor()
@@ -622,15 +624,15 @@ def insert_kinship(conn, kinship):
 
 
 def insert_population_structure_algorithm(conn, population_structure_algorithm):
-  """Inserts phenotype into database
+  """Inserts population_structure_algorithm into database
 
-  This function inserts a phenotype into a database
+  This function inserts a population_structure_algorithm into a database
 
   :param conn: psycopg2 connection
   :type conn: connection object
-  :param phenotype: :ref:`phenotype <phenotype_class>` object
-  :type phenotype: phenotype object
-  :return: phenotype_id
+  :param population_structure_algorithm: :ref:`population_structure_algorithm <population_structure_algorithm_class>` object
+  :type population_structure_algorithm: population_structure_algorithm object
+  :return: population_structure_algorithm_id
   :rtype: integer
   """
   cur = conn.cursor()
@@ -651,15 +653,15 @@ def insert_population_structure_algorithm(conn, population_structure_algorithm):
 
 
 def insert_population_structure(conn, population_structure):
-  """Inserts phenotype into database
+  """Inserts population into database
 
-  This function inserts a phenotype into a database
+  This function inserts a population into a database
 
   :param conn: psycopg2 connection
   :type conn: connection object
-  :param phenotype: :ref:`phenotype <phenotype_class>` object
-  :type phenotype: phenotype object
-  :return: phenotype_id
+  :param population: :ref:`population <population_class>` object
+  :type population: population object
+  :return: population_id
   :rtype: integer
   """
   cur = conn.cursor()
@@ -680,15 +682,15 @@ def insert_population_structure(conn, population_structure):
 
 
 def insert_gwas_run(conn, gwas_run):
-  """Inserts phenotype into database
+  """Inserts gwas_run into database
 
-  This function inserts a phenotype into a database
+  This function inserts a gwas_run into a database
 
   :param conn: psycopg2 connection
   :type conn: connection object
-  :param phenotype: :ref:`phenotype <phenotype_class>` object
-  :type phenotype: phenotype object
-  :return: phenotype_id
+  :param gwas_run: :ref:`gwas_run <gwas_run_class>` object
+  :type gwas_run: gwas_run object
+  :return: gwas_run_id
   :rtype: integer
   """
   cur = conn.cursor()
@@ -709,16 +711,30 @@ def insert_gwas_run(conn, gwas_run):
 
 
 def insert_gwas_runs_from_gwas_results_file(conn, gwas_results_file, gwasRunAlgorithmID, gwasRunGenotypeVersionID, missing_snp_cutoff_value, missing_line_cutoff_value, minor_allele_frequency_cutoff_value, gwasRunImputationMethodID, gwasRunKinshipID, gwasRunPopulationStructureID):
-  """Inserts phenotype into database
+  """Inserts a collection of GWAS runs from an input file into database
 
-  This function inserts a phenotype into a database
+  This function inserts a a collection of GWAS runs from an input file into a database
 
-  :param conn: psycopg2 connection
-  :type conn: connection object
-  :param phenotype: :ref:`phenotype <phenotype_class>` object
-  :type phenotype: phenotype object
-  :return: phenotype_id
-  :rtype: integer
+  :param gwas_results_file: absolute path to input file
+  :type gwas_results_file: string
+  :param gwasRunAlgorithmID: :ref:`gwas_algorithm_id <gwas_algorithm_class>`
+  :type gwasRunAlgorithmID: integer
+  :param gwasRunGenotypeVersionID: :ref:`genotype_version_id <genotype_version_class>`
+  :type gwasRunGenotypeVersionID: integer
+  :param missing_snp_cutoff_value: 
+  :type missing_snp_cutoff_value: numeric
+  :param missing_line_cutoff_value:
+  :type missing_line_cutoff_value: numeric
+  :param minor_allele_frequency_cutoff_value:
+  :type minor_allele_frequency_cutoff_value: numeric
+  :param gwasRunImputationMethodID: :ref:`imputation_method_id <imputation_method_class>`
+  :type gwasRunImputationMethodID: integer
+  :param gwasRunKinshipID: :ref:`kinship_id <kinship_class>`
+  :type gwasRunKinshipID: integer
+  :param gwasRunPopulationStructureID: :ref:`population_structure_id <population_structure_class>`
+  :type gwasRunPopulationStructureID: integer
+  :return: list of gwas_run_id
+  :rtype: list of integers
   """
   gwas_run_list = ph.parse_unique_runs_from_gwas_results_file(gwas_results_file)
   insertedGwasRunIDs = []
@@ -731,15 +747,15 @@ def insert_gwas_runs_from_gwas_results_file(conn, gwas_results_file, gwasRunAlgo
 
 
 def insert_gwas_result(conn, gwas_result):
-  """Inserts phenotype into database
+  """Inserts gwas_result into database
 
-  This function inserts a phenotype into a database
+  This function inserts a gwas_result into a database
 
   :param conn: psycopg2 connection
   :type conn: connection object
-  :param phenotype: :ref:`phenotype <phenotype_class>` object
-  :type phenotype: phenotype object
-  :return: phenotype_id
+  :param gwas_result: :ref:`gwas_result <gwas_result_class>` object
+  :type gwas_result: gwas_result object
+  :return: gwas_result_id
   :rtype: integer
   """
   cur = conn.cursor()
@@ -760,28 +776,47 @@ def insert_gwas_result(conn, gwas_result):
 
 
 def insert_gwas_results_from_file(conn, speciesID, gwas_results_file, gwas_algorithm_ID, missing_snp_cutoff_value, missing_line_cutoff_value, imputationMethodID, genotypeVersionID, kinshipID, populationStructureID, minor_allele_frequency_cutoff_value):
-  """Inserts phenotype into database
+  """Inserts a collection of GWAS results from a file into database
 
-  This function inserts a phenotype into a database
+  This function inserts a collection of GWAS results from a file into a database
 
   :param conn: psycopg2 connection
   :type conn: connection object
-  :param phenotype: :ref:`phenotype <phenotype_class>` object
-  :type phenotype: phenotype object
-  :return: phenotype_id
-  :rtype: integer
+
+  :param speciesID: :ref:`species_id <species_class>`
+  :type speciesID: integer
+  :param gwas_results_file: absolute path to input file
+  :type gwas_results_file: string
+  :param gwas_algorithm_ID: :ref:`gwas_algorithm_id <gwas_algorithm_class>`
+  :type gwas_algorithm_ID: integer
+  :param missing_snp_cutoff_value:
+  :type missing_snp_cutoff_value: numeric
+  :param missing_line_cutoff_value:
+  :type missing_line_cutoff_value: numeric
+  :param imputationMethodID: :ref:`imputation_method_id <imputation_method_class>`
+  :type imputationMethodID: integer
+  :param genotypeVersionID: :ref:`genotype_version_id <genotype_version_class>`
+  :type genotypeVersionID: integer
+  :param kinshipID: :ref:`kinship_id <kinship_class>`
+  :type kinshipID: integer
+  :param populationStructureID: :ref:`population_structure_id <population_structure_class>`
+  :type populationStructureID: integer
+  :param minor_allele_frequency_cutoff_value:
+  :type minor_allele_frequency_cutoff_value: numeric
+  :return: list of gwas_result_id
+  :rtype: list of integers
   """
   new_gwas_result_IDs = []
   df = pd.read_csv(gwas_results_file)
   for index, row in df.iterrows():
     trait = row['trait']
-    traitID = find_trait(conn, trait)
-    gwas_run_ID = find_gwas_run(conn, gwas_algorithm_ID, missing_snp_cutoff_value, missing_line_cutoff_value, imputationMethodID, traitID, row['nSNPs'], row['nLines'], genotypeVersionID, kinshipID, populationStructureID, minor_allele_frequency_cutoff_value)
+    traitID = find.find_trait(conn, trait)
+    gwas_run_ID = find.find_gwas_run(conn, gwas_algorithm_ID, missing_snp_cutoff_value, missing_line_cutoff_value, imputationMethodID, traitID, row['nSNPs'], row['nLines'], genotypeVersionID, kinshipID, populationStructureID, minor_allele_frequency_cutoff_value)
     snp = row['SNP']
     snp_list = snp.split("_")
     chromosome = snp_list[0]
     chromosome = "chr"+str(chromosome)
-    chromosomeID = find_chromosome(conn, chromosome, speciesID)
+    chromosomeID = find.find_chromosome(conn, chromosome, speciesID)
     basepair = snp_list[1]
     
     pcs = row['PCs']
