@@ -2,6 +2,7 @@
 
 import pandas as pd
 import numpy as np
+import time
 import parsinghelpers as ph
 import find
 from models import species, population, line, chromosome, variant, genotype, trait, phenotype, growout_type, growout, location, gwas_algorithm, genotype_version, imputation_method, kinship_algorithm, kinship, population_structure_algorithm, population_structure, gwas_run, gwas_result
@@ -217,10 +218,16 @@ def insert_variants_from_file(conn, variantPosFile, speciesID, chromosomeID):
   print('num variants:')
   print(len(variantlist))
   insertedVariantIDs = []
+  variant_process_counter = 0
+  time_counter = time.time()
   for variantpos in variantlist:
     variantobj = variant(speciesID, chromosomeID, variantpos)
     insertedVariantID = insert_variant(conn, variantobj)
     insertedVariantIDs.append(insertedVariantID)
+    variant_process_counter = variant_process_counter + 1
+    if (time_counter + 2.5) < time.time():
+      time_counter = time.time()
+      print("# of variants imported: " + str(variant_process_counter))
   return insertedVariantIDs
 
 
@@ -237,12 +244,12 @@ def insert_genotype(conn, genotype):
   :rtype: integer
   """
   cur = conn.cursor()
-  SQL = """INSERT INTO genotype(genotype_line, genotype_chromosome, genotype)
-        VALUES (%s,%s,%s)
+  SQL = """INSERT INTO genotype(genotype_line, genotype_chromosome, genotype, genotype_genotype_version)
+        VALUES (%s,%s,%s,%s)
         ON CONFLICT DO NOTHING
         RETURNING genotype_id;"""
   print("Line: " )
-  args_tuple = (genotype.l, genotype.c, genotype.g)
+  args_tuple = (genotype.l, genotype.c, genotype.g, genotype.v)
   cur.execute(SQL, args_tuple)
   newID = cur.fetchone()[0]
   conn.commit()
@@ -250,7 +257,7 @@ def insert_genotype(conn, genotype):
   return newID
 
 
-def insert_genotypes_from_file(conn, genotypeFile, lineFile, chromosomeID, populationID):
+def insert_genotypes_from_file(conn, genotypeFile, lineFile, chromosomeID, populationID, genotype_versionID):
   """Inserts genotypes into database
 
   This function inserts a genotypes into a database
@@ -275,7 +282,7 @@ def insert_genotypes_from_file(conn, genotypeFile, lineFile, chromosomeID, popul
   ziplist = list(zipped)
   insertedGenotypeIDs = []
   for zippedpair in ziplist:
-    genotypeObj = genotype(zippedpair[0], chromosomeID, zippedpair[1])
+    genotypeObj = genotype(zippedpair[0], chromosomeID, zippedpair[1], genotype_versionID)
     insertedGenotypeID = insert_genotype(conn, genotypeObj)
     insertedGenotypeIDs.append(insertedGenotypeID)
   return insertedGenotypeIDs
@@ -524,6 +531,7 @@ def insert_genotype_version(conn, genotype_version):
         VALUES (%s,%s,%s,%s)
         ON CONFLICT DO NOTHING
         RETURNING genotype_version_id;"""
+  print("Genotype Version: " + str(genotype_version))
   args_tuple = (genotype_version.n, genotype_version.v, genotype_version.r, genotype_version.p)
   cur.execute(SQL, args_tuple)
   row = cur.fetchone()
