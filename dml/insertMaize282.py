@@ -47,6 +47,17 @@ if __name__ == '__main__':
   fieldGrowoutTypeID = find.find_growout_type(conn, 'field')
   print("fieldGrowoutTypeID:")
   print(fieldGrowoutTypeID)
+
+  # Insert hard-coded growout type
+  # genotype_version_name, genotype_version, reference_genome, genotype_version_population
+#    genotype_version_id |    genotype_version_name     | genotype_version | reference_genome | genotype_version_population 
+# ---------------------+------------------------------+------------------+------------------+-----------------------------
+#                    1 | B73 RefGen_v4_AGPv4_Maize282 | apgv4            |              315 |                           1
+
+  myGenotypeVersion = genotype_version()
+  B73lineID = insert.insert_genotype_version(conn, myGenotypeVersion)
+  print("GenotypeVersionID:")
+  print(B73lineID)
   
   # LOOK UP ID OF A HARD-CODED LOCATION USING find_chromosome()
   PUlocID = find.find_location(conn, 'PU')
