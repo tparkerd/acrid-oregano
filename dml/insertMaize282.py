@@ -15,50 +15,19 @@ from models import species, population, line, chromosome, variant, genotype, tra
 if __name__ == '__main__':
   conn = connect()
 
-  # ADD A HARD-CODED SPECIES TO DB USING insert_species()
-  mySpecies = species('maize', 'Zea mays', None, None)
-  insertedSpeciesID = insert.insert_species(conn, mySpecies)
-  print(insertedSpeciesID)
+  # ADD HARD-CODED VALUES FOR INDEPENDENT TABLES/OBJECTS
 
-  # LOOK UP ID OF A HARD-CODED SPECIES USING find_species()
-  maizeSpeciesID = find.find_species(conn, 'maize')
-  print("SpeciesID of maize:")
-  print(maizeSpeciesID)
-
-  # ADD A HARD-CODED POPULATION TO DB USING insert_population()
-  myPopulation = population('Maize282',maizeSpeciesID)
-  insertedPopulationID = insert.insert_population(conn, myPopulation)
-  print(insertedPopulationID)
-
-  # LOOK UP ID OF A HARD-CODED POPULATION USING find_population()
-  maize282popID = find.find_population(conn, 'Maize282')
-  print("PopulationID of Maize282:")
-  print(maize282popID)
-
-  # LOOK UP ID OF A HARD-CODED CHROMOSOME USING find_chromosome()
-  maizeChr10ID = find.find_chromosome(conn, 'chr10', maizeSpeciesID)
-  print("ChromosomeID of Maize Chr10:")
-  print(maizeChr10ID) 
-
-  # LOOK UP ID OF A HARD-CODED LINE USING find_line()
-  B73lineID = find.find_line(conn, '282set_B73', maize282popID)
-  
-  # LOOK UP ID OF A HARD-CODED GROWOUT_TYPE USING find_chromosome()
-  fieldGrowoutTypeID = find.find_growout_type(conn, 'field')
-  print("fieldGrowoutTypeID:")
-  print(fieldGrowoutTypeID)
-
-  # Insert hard-coded growout type
-  # genotype_version_name, genotype_version, reference_genome, genotype_version_population
-#    genotype_version_id |    genotype_version_name     | genotype_version | reference_genome | genotype_version_population 
-# ---------------------+------------------------------+------------------+------------------+-----------------------------
-#                    1 | B73 RefGen_v4_AGPv4_Maize282 | apgv4            |              315 |                           1
-
-  myGenotypeVersion = genotype_version()
-  B73lineID = insert.insert_genotype_version(conn, myGenotypeVersion)
-  print("GenotypeVersionID:")
-  print(B73lineID)
-  
+  # ADD LOCATIONS
+  locations = []
+  locations.append(location("United States", "Indiana", "West Lafayette", "PU"))
+  locations.append(location("United States", "New York", None, "NY"))
+  locations.append(location("United States", "Florida", None, "FL"))
+  locations.append(location("United States", "Puerto Rico", None, "PR"))
+  locations.append(location("United States", "North Carolina", None, "NC"))
+  locations.append(location("South Africa", None, None, "SA"))
+  locations.append(location("United States", "Missouri", None, "MO"))
+  for place in locations:
+    insert.insert_location(conn, place)
   # LOOK UP ID OF A HARD-CODED LOCATION USING find_chromosome()
   PUlocID = find.find_location(conn, 'PU')
   NYlocID = find.find_location(conn, "NY")
@@ -68,26 +37,49 @@ if __name__ == '__main__':
   SAlocID = find.find_location(conn, "SA")
   MOlocID = find.find_location(conn, "MO")
 
-  # GET LINES FROM SPECIFIED 012.indv FILE AND ADD TO DB
-  insertedLineIDs = insert.insert_lines_from_file(conn, '../data/chr10_282_agpv4.012.indv', maize282popID)
-  print("Inserted line IDs:")
-  print(insertedLineIDs)
+  # ADD A HARD-CODED SPECIES TO DB USING insert_species()
+  mySpecies = species('maize', 'Zea mays', None, None)
+  insertedSpeciesID = insert.insert_species(conn, mySpecies)
+  print("[ INSERT ]\t(%s)\t%s" % (insertedSpeciesID, str(mySpecies)))
+  maizeSpeciesID = find.find_species(conn, 'maize')
+  print("[ FIND ]\t(%s)\t%s" % (maizeSpeciesID, '< species: maize >'))
+
+  # ADD A HARD-CODED POPULATION TO DB USING insert_population()
+  myPopulation = population('Maize282', maizeSpeciesID)
+  insertedPopulationID = insert.insert_population(conn, myPopulation)
+  print("[ INSERT ]\t(%s)\t%s" % (insertedPopulationID, str(myPopulation)))
+  maize282popID = find.find_population(conn, 'Maize282')
+  print("[ FIND ]\t(%s)\t%s" % (maize282popID, '< population: Maize282 >'))
+
+  # ADD A HARD-CODED LINE TO DB USING insert_line()
+  myLine = line(line_name='282set_B73', line_population=maize282popID)
+  insertedLineID = insert.insert_line(conn, myLine)
+  print("[ INSERT ]\t(%s)\t%s" % (insertedLineID, str(myLine)))
+  B73lineID = find.find_line(conn, '282set_B73', maize282popID)
+  print("[ FIND ]\t(%s)\t%s" % (B73lineID, '< line: Maize282 >'))
+
+  # ADD NEW HARD-CODED GENOTYPE_VERSION TO DB
+  myGenotypeVersion = genotype_version(genotype_version_name='B73 RefGen_v4_AGPv4_Maize282',
+                                       genotype_version=315, reference_genome=B73lineID, genotype_version_population=maize282popID)
+  B73lineID = insert.insert_genotype_version(conn, myGenotypeVersion)
+  print("[ INSERT ]\t(%s)\t%s" % (B73lineID, str(myGenotypeVersion)))
 
   # ADD ALL CHROMOSOMES FOR A SPECIES TO DB
   insertedChromosomeIDs = insert.insert_all_chromosomes_for_species(conn, 10, maizeSpeciesID)
-  print("Inserted chromosome IDs:")
-  print(insertedChromosomeIDs)
-
-  # ADD NEW HARD-CODED GENOTYPE_VERSION TO DB
-  newGenotypeVersion = genotype_version("maize282_agpv4_B73", "apgv4", B73lineID, maize282popID)
-  newGenotypeVersionID = insert.insert_genotype_version(conn, newGenotypeVersion)
-  print("New genotype_version ID:")
-  print(newGenotypeVersionID)
+  print("[ INSERT ]\t%s\t%s" % (insertedChromosomeIDs, '\t10 (sID: %s)' % maizeSpeciesID))
+  maizeChr10ID = find.find_chromosome(conn, 'chr10', maizeSpeciesID)
+  print("[ FIND ]\t(%s)\t%s" % (maizeChr10ID, '< chromsome: chr10 >'))
+  
+  # GET LINES FROM SPECIFIED 012.indv FILE AND ADD TO DB
+  insertedLineIDs = insert.insert_lines_from_file(conn, '../data/chr10_282_agpv4.012.indv', maize282popID)
+  print("[ INSERT ]\t%s\t%s\t(pID:  %s)" % (insertedLineIDs, '../data/chr10_282_agpv4.012.indv', maize282popID))
 
   # ADD ALL GENOTYPES FROM A ONE-CHROMOSOME .012 FILE TO DB
-  insertedGenotypeIDs = insert.insert_genotypes_from_file(conn,'../data/chr10_282_agpv4.012' , '../data/chr10_282_agpv4.012.indv', maizeChr10ID, maize282popID, newGenotypeVersionID)
+  insertedGenotypeIDs = insert.insert_genotypes_from_file(conn,'../data/chr10_282_agpv4.012' , '../data/chr10_282_agpv4.012.indv', maizeChr10ID, maize282popID, B73lineID)
   print("Inserted genotype IDs:")
   print(insertedGenotypeIDs)
+  print("[ INSERT ]\t%s\t%s\t(cID: %s, pID: %s, lID: %s)" % (insertedGenotypeIDs,
+                                                             'chr10_282_agpv4.012 & indv', str(maizeChr10ID), str(maize282popID), str(B73lineID)))
 
   # GET VARIANTS FROM .012.pos FILE AND ADD TO  DB
   insertedVariantIDs = insert.insert_variants_from_file(conn, '../data/chr10_282_agpv4.012.pos', maizeSpeciesID, maizeChr10ID)
@@ -121,39 +113,39 @@ if __name__ == '__main__':
   field_GrowoutType = growout_type("field")
   field_GrowoutTypeID = insert.insert_growout_type(conn, field_GrowoutType)
 
-  # ADD NEW HARD-CODED LOCATION TO DB
-  newLocation = location("United States", "Indiana", "West Lafayette", "PU")
-  #newLocation = location("United States", "New York", None, "NY")
-  #newLocation = location("United States", "Florida", None, "FL")
-  #newLocation = location("United States", "Puerto Rico", None, "PR")
-  #newLocation = location("United States", "North Carolina", None, "NC")
-  #newLocation = location("South Africa", None, None, "SA")
-  #newLocation = location("United States", "Missouri", None, "MO")
-  newLocationID = insert.insert_location(conn, newLocation)
-  print(newLocationID)
+  # LOOK UP ID OF A HARD-CODED GROWOUT_TYPE USING find_chromosome()
+  fieldGrowoutTypeID = find.find_growout_type(conn, 'field')
+  print("[ FIND ]\t(%s)\t%s" % (fieldGrowoutTypeID, '< growout_type: field >'))
 
   # ADD NEW HARD-CODED GROWOUT TO DB
-  newGrowout = growout("PU09", maize282popID, PUlocID, 2009, fieldGrowoutTypeID)
-  #newGrowout = growout("NY06", maize282popID, NYlocID, 2006, fieldGrowoutTypeID)
-  #newGrowout = growout("NY10", maize282popID, NYlocID, 2010, fieldGrowoutTypeID)
-  #newGrowout = growout("FL06", maize282popID, FLlocID, 2006, fieldGrowoutTypeID)
-  #newGrowout = growout("PR06", maize282popID, PRlocID, 2006, fieldGrowoutTypeID)
-  #newGrowout = growout("NC06", maize282popID, NClocID, 2006, fieldGrowoutTypeID)
-  #newGrowout = growout("PU10", maize282popID, PUlocID, 2010, fieldGrowoutTypeID)
-  #newGrowout = growout("SA06", maize282popID, SAlocID, 2006, fieldGrowoutTypeID)
-  #newGrowout = growout("MO06", maize282popID, MOlocID, 2006, fieldGrowoutTypeID)
-  newGrowoutID = insert.insert_growout(conn, newGrowout)
-  print("new growout's ID:")
-  print(newGrowoutID)
+  growouts = []
+  growouts.append(growout("PU09", maize282popID, PUlocID, 2009, fieldGrowoutTypeID))
+  growouts.append(growout("NY06", maize282popID, NYlocID, 2006, fieldGrowoutTypeID))
+  growouts.append(growout("NY10", maize282popID, NYlocID, 2010, fieldGrowoutTypeID))
+  growouts.append(growout("FL06", maize282popID, FLlocID, 2006, fieldGrowoutTypeID))
+  growouts.append(growout("PR06", maize282popID, PRlocID, 2006, fieldGrowoutTypeID))
+  growouts.append(growout("NC06", maize282popID, NClocID, 2006, fieldGrowoutTypeID))
+  growouts.append(growout("PU10", maize282popID, PUlocID, 2010, fieldGrowoutTypeID))
+  growouts.append(growout("SA06", maize282popID, SAlocID, 2006, fieldGrowoutTypeID))
+  growouts.append(growout("MO06", maize282popID, MOlocID, 2006, fieldGrowoutTypeID))
+  insertedGrowoutIDs = []
+  for growout in growouts:
+    print("-------------\t%s" % str(growout))
+    insertedGrowoutIDs.append(insert.insert_growout(conn, growout))
+  print("[ INSERT ]\t%s\t(new growout)" % (insertedGenotypeIDs) )
   
   # ADD NEW HARD-CODED GWAS_ALGORITHM TO DB
-  newGWASalgorithm = gwas_algorithm("MLMM")
-  #newGWASalgorithm = gwas_algorithm("EMMAx")
-  #newGWASalgorithm = gwas_algorithm("GAPIT")
-  #newGWASalgorithm = gwas_algorithm("FarmCPU")
-  newGWASalgorithmID = insert.insert_gwas_algorithm(conn, newGWASalgorithm)
-  print("new GWAS algorithm ID:")
-  print(newGWASalgorithmID)
+  gwasAlgorithms = []
+  gwasAlgorithms.append(gwas_algorithm("MLMM"))
+  gwasAlgorithms.append(gwas_algorithm("EMMAx"))
+  gwasAlgorithms.append(gwas_algorithm("GAPIT"))
+  gwasAlgorithms.append(gwas_algorithm("FarmCPU"))
+  newGWASalgorithmIDs = []
+  for algorithm in gwasAlgorithms:
+    insert.insert_gwas_algorithm(conn, algorithm)
+  print("[ INSERT ]\t%s\t(new gwas algorithm IDs)" % (newGWASalgorithmIDs) )
+  newGWASalgorithm = find.find_gwas_algorithm(conn, 'MLMM')
+
 
   # ADD NEW HARD-CODED IMPUTATION_METHOD TO DB
   newImputationMethod = imputation_method("impute to major allele")
@@ -167,13 +159,15 @@ if __name__ == '__main__':
 
   
   # ADD NEW HARD-CODED KINSHIP_ALGORITHM TO DB
-  newKinshipAlgorithm = kinship_algorithm("loiselle")
-  #newKinshipAlgorithm = kinship_algorithm("van raden")
-  #newKinshipAlgorithm = kinship_algorithm("Synbreed_realizedAB")
-  newKinshipAlgorithmID = insert.insert_kinship_algorithm(conn, newKinshipAlgorithm)
-  print("Kinship Algorithm ID:")
-  print(newKinshipAlgorithmID)
-
+  kinshipAlgorithms = []
+  kinshipAlgorithms.append(kinship_algorithm("loiselle"))
+  kinshipAlgorithms.append(kinship_algorithm("van raden"))
+  kinshipAlgorithms.append(kinship_algorithm("Synbreed_realizedAB"))
+  newKinshipAlgorithmIDs = []
+  for algorithm in kinshipAlgorithms:
+    newKinshipAlgorithmIDs.append(
+        insert.insert_kinship_algorithm(conn, algorithm))
+  print("[ INSERT ]\t%s\t(new kinship algorithm IDs)" % (newKinshipAlgorithmIDs))
   # LOOK UP ID OF A HARD-CODED KINSHIP_ALGORITHM USING find_kinship_algorithm()
   VanRadenID = find.find_kinship_algorithm(conn, "van raden")
   print("Van Raden kinship alg ID:")

@@ -97,9 +97,15 @@ def parse_genotypes_from_file(genotypeFile):
 
   """
   rawGenos = []
+  print("Parsing genotypes from file")
   with open(genotypeFile) as f:
     genoReader = csv.reader(f, delimiter='\t')
+    row_count = sum(1 for row in genoReader)
+    print("Processing " + str(row_count) + " genotypes. ")
+    gcount = 1
     for item in genoReader:
+      print(str(gcount) + ") " + str(item[1:10]) + " ..." )
+      gcount = gcount + 1
       # Remove first item, which is an index term
       item.pop(0)
       # Convert all genotype values to integers

@@ -1,6 +1,11 @@
 """An analogous Python class for each table in GWAS database"""
 
-class species:
+class AutoRepr(object):
+  def __repr__(self):
+    items = ("%s = %r" % (k, v) for k, v in self.__dict__.items())
+    return "<%s: {%s}>" % (self.__class__.__name__, ', '.join(items))
+
+class species(AutoRepr):
   """Species class
 
   .. _species_class:
@@ -22,7 +27,7 @@ class species:
     self.v = variety
 
 
-class population:
+class population(AutoRepr):
   """Population class
 
   .. _population_class:
@@ -37,7 +42,7 @@ class population:
     self.s = population_species
 
 
-class line:
+class line(AutoRepr):
   """Line class
 
   .. _line_class:
@@ -53,7 +58,7 @@ class line:
     self.p = line_population
 
 
-class chromosome:
+class chromosome(AutoRepr):
   """Chromosome class
 
   .. _chromosome_class:
@@ -69,7 +74,7 @@ class chromosome:
     self.s = chromosome_species
 
 
-class variant:
+class variant(AutoRepr):
   """Variant class
 
   .. _variant_class:
@@ -88,7 +93,7 @@ class variant:
     self.p = variant_pos
 
 
-class genotype:
+class genotype(AutoRepr):
   """Genotype class
 
   .. _genotype_class:
@@ -115,8 +120,12 @@ class genotype:
     self.g = genotype
     self.v = genotype_version
 
+  def __repr__(self):
+    # return "<%s: {%s}>" % (self.__class__.__name__, ', '.join(items))
+    return "<%s: {%s}>" % (self.__class__.__name__, ', '.join([self.l, self.c, '*genotype*', self.v]))
 
-class trait:
+
+class trait(AutoRepr):
   """Trait class
 
   .. _trait_class:
@@ -138,7 +147,7 @@ class trait:
     self.d = description
 
 
-class phenotype:
+class phenotype(AutoRepr):
   """Phenotype class
 
   .. _phenotype_class:
@@ -157,7 +166,7 @@ class phenotype:
     self.v = phenotype_value
 
 
-class growout_type:
+class growout_type(AutoRepr):
   """Growout class
 
   .. _growout_type_class:
@@ -170,7 +179,7 @@ class growout_type:
     self.t = growout_type
 
 
-class growout:
+class growout(AutoRepr):
   """Growout class
 
   .. _growout_class:
@@ -195,7 +204,7 @@ class growout:
     self.t = growout_growout_type
 
 
-class location:
+class location(AutoRepr):
   """Location class
 
   .. _location_class:
@@ -217,7 +226,7 @@ class location:
     self.o = code
 
 
-class gwas_algorithm:
+class gwas_algorithm(AutoRepr):
   """:abbr:`GWAS(Genome-wide association studies)` algorithm class
 
   .. _gwas_algorithm_class:
@@ -230,7 +239,7 @@ class gwas_algorithm:
     self.a = gwas_algorithm
 
 
-class genotype_version:
+class genotype_version(AutoRepr):
   """Genotype Version class
 
   .. _genotype_version_class:
@@ -252,7 +261,7 @@ class genotype_version:
     self.p = genotype_version_population
 
 
-class imputation_method:
+class imputation_method(AutoRepr):
   """Imputation Method class
 
   .. _imputation_method_class:
@@ -269,7 +278,7 @@ class imputation_method:
     self.m = imputation_method
 
 
-class kinship_algorithm:
+class kinship_algorithm(AutoRepr):
   """Kinship Algorithm class
 
   .. _kinship_algorithm_class:
@@ -282,7 +291,7 @@ class kinship_algorithm:
     self.a = kinship_algorithm
 
 
-class kinship:
+class kinship(AutoRepr):
   """Kinship class
 
   .. _kinship_class:
@@ -298,7 +307,7 @@ class kinship:
     self.a = kinship_algorithm
     self.p = kinship_file_path
 
-class population_structure_algorithm:
+class population_structure_algorithm(AutoRepr):
   """Population Structure Algorithm class
 
   .. _population_structure_algorithm_class:
@@ -309,7 +318,7 @@ class population_structure_algorithm:
   def __init__(self, population_structure_algorithm):
     self.a = population_structure_algorithm
 
-class population_structure:
+class population_structure(AutoRepr):
   """Population Stucture class
 
   .. _population_structure_class:
@@ -324,7 +333,7 @@ class population_structure:
     self.a = population_structure_algorithm
     self.p = population_structure_file_path
 
-class gwas_run:
+class gwas_run(AutoRepr):
   """:abbr:`GWAS(Genome-wide association studies)` Run class
 
   .. _gwas_run_class:
@@ -375,7 +384,7 @@ class gwas_run:
     self.k = gwas_run_kinship
     self.o = gwas_run_population_structure
 
-class gwas_result:
+class gwas_result(AutoRepr):
   """:abbr:`GWAS(Genome-wide association studies)` Resultf class
 
   .. _gwas_result_class:

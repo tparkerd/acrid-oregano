@@ -1,11 +1,13 @@
 # Insert objects (as defined in models.py) into the database
-
+# TODO(timp): Add in the error handling for each cursor/connection to the database
 import pandas as pd
 import numpy as np
 import time
 import parsinghelpers as ph
 import find
 from models import species, population, line, chromosome, variant, genotype, trait, phenotype, growout_type, growout, location, gwas_algorithm, genotype_version, imputation_method, kinship_algorithm, kinship, population_structure_algorithm, population_structure, gwas_run, gwas_result
+import psycopg2 as pg
+
 
 def insert_species(conn, species):
   """Inserts species into database by its shortname, binomial, subspecies, and variety
@@ -82,7 +84,11 @@ def insert_chromosome(conn, chromosome):
         ON CONFLICT DO NOTHING
         RETURNING chromosome_id;"""
   args_tuple = (chromosome.n, chromosome.s)
-  cur.execute(SQL, args_tuple)
+  try:
+    cur.execute(SQL, args_tuple)
+  except pg.Error as err:
+    print("%s: %s" % (err.__class__.__name__, err))
+    raise
   row = cur.fetchone()
   if row is not None:
     newID = row[0]
@@ -186,6 +192,7 @@ def insert_variant(conn, variant):
         ON CONFLICT DO NOTHING
         RETURNING variant_id;"""
   args_tuple = (variant.s, variant.c, variant.p)
+  print(args_tuple)
   cur.execute(SQL, args_tuple)
   #newID = cur.fetchone()[0]
   row = cur.fetchone()
@@ -216,18 +223,20 @@ def insert_variants_from_file(conn, variantPosFile, speciesID, chromosomeID):
   """
   variantlist = ph.parse_variants_from_file(variantPosFile)
   print('num variants:')
-  print(len(variantlist))
+  cVariants = len(variantlist)
+  print(cVariants)
   insertedVariantIDs = []
   variant_process_counter = 0
   time_counter = time.time()
   for variantpos in variantlist:
     variantobj = variant(speciesID, chromosomeID, variantpos)
+    print("vObj:\t" + str(variantobj))
     insertedVariantID = insert_variant(conn, variantobj)
     insertedVariantIDs.append(insertedVariantID)
     variant_process_counter = variant_process_counter + 1
-    if (time_counter + 2.5) < time.time():
+    if (time_counter + 5.0) < time.time():
       time_counter = time.time()
-      print("# of variants imported: " + str(variant_process_counter))
+      print(str(variant_process_counter) + " of " + str(cVariants) + " (" + str(float(variant_process_counter) / cVariants * 100)  + ") imported.")
   return insertedVariantIDs
 
 
@@ -281,10 +290,15 @@ def insert_genotypes_from_file(conn, genotypeFile, lineFile, chromosomeID, popul
   zipped = zip(lineIDlist, genotypes)
   ziplist = list(zipped)
   insertedGenotypeIDs = []
+  counter = 0
+  cutoff = len(ziplist) / 10
   for zippedpair in ziplist:
     genotypeObj = genotype(zippedpair[0], chromosomeID, zippedpair[1], genotype_versionID)
     insertedGenotypeID = insert_genotype(conn, genotypeObj)
     insertedGenotypeIDs.append(insertedGenotypeID)
+    counter = counter + 1
+    if counter % cutoff == 0:
+      print(str(counter) + " out of " + str(len(ziplist)) + " have been processed.")
   return insertedGenotypeIDs
 
 def insert_growout(conn, growout):
@@ -305,7 +319,11 @@ def insert_growout(conn, growout):
         ON CONFLICT DO NOTHING
         RETURNING growout_id;"""
   args_tuple = (growout.n, growout.p, growout.l, growout.y, growout.t)
-  cur.execute(SQL, args_tuple)
+  try:
+    cur.execute(SQL, args_tuple)
+  except pg.Error as err:
+    print("%s: %s" % (err.__class__.__name__, err))
+    raise
   row = cur.fetchone()
   if row is not None:
     newID = row[0]
@@ -362,7 +380,11 @@ def insert_phenotype(conn, phenotype):
         ON CONFLICT DO NOTHING
         RETURNING phenotype_id;"""
   args_tuple = (phenotype.l, phenotype.t, phenotype.v)
-  cur.execute(SQL, args_tuple)
+  try:
+    cur.execute(SQL, args_tuple)
+  except pg.Error as err:
+    print("%s: %s" % (err.__class__.__name__, err))
+    raise
   row = cur.fetchone()
   if row is not None:
     newID = row[0]
@@ -386,6 +408,7 @@ def insert_phenotypes_from_file(conn, phenotypeFile, populationID):
   :return: list of phenotype_id
   :rtype: list of integers
   """
+  maize282popID = find.find_population(conn, 'Maize282')
   phenotypeRawData = pd.read_csv(phenotypeFile, index_col=0)
   insertedPhenoIDs = []
   for key, value in phenotypeRawData.iteritems():
@@ -393,15 +416,12 @@ def insert_phenotypes_from_file(conn, phenotypeFile, populationID):
     print(key)
     traitID = find.find_trait(conn, key)
     for index, traitval in value.iteritems():
-      print("index:")
-      print(index)
       lineID = find.find_line(conn, index, maize282popID)
       if lineID is None:
         newline = line(index, maize282popID)
         lineID = insert_line(conn, newline)
-      print("trait value:")
-      print(traitval)
       pheno = phenotype(lineID, traitID, traitval)
+      print(pheno)
       insertedPhenoID = insert_phenotype(conn, pheno)
       insertedPhenoIDs.append(insertedPhenoID)
   return insertedPhenoIDs
@@ -707,6 +727,7 @@ def insert_gwas_run(conn, gwas_run):
         ON CONFLICT DO NOTHING
         RETURNING gwas_run_id;"""
   args = (gwas_run.t, gwas_run.s, gwas_run.l, gwas_run.a, gwas_run.v, gwas_run.m, gwas_run.i, gwas_run.n, gwas_run.p, gwas_run.k, gwas_run.o)
+  print(gwas_run)
   cur.execute(SQL, args)
   row = cur.fetchone()
   if row is not None:
