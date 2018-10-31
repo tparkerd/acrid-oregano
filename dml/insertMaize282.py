@@ -182,8 +182,8 @@ if __name__ == '__main__':
 
   # ADD NEW HARD-CODED POPULATION_STRUCTURE_ALGORITHM TO DB
   newPopulationStructureAlgorithm = population_structure_algorithm("Eigenstrat")
-  #newPopulationStructureAlgorithm = population_structure_algorithm("STRUCTURE")
-  #newPopulationStructureAlgorithm = population_structure_algorithm("FastSTRUCTURE")
+  newPopulationStructureAlgorithm = population_structure_algorithm("STRUCTURE")
+  newPopulationStructureAlgorithm = population_structure_algorithm("FastSTRUCTURE")
   newPopulationStructureAlgorithmID = insert.insert_population_structure_algorithm(conn, newPopulationStructureAlgorithm)
   print("pop structure algorithm ID:")
   print(newPopulationStructureAlgorithmID)
@@ -219,7 +219,7 @@ if __name__ == '__main__':
   #             Although, the data may not be in the correct format.
   #             The temporary file is the one with 'export' in its name.
   # kinshipID = find.find_kinship(conn, "/opt/BaxDB/file_storage/kinship_files/4.AstleBalding.synbreed.kinship.csv")
-  kinshipID = find.find_kinship(conn, "../data/4.AstleBalding.synbreed.kinship.export.csv")
+  kinshipID = find.find_kinship(conn, "../data/4.AstleBalding.synbreed.kinship.csv")
   print("kinshipID: ")
   print(kinshipID)  
 
