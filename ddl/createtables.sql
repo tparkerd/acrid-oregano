@@ -115,8 +115,9 @@ CREATE TABLE phenotype (
   phenotype_id SERIAL PRIMARY KEY,
   phenotype_line INTEGER NOT NULL REFERENCES line (line_id),
   phenotype_trait INTEGER NOT NULL REFERENCES trait (trait_id),
-  phenotype_value VARCHAR(45) NOT NULL
+  phenotype_value VARCHAR(128) NOT NULL
   );
+  -- Ran into problem with insertion, this is not largest enough because the values can be on the magnitude of 10^-99 or possibly greater, so this would have to be (Number length + Magnitude). As far as I can tell right now, the value is 16 characters long and can be an order up to e-90, but smallest observed is e-87. Therefore, the minimum length for phenotype_value should be 16+87=103. Let's round it up to 128 for good measure.
 
 -- Create the gwas_algorithm table
 DROP TABLE IF EXISTS gwas_algorithm;

@@ -5,7 +5,7 @@ Credit - Ryan Lichtenwalter https://github.com/rlichtenwalter/pgsql_genomics
 
 # Environment
 Operating System: CentOS 7
-RDBMS: PostgreSQL 9.4
+RDBMS: PostgreSQL 9.6
 
 # Installation
 ```bash
