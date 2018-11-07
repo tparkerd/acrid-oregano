@@ -18,9 +18,9 @@ Dependencies
 Step-by-Step Guide
 ==================
 
-    #. Install VirtualBox
+    #. Install `VirtualBox`_
     #. Create new virtual machine (VM)
-    #. Install CentOS 7 Minimal onto the VM
+    #. Install `CentOS 7 Minimal`_ onto the VM
     #. Start VM and log in as ``root``
     #. Install ``git`` onto VM with ``yum -y install git``
     #. Create user ``postgres`` with ``useradd postgres``

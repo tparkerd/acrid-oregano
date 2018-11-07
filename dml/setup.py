@@ -6,5 +6,6 @@ if __name__=="__main__":
     install_requires=[
       "pandas",
       "psycopg2",
+      "configparser",
     ]
   )
