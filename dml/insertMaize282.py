@@ -149,10 +149,10 @@ if __name__ == '__main__':
 
   # ADD NEW HARD-CODED IMPUTATION_METHOD TO DB
   newImputationMethod = imputation_method("impute to major allele")
-  #newImputationMethod = imputation_method("impute to minor allele")
-  #newImputationMethod = imputation_method("impute to average allele")
-  #newImputationMethod = imputation_method("IMPUTE")
-  #newImputationMethod = imputation_method("BEAGLE")
+  newImputationMethod = imputation_method("impute to minor allele")
+  newImputationMethod = imputation_method("impute to average allele")
+  newImputationMethod = imputation_method("IMPUTE")
+  newImputationMethod = imputation_method("BEAGLE")
   newImputationMethodID = insert.insert_imputation_method(conn, newImputationMethod)
   print("Imputatin Method ID:")
   print(newImputationMethodID)
@@ -174,7 +174,6 @@ if __name__ == '__main__':
   print(VanRadenID)  
 
   # ADD NEW HARD-CODED KINSHIP TO DB
-  # NOTE(timp): Cannot find file
   newKinship = kinship(VanRadenID, "../data/4.AstleBalding.synbreed.kinship.csv")
   newKinshipID = insert.insert_kinship(conn, newKinship)
   print("New kinship ID:")
