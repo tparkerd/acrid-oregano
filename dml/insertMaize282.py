@@ -61,7 +61,7 @@ if __name__ == '__main__':
   # ADD NEW HARD-CODED GENOTYPE_VERSION TO DB
   myGenotypeVersion = genotype_version(genotype_version_name='B73 RefGen_v4_AGPv4_Maize282',
                                        genotype_version=315, reference_genome=B73lineID, genotype_version_population=maize282popID)
-  B73lineID = insert.insert_genotype_version(conn, myGenotypeVersion)
+  B73_agpv4_maize282_versionID = insert.insert_genotype_version(conn, myGenotypeVersion)
   print("[ INSERT ]\t(%s)\t%s" % (B73lineID, str(myGenotypeVersion)))
 
   # ADD ALL CHROMOSOMES FOR A SPECIES TO DB
