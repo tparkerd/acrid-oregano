@@ -62,7 +62,7 @@ if __name__ == '__main__':
   myGenotypeVersion = genotype_version(genotype_version_name='B73 RefGen_v4_AGPv4_Maize282',
                                        genotype_version=315, reference_genome=B73lineID, genotype_version_population=maize282popID)
   B73_agpv4_maize282_versionID = insert.insert_genotype_version(conn, myGenotypeVersion)
-  print("[ INSERT ]\t(%s)\t%s" % (B73lineID, str(myGenotypeVersion)))
+  print("[ INSERT ]\t(%s)\t%s" % (B73_agpv4_maize282_versionID, str(myGenotypeVersion)))
 
   # ADD ALL CHROMOSOMES FOR A SPECIES TO DB
   insertedChromosomeIDs = insert.insert_all_chromosomes_for_species(conn, 10, maizeSpeciesID)
