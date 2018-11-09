@@ -11,10 +11,13 @@ Attributes
     :widths: 20, 10, 70
 
     "``species_id``", "``integer``", ""
-    "``shortname``", "``varchar``", ""
-    "``binomial``", "``varchar``", ""
+    "``shortname``", "``varchar``", "Nickname/alias for species for everyday use"
+    "``binomial``", "``varchar``", "Two-term name using `Binomial nomenclature <https://en.wikipedia.org/wiki/Binomial_nomenclature>`_"
     "``subspecies``", "``varchar``", ""
     "``variety``", "``varchar``", ""
+
+.. note::
+  Subspecies and Variety do not seem to be in use at the moment.
 
 Diagram
 -------

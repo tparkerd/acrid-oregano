@@ -11,7 +11,7 @@ Attributes
     :widths: 20, 10, 70
 
     "``chromosome_id``", "``integer``", ""
-    "``chromosome_name``", "``varchar``", ""
+    "``chromosome_name``", "``varchar``", "The number of the chromosome with ``chr`` appended before it."
     "``chromosome_species``", "``integer``", "see :ref:`species.species_id <species>`"
 
 Constraints
