@@ -6,3 +6,6 @@ file_storage/
 *.log
 .vscode/
 docs/_build/*
+docs/modules/*
+modules/
+data/*

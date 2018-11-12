@@ -3,6 +3,9 @@
 ``phenotype``
 =============
 
+.. note::
+    The value is a p-value for the trait provided by a ``5.mergedWeightNorm.LM.rankAvg.longFormat.csv`` file. 
+
 Attributes
 -----------
 
@@ -13,7 +16,7 @@ Attributes
     "``phenotype_id``", "``integer``", ""
     "``phenotype_line``", "``integer``", "see :ref:`line.line_id <line>`"
     "``phenotype_trait``", "``integer``", "see :ref:`trait.trait_id <trait>`"
-    "``phenotype_value``", "``varchar``", ""
+    "``phenotype_value``", "``varchar``", "p-value for trait given a line"
 
 Diagram
 -------

@@ -76,3 +76,9 @@ rm -f "$pg_installdir/setup.sql $pg_installdir/createtables.sql $pg_installdir/u
 printf "Removed the temporary SQL files for building 'baxdb' database.\n"
 printf "Setup completed successfully.\n"
 printf "Please consider checking your 'pg_hba.conf' file to alter permissions to access the database. Permissions are currently set as 'local baxdb baxdb_owner trust'.\n"
+
+# At this point, I was to be able to run 
+# pip ./dml/setup.py install
+# It may be worth distributing the package once the project has come far enough along
+#  Therefore, you'd be able to just run `pip install gwas_database` or something
+# to that effect

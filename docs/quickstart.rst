@@ -1,6 +1,6 @@
-###########
-Quick Start
-###########
+###############
+Getting started
+###############
 
 ********
 Overview
@@ -36,7 +36,7 @@ Connecting to ``adriatic``
 .. danger::
   This is the **production** environment.
 
-The database is hosted on a virtual machine on the Danforth Center Bioinformatics infrastructure.
+The database is hosted on a virtual machine on the Danforth Center Bioinformatics infrastructure known as ``adriatic``.
 
   :host: ``adriatic.ddpsc.org``, ``10.5.1.33``
   :port: 5432
@@ -53,7 +53,7 @@ To allow a new user to access ``adriatic``, their bioinformatics username must b
 A separate database user role must be created for access as a user’s bioinformatics credentials do not provide access to ``baxdb``.  `Greg Zielger`_ and `Josh Rothhaupt`_ both have permissions to create new roles (users) in the database. Once a user role has been created for a new user, they will also have to be granted the proper permissions to access ``baxdb`` and the tables/indices/etc. within the database.
 
 .. important::
-  In order to connect to ``adriatic``, you must first ``ssh`` into ``apollo``, the login server for the bioinformatics. This may require you to set up ssh tunneling.
+  In order to connect to ``adriatic``, you must first ``ssh`` into ``apollo``, the login server for the bioinformatics.
 
 *******
 Backups
@@ -75,6 +75,18 @@ Ideally, the command to restore the database is the following:
   sudo -u postgres pg_restore --create --clean -j 4 BaxDB_dump_2018.11.07-02.30.01.sql
 
 
+
+******************
+Transferring Files
+******************
+
+``apollo``
+==========
+  Apollo is the login server for the bioinformatics system. `Josh Rothhaupt`_ should have created a new account for you during onboarding, but if not, email him to request an account.
+
+The home directory for ``apollo`` and ``adriatic`` is a shared directory. So the contents of ``/home/<username>`` will be the same regardless of which you are currently logged into. Therefore, if you need to copy anything from Adriatic to your local machine, first copy it into your home directory on Adriatic and then ``sftp`` into Apollo.
+
+Additional information on the bioinformatics system can be found at https://bioinformatics.readthedocs.io/.
 
 External Resources
   - `Genome-wide association studies`_ --- Wikipedia
