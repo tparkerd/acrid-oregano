@@ -1,6 +1,7 @@
 """This module helps connect to a PostgreSQL database"""
 from configparser import ConfigParser
 import psycopg2
+import sys
 
 # Use the parameters in database.ini to configure the database connection
 def config(filename='database.ini', section='postgresql'):
@@ -73,6 +74,7 @@ def connect():
     # Close the connection
     cur.close()
   except (Exception, psycopg2.DatabaseError) as error:
-    print(error)
+    print('Unable to connect!\n{0}').format(error)
+    sys.exit(1)
   
   return conn
