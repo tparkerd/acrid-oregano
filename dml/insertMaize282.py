@@ -61,8 +61,8 @@ if __name__ == '__main__':
   # ADD NEW HARD-CODED GENOTYPE_VERSION TO DB
   myGenotypeVersion = genotype_version(genotype_version_name='B73 RefGen_v4_AGPv4_Maize282',
                                        genotype_version=315, reference_genome=B73lineID, genotype_version_population=maize282popID)
-  B73lineID = insert.insert_genotype_version(conn, myGenotypeVersion)
-  print("[ INSERT ]\t(%s)\t%s" % (B73lineID, str(myGenotypeVersion)))
+  B73_agpv4_maize282_versionID = insert.insert_genotype_version(conn, myGenotypeVersion)
+  print("[ INSERT ]\t(%s)\t%s" % (B73_agpv4_maize282_versionID, str(myGenotypeVersion)))
 
   # ADD ALL CHROMOSOMES FOR A SPECIES TO DB
   insertedChromosomeIDs = insert.insert_all_chromosomes_for_species(conn, 10, maizeSpeciesID)
@@ -149,10 +149,10 @@ if __name__ == '__main__':
 
   # ADD NEW HARD-CODED IMPUTATION_METHOD TO DB
   newImputationMethod = imputation_method("impute to major allele")
-  #newImputationMethod = imputation_method("impute to minor allele")
-  #newImputationMethod = imputation_method("impute to average allele")
-  #newImputationMethod = imputation_method("IMPUTE")
-  #newImputationMethod = imputation_method("BEAGLE")
+  newImputationMethod = imputation_method("impute to minor allele")
+  newImputationMethod = imputation_method("impute to average allele")
+  newImputationMethod = imputation_method("IMPUTE")
+  newImputationMethod = imputation_method("BEAGLE")
   newImputationMethodID = insert.insert_imputation_method(conn, newImputationMethod)
   print("Imputatin Method ID:")
   print(newImputationMethodID)
@@ -174,7 +174,6 @@ if __name__ == '__main__':
   print(VanRadenID)  
 
   # ADD NEW HARD-CODED KINSHIP TO DB
-  # NOTE(timp): Cannot find file
   newKinship = kinship(VanRadenID, "../data/4.AstleBalding.synbreed.kinship.csv")
   newKinshipID = insert.insert_kinship(conn, newKinship)
   print("New kinship ID:")
