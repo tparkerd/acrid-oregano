@@ -226,17 +226,11 @@ def insert_variants_from_file(conn, variantPosFile, speciesID, chromosomeID):
   cVariants = len(variantlist)
   print(cVariants)
   insertedVariantIDs = []
-  variant_process_counter = 0
-  time_counter = time.time()
   for variantpos in variantlist:
     variantobj = variant(speciesID, chromosomeID, variantpos)
     print("vObj:\t" + str(variantobj))
     insertedVariantID = insert_variant(conn, variantobj)
     insertedVariantIDs.append(insertedVariantID)
-    variant_process_counter = variant_process_counter + 1
-    if (time_counter + 5.0) < time.time():
-      time_counter = time.time()
-      print(str(variant_process_counter) + " of " + str(cVariants) + " (" + str(float(variant_process_counter) / cVariants * 100)  + ") imported.")
   return insertedVariantIDs
 
 
@@ -257,8 +251,10 @@ def insert_genotype(conn, genotype):
         VALUES (%s,%s,%s,%s)
         ON CONFLICT DO NOTHING
         RETURNING genotype_id;"""
-  print("Line: " )
+
   args_tuple = (genotype.l, genotype.c, genotype.g, genotype.v)
+  print("Line: " )
+  print(args_tuple)
   cur.execute(SQL, args_tuple)
   newID = cur.fetchone()[0]
   conn.commit()
@@ -285,20 +281,25 @@ def insert_genotypes_from_file(conn, genotypeFile, lineFile, chromosomeID, popul
   :rtype: list of integers
   """
   genotypes = ph.parse_genotypes_from_file(genotypeFile)
+  print("Genotypes ph: ")
+  print(genotypes)
   linelist = ph.parse_lines_from_file(lineFile)
+  print("Line List: ")
+  print(linelist)
   lineIDlist = ph.convert_linelist_to_lineIDlist(conn, linelist, populationID)
+  print("Line ID List")
+  print(lineIDlist)
   zipped = zip(lineIDlist, genotypes)
   ziplist = list(zipped)
   insertedGenotypeIDs = []
-  counter = 0
-  cutoff = len(ziplist) / 10
   for zippedpair in ziplist:
     genotypeObj = genotype(zippedpair[0], chromosomeID, zippedpair[1], genotype_versionID)
     insertedGenotypeID = insert_genotype(conn, genotypeObj)
+    print("DEBUG MESSAGE\n+++++++++++++++++++++++++++++\n")
+    print(insertedGenotypeID)
     insertedGenotypeIDs.append(insertedGenotypeID)
-    counter = counter + 1
-    if counter % cutoff == 0:
-      print(str(counter) + " out of " + str(len(ziplist)) + " have been processed.")
+
+
   return insertedGenotypeIDs
 
 def insert_growout(conn, growout):
