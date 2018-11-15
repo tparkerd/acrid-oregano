@@ -174,7 +174,6 @@ if __name__ == '__main__':
   newImputationMethods.append(imputation_method("BEAGLE"))
   for im in newImputationMethods:
     insert.insert_imputation_method(conn, im)
-
   
   # ADD NEW HARD-CODED KINSHIP_ALGORITHM TO DB
   kinshipAlgorithms = []
