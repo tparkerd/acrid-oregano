@@ -4,7 +4,23 @@
 Installation
 ############
 
-For development and testing, it is best to create a copy of the database in a virtual machine. `VirtualBox`_ works great for our purposes.
+For development and testing, you have two options. If you have access to `Docker <https://www.docker.com>`_, it is the fastest way to spin up a copy of the database. Otherwise, it is best to create a copy of the database in a virtual machine. `VirtualBox`_ works great for our purposes.
+
+******
+Docker
+******
+
+Dependencies
+============
+    - `Docker <https://www.docker.com>`_
+    - `Docker Composer <https://docs.docker.com/compose/install/>`_
+
+Step-by-Step Guide
+==================
+    # Install `Docker <https://www.docker.com>`_
+    # Install `Docker Composer <https://docs.docker.com/compose/install/>`_
+    # Pull copy of Docker image ``docker pull tparkerd/gwas`` (https://hub.docker.com/r/tparkerd/gwas/)
+    # Clone GitHub repo ``git clone https://github.com/tparkerd/gwas_database.git``
 
 *****
 Setup
