@@ -88,7 +88,6 @@ def parse_variants_from_file(variantPosFile):
   return variantlist
 
 def parse_genotypes_from_file(genotypeFile):
-  print("GenotypeFileName: " + genotypeFile)
   """Converts a newline-delimited file of genotypes (for a given chromosome) to a list of allele calls
 
   :param genotypeFile: file path for genotype information on allele calls, ignoring the first column since it is an index term
@@ -98,23 +97,15 @@ def parse_genotypes_from_file(genotypeFile):
 
   """
   rawGenos = []
-  print("Parsing genotypes from file")
+  # print("Parsing genotypes from file")
   with open(genotypeFile) as f:
     genoReader = csv.reader(f, delimiter='\t')
-    gcount = 1
-    print("GenoReader")
-    print(genoReader)
     for item in genoReader:
-      print("Inside of the genoreader")
-      print(str(gcount) + ") " + str(item[1:10]) + " ..." )
-      gcount = gcount + 1
       # Remove first item, which is an index term
       item.pop(0)
       # Convert all genotype values to integers
       for i in range(len(item)):
         item[i] = int(item[i])
-
-      print(item)
       rawGenos.append(item)
 
   return rawGenos
