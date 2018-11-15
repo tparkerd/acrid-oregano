@@ -88,6 +88,7 @@ def parse_variants_from_file(variantPosFile):
   return variantlist
 
 def parse_genotypes_from_file(genotypeFile):
+  print("GenotypeFileName: " + genotypeFile)
   """Converts a newline-delimited file of genotypes (for a given chromosome) to a list of allele calls
 
   :param genotypeFile: file path for genotype information on allele calls, ignoring the first column since it is an index term
@@ -106,6 +107,8 @@ def parse_genotypes_from_file(genotypeFile):
       # Convert all genotype values to integers
       for i in range(len(item)):
         item[i] = int(item[i])
+
+      print(item)
       rawGenos.append(item)
 
   return rawGenos
