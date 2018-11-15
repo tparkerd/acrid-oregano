@@ -52,8 +52,17 @@ To allow a new user to access ``adriatic``, their bioinformatics username must b
 
 A separate database user role must be created for access as a user’s bioinformatics credentials do not provide access to ``baxdb``.  `Greg Zielger`_ and `Josh Rothhaupt`_ both have permissions to create new roles (users) in the database. Once a user role has been created for a new user, they will also have to be granted the proper permissions to access ``baxdb`` and the tables/indices/etc. within the database.
 
+If you are an existing admin and wish to grant access to a new user, use the following statement after connecting to the database. Add additional privileges separated by a comma as needed. For additional information, see `PostgreSQL documentation <https://www.postgresql.org/docs/9.6/sql-grant.html>`_
+
+.. code-block:: sql
+  :linenos:
+
+  GRANT SELECT ON ALL TABLES IN SCHEMA  public TO <user>;
+
+
+
 .. important::
-  In order to connect to ``adriatic``, you must first ``ssh`` into ``stargate``, the login server for the bioinformatics.
+  In order to connect to ``adriatic``, you must first ``ssh`` into ``stargate``, the login server for the bioinformatics. This may require you to set up ssh tunneling.
 
 *******
 Backups
@@ -76,12 +85,24 @@ Ideally, the command to restore the database is the following:
 
 
 
+
+In the unfortunate event that the database must be restored, use the following command
+
+.. code-block:: bash
+
+  sudo -u postgres pg_restore --create --clean -j 4 backup_dump.sql
+
+This can be tuned to improve restoration times. The option ``-j`` allows for concurrent loading of the data and can drastically improve restoration time. It represents the number of jobs that can run concurrently. The suggest number is the number of CPUs that houses the database instance. In the example, the device as four CPUs.
+
+If the restoration seems to take several hours, consider disabling ``autovacuum`` in ``postgresql.conf``. Make sure to reenable it after the restoration is complete.
+
+
 ******************
 Transferring Files
 ******************
 
 ``stargate``
-==========
+
   Stargate is the login server for the bioinformatics system. `Josh Rothhaupt`_ should have created a new account for you during onboarding, but if not, email him to request an account.
 
 The home directory for ``stargate`` and ``adriatic`` is a shared directory. So the contents of ``/home/<username>`` will be the same regardless of which you are currently logged into. Therefore, if you need to copy anything from Adriatic to your local machine, first copy it into your home directory on Adriatic and then ``sftp`` into Stargate.

@@ -38,6 +38,9 @@ if __name__ == '__main__':
   MOlocID = find.find_location(conn, "MO")
 
   # ADD A HARD-CODED SPECIES TO DB USING insert_species()
+  soybeanSpecies = species('soybean', 'Glycine max', None, None)
+  insertedSpeciesID = insert.insert_species(conn, soybeanSpecies)
+  print("[ INSERT ]\t(%s)\t%s" % (insertedSpeciesID, str(soybeanSpecies)))
   mySpecies = species('maize', 'Zea mays', None, None)
   insertedSpeciesID = insert.insert_species(conn, mySpecies)
   print("[ INSERT ]\t(%s)\t%s" % (insertedSpeciesID, str(mySpecies)))
@@ -67,24 +70,39 @@ if __name__ == '__main__':
   # ADD ALL CHROMOSOMES FOR A SPECIES TO DB
   insertedChromosomeIDs = insert.insert_all_chromosomes_for_species(conn, 10, maizeSpeciesID)
   print("[ INSERT ]\t%s\t%s" % (insertedChromosomeIDs, '\t10 (sID: %s)' % maizeSpeciesID))
-  maizeChr10ID = find.find_chromosome(conn, 'chr10', maizeSpeciesID)
-  print("[ FIND ]\t(%s)\t%s" % (maizeChr10ID, '< chromsome: chr10 >'))
+
   
   # GET LINES FROM SPECIFIED 012.indv FILE AND ADD TO DB
   insertedLineIDs = insert.insert_lines_from_file(conn, '../data/chr10_282_agpv4.012.indv', maize282popID)
   print("[ INSERT ]\t%s\t%s\t(pID:  %s)" % (insertedLineIDs, '../data/chr10_282_agpv4.012.indv', maize282popID))
 
-  # ADD ALL GENOTYPES FROM A ONE-CHROMOSOME .012 FILE TO DB
-  insertedGenotypeIDs = insert.insert_genotypes_from_file(conn,'../data/chr10_282_agpv4.012' , '../data/chr10_282_agpv4.012.indv', maizeChr10ID, maize282popID, B73lineID)
-  print("Inserted genotype IDs:")
-  print(insertedGenotypeIDs)
-  print("[ INSERT ]\t%s\t%s\t(cID: %s, pID: %s, lID: %s)" % (insertedGenotypeIDs,
-                                                             'chr10_282_agpv4.012 & indv', str(maizeChr10ID), str(maize282popID), str(B73lineID)))
-
   # GET VARIANTS FROM .012.pos FILE AND ADD TO  DB
-  insertedVariantIDs = insert.insert_variants_from_file(conn, '../data/chr10_282_agpv4.012.pos', maizeSpeciesID, maizeChr10ID)
-  print("num inserted variants:")
-  print(len(insertedVariantIDs))
+  # Found the issue, the 'true' database on adriatic houses variants for ALL chromosomes
+  # So, to fix that, we gotta loop through each chromosome file and add them
+  # NOTE(timp): For when this is generalized to more than just Zea mays, there need to be a 
+  # variable for the range instead because the number of chromosomes may differ between species
+  for c in range(1, 11):
+    chrShortname = 'chr' + str(c)
+    chrId = find.find_chromosome(conn, chrShortname, maizeSpeciesID)
+    filename = '../data/%s_282_agpv4.012.pos' % chrShortname
+    print("[ FIND ]\t(%s)\t%s" % (chrId, '< chromsome: %s >' % filename))
+    insertedVariantIDs = insert.insert_variants_from_file(conn, filename, maizeSpeciesID, chrId)
+    print("num inserted variants:")
+    print(len(insertedVariantIDs))
+
+  # ADD ALL GENOTYPES FROM A ONE-CHROMOSOME .012 FILE TO DB
+  # FIX(timp): Like the variants, Molly had inserted all of the genotypes for every indv file.
+  # NOTE(timp): For when this is generalized to more than just Zea mays, there need to be a 
+  # variable for the range instead because the number of chromosomes may differ between species
+  for c in range(1, 11):
+    chrShortname = 'chr' + str(c)
+    chrId = find.find_chromosome(conn, chrShortname, maizeSpeciesID)
+    genoFilename = '../data/%s_282_agpv4.012' % chrShortname
+    linesFilename = '../data/%s_282_agpv4.012.indv' % chrShortname
+    insertedGenotypeIDs = insert.insert_genotypes_from_file(conn, genoFilename, linesFilename, chrId, maize282popID, B73lineID)
+    print("Inserted genotype IDs:")
+    print(insertedGenotypeIDs)
+    print("[ INSERT ]\t%s\t%s\t%s\t(cID: %s, pID: %s, lID: %s)" % (insertedGenotypeIDs, genoFilename, linesFilename, str(chrId), str(maize282popID), str(B73lineID)))
 
   # PARSE TRAITS FROM PHENOTYPE FILE AND ADD TO DB
   phenotypeRawData = pd.read_csv('../data/5.mergedWeightNorm.LM.rankAvg.longFormat.csv', index_col=0)
@@ -148,15 +166,14 @@ if __name__ == '__main__':
 
 
   # ADD NEW HARD-CODED IMPUTATION_METHOD TO DB
-  newImputationMethod = imputation_method("impute to major allele")
-  newImputationMethod = imputation_method("impute to minor allele")
-  newImputationMethod = imputation_method("impute to average allele")
-  newImputationMethod = imputation_method("IMPUTE")
-  newImputationMethod = imputation_method("BEAGLE")
-  newImputationMethodID = insert.insert_imputation_method(conn, newImputationMethod)
-  print("Imputatin Method ID:")
-  print(newImputationMethodID)
-
+  newImputationMethods = []
+  newImputationMethods.append(imputation_method("impute to major allele"))
+  newImputationMethods.append(imputation_method("impute to minor allele"))
+  newImputationMethods.append(imputation_method("impute to average allele"))
+  newImputationMethods.append(imputation_method("IMPUTE"))
+  newImputationMethods.append(imputation_method("BEAGLE"))
+  for im in newImputationMethods:
+    insert.insert_imputation_method(conn, im)
   
   # ADD NEW HARD-CODED KINSHIP_ALGORITHM TO DB
   kinshipAlgorithms = []
@@ -180,12 +197,12 @@ if __name__ == '__main__':
   print(newKinshipID)
 
   # ADD NEW HARD-CODED POPULATION_STRUCTURE_ALGORITHM TO DB
-  newPopulationStructureAlgorithm = population_structure_algorithm("Eigenstrat")
-  newPopulationStructureAlgorithm = population_structure_algorithm("STRUCTURE")
-  newPopulationStructureAlgorithm = population_structure_algorithm("FastSTRUCTURE")
-  newPopulationStructureAlgorithmID = insert.insert_population_structure_algorithm(conn, newPopulationStructureAlgorithm)
-  print("pop structure algorithm ID:")
-  print(newPopulationStructureAlgorithmID)
+  newPopulationStructures = []
+  newPopulationStructures.append(population_structure_algorithm("Eigenstrat"))
+  newPopulationStructures.append(population_structure_algorithm("STRUCTURE"))
+  newPopulationStructures.append(population_structure_algorithm("FastSTRUCTURE"))
+  for ps in newPopulationStructures:
+    insert.insert_population_structure_algorithm(conn, ps)
 
   # LOOK UP ID OF A HARD-CODED POPULATION_STRUCTURE_ALGORITHM USING find_population_structure_algorithm()
   EigenstratID = find.find_population_structure_algorithm(conn, "Eigenstrat")
