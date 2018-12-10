@@ -13,6 +13,6 @@ Genome-wide association study (GWAS) Database
    installation
    database
    datasets
-   /modules/modules
+   modules
    extras
    sitemap
