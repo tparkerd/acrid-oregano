@@ -251,8 +251,6 @@ def insert_genotype(conn, genotype):
         RETURNING genotype_id;"""
 
   args_tuple = (genotype.l, genotype.c, genotype.g, genotype.v)
-  print("Line: " )
-  print(args_tuple)
   cur.execute(SQL, args_tuple)
   newID = cur.fetchone()[0]
   conn.commit()
@@ -279,22 +277,14 @@ def insert_genotypes_from_file(conn, genotypeFile, lineFile, chromosomeID, popul
   :rtype: list of integers
   """
   genotypes = ph.parse_genotypes_from_file(genotypeFile)
-  print("Genotypes ph: ")
-  print(genotypes)
   linelist = ph.parse_lines_from_file(lineFile)
-  print("Line List: ")
-  print(linelist)
   lineIDlist = ph.convert_linelist_to_lineIDlist(conn, linelist, populationID)
-  print("Line ID List")
-  print(lineIDlist)
   zipped = zip(lineIDlist, genotypes)
   ziplist = list(zipped)
   insertedGenotypeIDs = []
   for zippedpair in tqdm(ziplist, desc="Genotypes from %s" % genotypeFile):
     genotypeObj = genotype(zippedpair[0], chromosomeID, zippedpair[1], genotype_versionID)
     insertedGenotypeID = insert_genotype(conn, genotypeObj)
-    print("DEBUG MESSAGE\n+++++++++++++++++++++++++++++\n")
-    print(insertedGenotypeID)
     insertedGenotypeIDs.append(insertedGenotypeID)
 
 
