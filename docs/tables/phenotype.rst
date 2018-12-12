@@ -16,7 +16,7 @@ Attributes
     "``phenotype_id``", "``integer``", ""
     "``phenotype_line``", "``integer``", "see :ref:`line.line_id <line>`"
     "``phenotype_trait``", "``integer``", "see :ref:`trait.trait_id <trait>`"
-    "``phenotype_value``", "``varchar``", "p-value for trait given a line"
+    "``phenotype_value``", "``varchar``", "Phenotype value (actual measurement of the phenotype for that line)"
 
 Diagram
 -------
