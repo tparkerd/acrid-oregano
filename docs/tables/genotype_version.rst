@@ -35,7 +35,7 @@ Diagram
 
   :ref:`Genotype <genotype>`, :ref:`GWAS Run <gwas_run>`, :ref:`Line <line>`, :ref:`Population <population>`
 
-DLL
+DDL
 ---
 
 .. literalinclude:: ../../ddl/createtables.sql
