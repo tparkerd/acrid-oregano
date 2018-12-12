@@ -400,16 +400,17 @@ def insert_phenotypes_from_file(conn, phenotypeFile, populationID):
   :rtype: list of integers
   """
   maize282popID = find.find_population(conn, 'Maize282')
+  # Read through just the first column of the CSV, ignoring any column
   phenotypeRawData = pd.read_csv(phenotypeFile, index_col=0)
   insertedPhenoIDs = []
   for key, value in tqdm(phenotypeRawData.iteritems(), desc="Phenotypes"):
     # print("***********KEY**************:")
     # print(key)
     traitID = find.find_trait(conn, key)
-    for index, traitval in tqdm(value.iteritems(), desc="Traits"):
-      lineID = find.find_line(conn, index, maize282popID)
+    for line_name, traitval in tqdm(value.iteritems(), desc="Traits"):
+      lineID = find.find_line(conn, line_name, maize282popID)
       if lineID is None:
-        newline = line(index, maize282popID)
+        newline = line(line_name, maize282popID)
         lineID = insert_line(conn, newline)
       pheno = phenotype(lineID, traitID, traitval)
       # print(pheno)
