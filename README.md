@@ -33,3 +33,8 @@ firewall-cmd --permanent --add-port=5432/tcp
 firewall-cmd --reload
 
 ```
+
+# Plans for the Future
+
+...
+
