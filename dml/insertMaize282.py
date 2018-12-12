@@ -85,10 +85,10 @@ if __name__ == '__main__':
     chrShortname = 'chr' + str(c)
     chrId = find.find_chromosome(conn, chrShortname, maizeSpeciesID)
     filename = '../data/%s_282_agpv4.012.pos' % chrShortname
-    print("[ FIND ]\t(%s)\t%s" % (chrId, '< chromsome: %s >' % filename))
+    # print("[ FIND ]\t(%s)\t%s" % (chrId, '< chromsome: %s >' % filename))
     insertedVariantIDs = insert.insert_variants_from_file(conn, filename, maizeSpeciesID, chrId)
-    print("num inserted variants:")
-    print(len(insertedVariantIDs))
+    # print("num inserted variants:")
+    # print(len(insertedVariantIDs))
 
   # ADD ALL GENOTYPES FROM A ONE-CHROMOSOME .012 FILE TO DB
   # FIX(timp): Like the variants, Molly had inserted all of the genotypes for every indv file.
@@ -100,26 +100,26 @@ if __name__ == '__main__':
     genoFilename = '../data/%s_282_agpv4.012' % chrShortname
     linesFilename = '../data/%s_282_agpv4.012.indv' % chrShortname
     insertedGenotypeIDs = insert.insert_genotypes_from_file(conn, genoFilename, linesFilename, chrId, maize282popID, B73lineID)
-    print("Inserted genotype IDs:")
-    print(insertedGenotypeIDs)
-    print("[ INSERT ]\t%s\t%s\t%s\t(cID: %s, pID: %s, lID: %s)" % (insertedGenotypeIDs, genoFilename, linesFilename, str(chrId), str(maize282popID), str(B73lineID)))
+    # print("Inserted genotype IDs:")
+    # print(insertedGenotypeIDs)
+    # print("[ INSERT ]\t%s\t%s\t%s\t(cID: %s, pID: %s, lID: %s)" % (insertedGenotypeIDs, genoFilename, linesFilename, str(chrId), str(maize282popID), str(B73lineID)))
 
   # PARSE TRAITS FROM PHENOTYPE FILE AND ADD TO DB
   phenotypeRawData = pd.read_csv('../data/5.mergedWeightNorm.LM.rankAvg.longFormat.csv', index_col=0)
   traits = list(phenotypeRawData)
   insertedTraitIDs = insert.insert_traits_from_traitlist(conn, traits)
-  print("num inserted traits:")
-  print(len(insertedTraitIDs))
-  print("Inserted trait IDs:")
-  print(insertedTraitIDs)
+  # print("num inserted traits:")
+  # print(len(insertedTraitIDs))
+  # print("Inserted trait IDs:")
+  # print(insertedTraitIDs)
   
   # PARSE PHENOTYPES FROM FILE AND ADD TO DB
   # NOTE(timp): Cannot find file
   insertedPhenoIDs = insert.insert_phenotypes_from_file(conn, '../data/5.mergedWeightNorm.LM.rankAvg.longFormat.csv', maize282popID)
-  print("num phenotypes inserted:")
-  print(len(insertedPhenoIDs))
-  print("phenoIDs:")
-  print(insertedPhenoIDs)
+  # print("num phenotypes inserted:")
+  # print(len(insertedPhenoIDs))
+  # print("phenoIDs:")
+  # print(insertedPhenoIDs)
 
   # ADD NEW HARD-CODED GROWOUT_TYPE TO DB
   greenhouse_GrowoutType = growout_type("greenhouse")
@@ -160,7 +160,7 @@ if __name__ == '__main__':
   gwasAlgorithms.append(gwas_algorithm("FarmCPU"))
   newGWASalgorithmIDs = []
   for algorithm in gwasAlgorithms:
-    insert.insert_gwas_algorithm(conn, algorithm)
+    newGWASalgorithmIDs.append(insert.insert_gwas_algorithm(conn, algorithm))
   print("[ INSERT ]\t%s\t(new gwas algorithm IDs)" % (newGWASalgorithmIDs) )
   newGWASalgorithm = find.find_gwas_algorithm(conn, 'MLMM')
 

@@ -1,14 +1,15 @@
+"""Fundamental data importation functionality"""
 # Insert objects (as defined in models.py) into the database
 # TODO(timp): Add in the error handling for each cursor/connection to the database
-import pandas as pd
-import numpy as np
-import time
-import parsinghelpers as ph
-import find
-from models import species, population, line, chromosome, variant, genotype, trait, phenotype, growout_type, growout, location, gwas_algorithm, genotype_version, imputation_method, kinship_algorithm, kinship, population_structure_algorithm, population_structure, gwas_run, gwas_result
-import psycopg2 as pg
-from tqdm import tqdm
-
+if __name__ == '__main__':
+  import pandas as pd
+  import numpy as np
+  import time
+  import parsinghelpers as ph
+  import find
+  from models import species, population, line, chromosome, variant, genotype, trait, phenotype, growout_type, growout, location, gwas_algorithm, genotype_version, imputation_method, kinship_algorithm, kinship, population_structure_algorithm, population_structure, gwas_run, gwas_result
+  import psycopg2 as pg
+  from tqdm import tqdm
 
 def insert_species(conn, species):
   """Inserts species into database by its shortname, binomial, subspecies, and variety
@@ -168,7 +169,7 @@ def insert_lines_from_file(conn, lineFile, populationID):
   """
   linelist = ph.parse_lines_from_file(lineFile)
   insertedLineIDs = []
-  for linename in tqdm(linelist):
+  for linename in tqdm(linelist, desc="Lines"):
     lineobj = line(linename, populationID)
     insertedLineID = insert_line(conn, lineobj)
     insertedLineIDs.append(insertedLineID)
@@ -193,7 +194,6 @@ def insert_variant(conn, variant):
         ON CONFLICT DO NOTHING
         RETURNING variant_id;"""
   args_tuple = (variant.s, variant.c, variant.p)
-  print(args_tuple)
   cur.execute(SQL, args_tuple)
   #newID = cur.fetchone()[0]
   row = cur.fetchone()
@@ -223,13 +223,12 @@ def insert_variants_from_file(conn, variantPosFile, speciesID, chromosomeID):
   :rtype: list of integers
   """
   variantlist = ph.parse_variants_from_file(variantPosFile)
-  print('num variants:')
+  # print('num variants:')
   cVariants = len(variantlist)
-  print(cVariants)
+  # print(cVariants)
   insertedVariantIDs = []
-  for variantpos in tqdm(variantlist):
+  for variantpos in tqdm(variantlist, desc="Variants from %s" % variantPosFile):
     variantobj = variant(speciesID, chromosomeID, variantpos)
-    print("vObj:\t" + str(variantobj))
     insertedVariantID = insert_variant(conn, variantobj)
     insertedVariantIDs.append(insertedVariantID)
   return insertedVariantIDs
@@ -254,8 +253,6 @@ def insert_genotype(conn, genotype):
         RETURNING genotype_id;"""
 
   args_tuple = (genotype.l, genotype.c, genotype.g, genotype.v)
-  print("Line: " )
-  print(args_tuple)
   cur.execute(SQL, args_tuple)
   newID = cur.fetchone()[0]
   conn.commit()
@@ -282,22 +279,14 @@ def insert_genotypes_from_file(conn, genotypeFile, lineFile, chromosomeID, popul
   :rtype: list of integers
   """
   genotypes = ph.parse_genotypes_from_file(genotypeFile)
-  print("Genotypes ph: ")
-  print(genotypes)
   linelist = ph.parse_lines_from_file(lineFile)
-  print("Line List: ")
-  print(linelist)
   lineIDlist = ph.convert_linelist_to_lineIDlist(conn, linelist, populationID)
-  print("Line ID List")
-  print(lineIDlist)
   zipped = zip(lineIDlist, genotypes)
   ziplist = list(zipped)
   insertedGenotypeIDs = []
-  for zippedpair in tqdm(ziplist):
+  for zippedpair in tqdm(ziplist, desc="Genotypes from %s" % genotypeFile):
     genotypeObj = genotype(zippedpair[0], chromosomeID, zippedpair[1], genotype_versionID)
     insertedGenotypeID = insert_genotype(conn, genotypeObj)
-    print("DEBUG MESSAGE\n+++++++++++++++++++++++++++++\n")
-    print(insertedGenotypeID)
     insertedGenotypeIDs.append(insertedGenotypeID)
 
 
@@ -413,17 +402,17 @@ def insert_phenotypes_from_file(conn, phenotypeFile, populationID):
   maize282popID = find.find_population(conn, 'Maize282')
   phenotypeRawData = pd.read_csv(phenotypeFile, index_col=0)
   insertedPhenoIDs = []
-  for key, value in phenotypeRawData.iteritems():
-    print("***********KEY**************:")
-    print(key)
+  for key, value in tqdm(phenotypeRawData.iteritems(), desc="Phenotypes"):
+    # print("***********KEY**************:")
+    # print(key)
     traitID = find.find_trait(conn, key)
-    for index, traitval in tqdm(value.iteritems()):
+    for index, traitval in tqdm(value.iteritems(), desc="Traits"):
       lineID = find.find_line(conn, index, maize282popID)
       if lineID is None:
         newline = line(index, maize282popID)
         lineID = insert_line(conn, newline)
       pheno = phenotype(lineID, traitID, traitval)
-      print(pheno)
+      # print(pheno)
       insertedPhenoID = insert_phenotype(conn, pheno)
       insertedPhenoIDs.append(insertedPhenoID)
   return insertedPhenoIDs
@@ -553,7 +542,7 @@ def insert_genotype_version(conn, genotype_version):
         VALUES (%s,%s,%s,%s)
         ON CONFLICT DO NOTHING
         RETURNING genotype_version_id;"""
-  print("Genotype Version: " + str(genotype_version))
+  # print("Genotype Version: " + str(genotype_version))
   args_tuple = (genotype_version.n, genotype_version.v, genotype_version.r, genotype_version.p)
   cur.execute(SQL, args_tuple)
   row = cur.fetchone()
@@ -729,7 +718,7 @@ def insert_gwas_run(conn, gwas_run):
         ON CONFLICT DO NOTHING
         RETURNING gwas_run_id;"""
   args = (gwas_run.t, gwas_run.s, gwas_run.l, gwas_run.a, gwas_run.v, gwas_run.m, gwas_run.i, gwas_run.n, gwas_run.p, gwas_run.k, gwas_run.o)
-  print(gwas_run)
+  # print(gwas_run)
   cur.execute(SQL, args)
   row = cur.fetchone()
   if row is not None:
@@ -839,7 +828,7 @@ def insert_gwas_results_from_file(conn, speciesID, gwas_results_file, gwas_algor
   """
   new_gwas_result_IDs = []
   df = pd.read_csv(gwas_results_file)
-  for index, row in tqdm(df.iterrows()):
+  for index, row in tqdm(df.iterrows(), desc="GWAS Results"):
     trait = row['trait']
     traitID = find.find_trait(conn, trait)
     gwas_run_ID = find.find_gwas_run(conn, gwas_algorithm_ID, missing_snp_cutoff_value, missing_line_cutoff_value, imputationMethodID, traitID, row['nSNPs'], row['nLines'], genotypeVersionID, kinshipID, populationStructureID, minor_allele_frequency_cutoff_value)
