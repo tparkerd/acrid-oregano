@@ -1,15 +1,14 @@
 """Fundamental data importation functionality"""
 # Insert objects (as defined in models.py) into the database
 # TODO(timp): Add in the error handling for each cursor/connection to the database
-if __name__ == '__main__':
-  import pandas as pd
-  import numpy as np
-  import time
-  import parsinghelpers as ph
-  import find
-  from models import species, population, line, chromosome, variant, genotype, trait, phenotype, growout_type, growout, location, gwas_algorithm, genotype_version, imputation_method, kinship_algorithm, kinship, population_structure_algorithm, population_structure, gwas_run, gwas_result
-  import psycopg2 as pg
-  from tqdm import tqdm
+import pandas as pd
+import numpy as np
+import time
+import parsinghelpers as ph
+import find
+from models import species, population, line, chromosome, variant, genotype, trait, phenotype, growout_type, growout, location, gwas_algorithm, genotype_version, imputation_method, kinship_algorithm, kinship, population_structure_algorithm, population_structure, gwas_run, gwas_result
+import psycopg2 as pg
+from tqdm import tqdm
 
 def insert_species(conn, species):
   """Inserts species into database by its shortname, binomial, subspecies, and variety
