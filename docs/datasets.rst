@@ -7,15 +7,20 @@ Datasets
 
 The following datasets make up all of the genomic data collected over the years geared towards :abbr:`GWAS(Genome-wide association studies)`.
 
-============
-All Datasets
-============
+=================
+Types of Datasets
+=================
 
-.. toctree::
-  :glob:
-  :maxdepth: 2
+  Diversity Panel
 
-  datasets/*/*
+  :abbr:`IPSRI(Illinois Protein Strain Recombinant Inbreds)`
+
+  :abbr:`NAM(Nested Association Mapping)`
+
+  :abbr:`BAP(6-Benzylaminopurine)`
+
+  :abbr:`SAP(?????????)`
+
 
 ==========
 By Species
@@ -35,3 +40,15 @@ Sorghum
 
 Soybean
   - `Diversity Panel <datasets/soybean/diversity_panel.html>`__
+
+
+============
+All Datasets
+============
+
+.. toctree::
+  :glob:
+  :maxdepth: 2
+
+  datasets/*/*
+
