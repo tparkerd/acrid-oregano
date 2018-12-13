@@ -7,7 +7,6 @@ if __name__=="__main__":
       "pandas",
       "psycopg2",
       "configparser",
-      "time",
       "tqdm"
     ]
   )
