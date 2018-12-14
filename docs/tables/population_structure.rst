@@ -15,7 +15,7 @@ Attributes
 
     "``population_structure_id``", "``integer``", ""
     "``population_structure_algorithm``", "``integer``", "see :ref:`population_structure_algorithm.population_structure_algorithm_id <population_structure_algorithm>`"
-    "``population_structure_file_path``", "``text``", ""
+    "``population_structure_file_path``", "``text``", "[need additional info]"
 
 Diagram
 -------

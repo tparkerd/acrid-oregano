@@ -1,5 +1,5 @@
-dml
-===
+Modules
+=======
 
 .. toctree::
    :maxdepth: 4

@@ -4,19 +4,52 @@
 Installation
 ############
 
-For development and testing, it is best to create a copy of the database in a virtual machine. `VirtualBox`_ works great for our purposes.
+For development and testing, you have two options. If you have access to `Docker <https://www.docker.com>`_, it is the fastest way to spin up a copy of the database. Otherwise, it is best to create a copy of the database in a virtual machine. `VirtualBox`_ works great for our purposes.
 
-*****
+----------------------
+
+******
+Docker
+******
+
 Setup
-*****
+=====
 
 Dependencies
-============
+------------
+    - `Docker <https://www.docker.com>`_
+    - `Docker Composer <https://docs.docker.com/compose/install/>`_
+
+Step-by-Step Guide
+------------------
+
+    #. Install `Docker <https://www.docker.com>`_
+    #. Install `Docker Composer <https://docs.docker.com/compose/install/>`_
+    #. Pull copy of `Docker image <https://hub.docker.com/r/tparkerd/gwas/>`_ with ``docker pull tparkerd/gwas``
+    #. Clone GitHub repo with ``git clone https://github.com/tparkerd/gwas_database.git``
+    #. Start Docker container using ``./gwas_database/composer.yml`` with ``docker-compose -f ./gwas_database/compose.yml up``
+
+**Done!** At this point, you should be able to access the database using the PostgreSQL client, ``psql``. You can verify that the database was correctly initialized by logging in as ``postgres`` with the password ``password``. This can be modified by altering the environment variable in the ``docker-compose`` command or within the ``composer.yml`` file.
+
+.. note::
+  The Docker container assumes that you already have PostgreSQL installed on your host machine. Therefore, the port is **5434** to avoid port conflicts.
+
+----------------------
+
+**********
+VirtualBox
+**********
+
+Setup
+=====
+
+Dependencies
+------------
     - `VirtualBox`_
     - `CentOS 7 Minimal`_
 
 Step-by-Step Guide
-==================
+------------------
 
     #. Install `VirtualBox`_
     #. Create new virtual machine (VM)
@@ -47,7 +80,7 @@ If you have already created a VM, copy and paste the following code to complete 
     sudo -u postgres psql -U postgres -d baxdb
  
 Configuration
-=============
+-------------
 
 In order to access the database from another machine, you'll need to alter PostgreSQL's host-based authentication file, ``pg_hba.conf``. See PostgreSQL's `documentation`_ for additional info. If you have followed the step-by-step guide, in order to connect to the database from your host machine, you will need to update two configuration files, ``pg_hba.conf`` and ``postgresql.conf``. In addition, make sure to open the port PostgreSQL listens on (default: ``5432``).
 

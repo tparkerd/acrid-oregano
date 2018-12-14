@@ -11,9 +11,9 @@ Attributes
     :widths: 20, 10, 70
 
     "``trait_id``", "``integer``", ""
-    "``trait_name``", "``varchar``", ""
-    "``measurement_unit``", "``varchar``", ""
-    "``measurement_device``", "``varchar``", ""
+    "``trait_name``", "``varchar``", "E.g., height, weight"
+    "``measurement_unit``", "``varchar``", "E.g., millimeters, milligrams"
+    "``measurement_device``", "``varchar``", "Tool used to take measurement"
     "``description``", "``text``", ""
 
 Diagram

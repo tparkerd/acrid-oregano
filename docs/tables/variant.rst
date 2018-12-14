@@ -13,7 +13,7 @@ Attributes
     "``variant_id``", "``integer``", ""
     "``variant_species``", "``integer``", "see :ref:`species.species_id <species>`"
     "``variant_chromosome``", "``integer``", "see :ref:`chromosome.chromosome_id <chromosome>`"
-    "``variant_pos``", "``integer``", ""
+    "``variant_pos``", "``integer``", "'Index' position of basepair/SNP within the chromosome [needs verification]"
 
 Contraints
 ----------

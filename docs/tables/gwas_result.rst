@@ -15,7 +15,7 @@ Attributes
 
     "``gwas_result_id``", "``integer``", ""
     "``gwas_result_chromosome``", "``integer``", "see :ref:`chromosome.chromosome_id <chromosome>`"
-    "``basepair``", "``integer``", ""
+    "``basepair``", "``integer``", "Position index on chromosome [needs confirmation]"
     "``gwas_result_gwas_run``", "``integer``", "see :ref:`gwas_run.gwas_run_id <gwas_run>`"
     "``pval``", "``numeric``", ""
     "``cofactor``", "``numeric``", ""
