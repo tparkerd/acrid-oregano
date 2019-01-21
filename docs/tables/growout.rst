@@ -3,6 +3,8 @@
 ``growout``
 ===========
 
+A growout describes the location and time that a population (typically line or species)
+
 Attributes
 ----------
 
