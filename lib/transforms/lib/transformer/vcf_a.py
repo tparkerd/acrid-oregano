@@ -41,6 +41,8 @@ import pandas as pd
 
 from ..helpers import Convert, read_data
 from pprint import pprint
+from tqdm import tqdm
+import itertools
 
 def process(args, delimiter = ','):
   """Process data
@@ -81,13 +83,35 @@ def process(args, delimiter = ','):
         line_column += [ index for index in range(chromosome_diff + 1)] # Range excludes upperbound
 
 
-    pcc = pd.Series(pseudo_chromosome_column)
-    lc = pd.Series(line_column)
-    pprint(pcc)
-    pprint(lc)
-    df = pd.DataFrame()
+    # pcc = pd.Series(pseudo_chromosome_column)
+    # lc = pd.Series(line_column)
+    # pprint(pcc)
+    # pprint(lc)
+    # df = pd.read_table(args.vcf_input, sep = '\t')
     # df.assign(pd.Series(pseudo_chromosome_column))
-    pprint(df)
+    # pprint(head(df[]))
+    # pprint(df[[0,10]].iloc[0:10])
+
+    # Read line-by-line 012 files and interleave them
+    # NOTE(timp): This could be accomplished in bash with the following command:
+    #             paste input.pos input.012
+
+    total_line_count = 0
+    with open(args.files[0]) as posfp:
+        for i, l in enumerate(posfp):
+            pass
+    total_line_count = i + 1
+
+    vcffp = open(args.vcf_input, 'r') # genotype datafile
+    posfp = open(args.files[0], 'r') # chromosome position file
+    tmpdf = open('.tmpdf', 'w')      # temporary data file to be loaded as pandas df
+    for lines in tqdm(itertools.zip_longest(posfp, vcffp), desc="Genotype File", total=total_line_count):
+      lines = [ line.strip() for line in lines ]
+      tmpdf.write('\t'.join(lines))
+    vcffp.close()
+    posfp.close()
+    tmpdf.close()
+
 
     # We have the line numbers once we switch chromosome context
     # So long as the queue is not empty and there are lines left, process the

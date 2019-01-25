@@ -126,3 +126,6 @@ dmypy.json
 
 # Extra data files
 lib/transforms/test/data/*
+*.012
+*.012.pos
+*.012.indv
