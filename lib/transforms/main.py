@@ -80,6 +80,7 @@ def parseOptions():
   directory = './lib/transformer'
   transformers = list(set([ f[:-3] for f in os.listdir(directory) if not f.startswith('_') and f.endswith('.py') ]))
   parser.add_argument("-t", "--transformer", default = None, help = f"Name of the format transformer to use. List of available transformers: {transformers}")
+  parser.add_argument("--vcf_input", default = None, help = f"Path to the VCF file that contains genotype data for all chromosomes. Required for vcf_* transformers")
   parser.add_argument("--index", default = None, help = "NOT IMPLEMENTED. Name of the column for input")
   parser.add_argument("--debug", action = "store_true", help = "Enables --verbose and disables writes to disk")
   args = parser.parse_args()
