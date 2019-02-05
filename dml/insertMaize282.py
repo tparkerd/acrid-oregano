@@ -246,12 +246,31 @@ if __name__ == '__main__':
 
   # PARSE GWAS_RUNS FROM FILE AND ADD TO DB
   # NOTE(timp): Could not find file or possible equivalent
-  insertedGwasRunIDs = insert.insert_gwas_runs_from_gwas_results_file(conn, '../data/9.mlmmResults.csv', MLMMalgorithmID, B73_agpv4_maize282_versionID, 0.2, 0.2, 0.1, majorAlleleImputationID, kinshipID, populationStructureID)
+  insertedGwasRunIDs = insert.insert_gwas_runs_from_gwas_results_file(conn,
+                                                                      '../data/9.mlmmResults.csv',
+                                                                      MLMMalgorithmID,
+                                                                      B73_agpv4_maize282_versionID,
+                                                                      0.2,
+                                                                      0.2,
+                                                                      0.1,
+                                                                      majorAlleleImputationID,
+                                                                      kinshipID,
+                                                                      populationStructureID)
   print("Inserted gwas_run IDs:")
   print(insertedGwasRunIDs)
 
   # PARSE GWAS_RESULTS FROM FILE AND ADD TO DB
   # NOTE(timp): Could not find file or possible equivalent
-  insertedGwasResultIDs = insert.insert_gwas_results_from_file(conn, maizeSpeciesID, '../data/9.mlmmResults.csv', MLMMalgorithmID, 0.2, 0.2, majorAlleleImputationID, B73_agpv4_maize282_versionID, kinshipID, populationStructureID, 0.1)
+  insertedGwasResultIDs = insert.insert_gwas_results_from_file(conn,
+                                                              maizeSpeciesID,
+                                                              '../data/9.mlmmResults.csv',
+                                                              MLMMalgorithmID,
+                                                              0.2,
+                                                              0.2,
+                                                              majorAlleleImputationID,
+                                                              B73_agpv4_maize282_versionID,
+                                                              kinshipID,
+                                                              populationStructureID,
+                                                              0.1)
   print("Inserted gwas result IDs: ")
   print(insertedGwasResultIDs)
