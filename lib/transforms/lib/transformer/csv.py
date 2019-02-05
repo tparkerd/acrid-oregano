@@ -1,9 +1,10 @@
 """
-CSV Dataset Transformer
+CSV (Phenotype/Trait) Dataset Transformer
 
 This is the original transformer that was meant to transform the long format of
 traits by line, where the trait contains location and year. It splits a single
 file into N files, where N is the number of location and year combinations.
+Example filename: 5.mergedWeightNorm.LM.rankAvg.longFormat.csv
 
 Expected input:
   N files, M traits, P lines
