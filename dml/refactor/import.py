@@ -53,7 +53,7 @@ def process(args, conn):
   #   Population_structure           PS       PSA
   # 
   # One Dependent Dependency
-  #   Line                           L        P
+  #   Line                           LI        P
   # 
   # Two Dependencies (Mixed only)
   #   Genotype_version               GV       L, P
@@ -62,7 +62,7 @@ def process(args, conn):
   # 
   # Three Dependencies (Mixed only)
   #   Genotype                       G        L, C, GV
-  #   Growout                        GO       L, P, GT
+  #   Growout                        GO       LOC, P, GT
   # 
   # Many Dependencies (Mixed only)
   #   GWAS_run                       GRUN     T, GA, GV, IM, K, PS
@@ -134,8 +134,15 @@ def process(args, conn):
   # NOTE(timp): For some reason the minor allele cutoff value was placed in a different spot than that in the GWAS_run table
   #   req. user input: missing SNP cutoff value, missing line cutoff value, minor allele cutoff value
 
-
-
+  # Sequence of Events
+  # 1. Define an experiment/growout
+  #   - Location
+  #     - country name, code
+  #   - Species
+  #     - name
+  #   - Population
+  #   - Growout type
+  #   -
 
 
 
