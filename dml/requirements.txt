@@ -1,3 +1,5 @@
 # Copied from adriatic from /home/mwolh
 configparser
 psycopg2
+pandas
+tqdm

@@ -50,7 +50,7 @@ def process(args, delimiter = ','):
     dfs = {}
     for index, filename in enumerate(filenames):
       dfs[filename] = {}
-      dfs[filename]['filename'] = '.'.join([filename, 'csv'])
+      dfs[filename]['filename'] = '.'.join([filename, 'ph.csv'])
       identity = identifiers[index]
       # Create a regex pattern that joins the identifier with Boolean ORs
       # Also, make it so that it can be anywhere in the column name and be

@@ -105,7 +105,7 @@ def find_line(conn, line_name, line_population):
 def find_growout_type(conn, growout_type):
   """Finds growout type by its name  
 
-    This function finds the growout_id for a growout type by its name
+    This function finds the growout_id for a growout type by its type
 
     :param conn: psycopg2 connection
     :type conn: connection object
@@ -121,6 +121,29 @@ def find_growout_type(conn, growout_type):
     growout_type_ID = row[0]
     cur.close()
     return growout_type_ID
+  else:
+    return None
+
+def find_growout(conn, growout_name):
+  """Finds growout ID by its name
+  
+  This function finds the growout_id for a growout by its name
+
+    :param conn: psycopg2 connection
+    :type conn: connection object
+    :param growout_name: human-readable name of growout type
+    :type growout_name: string
+    :return: growout_id
+    :rtype:integer
+  """
+  cur = conn.cursor()
+  cur.execute(
+      "SELECT growout_id FROM growout WHERE growout_name = '%s';" % growout_name)
+  row = cur.fetchone()
+  if row is not None:
+    growout_id = row[0]
+    cur.close()
+    return growout_id
   else:
     return None
    
