@@ -74,6 +74,9 @@ Press ^C at any time to quit.""")
       config["growout"][growout_index]["year"] = input(f"growout year #{growout_index + 1}: ") or ""
       
     config["growout"][growout_index]["type"] = input(f"growout type #{growout_index + 1}: ") or ""
+    config["growout"][growout_index]["location"] = {}
+    config["growout"][growout_index]["location"]["code"] = input(
+        f"growout location code #{growout_index + 1}: ") or ""
     growout_index += 1
     stdin = input(f"Would you like to add another growout? [y/N]: ").lower() or 'n'
     if stdin == 'n' or stdin == "no":
@@ -124,6 +127,43 @@ def design(args):
   # Growouts
   for go in config["growout"]:
     go["id"]= find.find_growout(conn, go["name"])
+
+    location = {}
+    if "code" in go["location"]:
+      location_id = find.find_location(conn, go["location"]["code"])
+      if location_id is not None:
+        # Location exists, no further action required
+        # Go to the next growout
+        continue
+      else:
+        location = iu.create_location(go["location"]["code"])
+    # Unknown location: location not in database OR location code not provided
+    # If the code is provided but not in database, create a new entry for the
+    # database
+    if location_id is None:
+      location = iu.create_location(go["location"]["code"])
+
+    # Else, code is not provided, so we need to continually request that it be
+    # defined and then entered into the database
+
+
+
+
+
+    while True:
+      code = input(f"Define unique location code: ").strip()
+      if code is None or code == "":
+        print("Location code cannot be blank. Please enter an alphanumeric string.")
+        continue
+      elif find.find_location(conn, code) is not None:
+        print(f"Location '{code}' is already in use. Please enter a different code.")
+        continue
+      else:
+        break
+       
+      go["location"]["id"] = find.find_location(conn, go["location"]["code"])
+        
+
     
     pprint(go)
     
