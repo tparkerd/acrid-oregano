@@ -8,27 +8,10 @@
     {
       "name": "PU09",
       "year": "2009",
-      "type": "field"
-    },
-    {
-      "name": "NY06",
-      "year": "2006",
-      "type": "field"
-    },
-    {
-      "name": "NY10",
-      "year": "2010",
-      "type": "field"
-    },
-    {
-      "name": "FL06",
-      "year": "2006",
-      "type": "field"
-    },
-    {
-      "name": "MO06",
-      "year": "2006",
-      "type": "field"
+      "type": "field",
+      "location": {
+        "code": ""
+      }
     }
   ]
 }
