@@ -13,6 +13,10 @@ Diagrams
 
 .. _Entity-Relationship Model: _static/erdiagram.png
 
+- `File-Entity Dependency Graph`_
+
+.. _File-Entity Dependency Graph: _static/file_dependency_graph.svg
+
 ******
 Tables
 ******
