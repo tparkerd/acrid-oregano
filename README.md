@@ -11,6 +11,9 @@ RDBMS: PostgreSQL 9.6
 
 ## Docker Installation
 
+    # Start docker container
+    docker-compose up [-d]
+
 ## Manual Installation
 ```bash
 #!/bin/bash
