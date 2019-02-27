@@ -1,4 +1,4 @@
-# BaxDB
+# acrid-oregano
 PostgreSQL Database System for GWAS in the Baxter Lab
 
 Credit - Ryan Lichtenwalter https://github.com/rlichtenwalter/pgsql_genomics
@@ -8,6 +8,10 @@ Operating System: CentOS 7
 RDBMS: PostgreSQL 9.6
 
 # Installation
+
+## Docker Installation
+
+## Manual Installation
 ```bash
 #!/bin/bash
 git clone https://github.com/tparkerd/gwas_database.git &&
@@ -33,8 +37,3 @@ firewall-cmd --permanent --add-port=5432/tcp
 firewall-cmd --reload
 
 ```
-
-# Plans for the Future
-
-...
-
