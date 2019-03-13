@@ -46,7 +46,7 @@ Before development began on the PostgreSQL BaxDB database, some work was done to
 
 .. _GitHub: https://github.com/mwohl/BaxDB_flask
 
-.. literalinclude:: ../dml/database.ini
+.. literalinclude:: ../ddl/database.ini
     :caption: Example database.ini
     :name: database.ini
     :language: ini

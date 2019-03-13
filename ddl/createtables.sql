@@ -79,8 +79,8 @@ CREATE TABLE variant (
 DROP TABLE IF EXISTS genotype_version;
 CREATE TABLE genotype_version (
   genotype_version_id SERIAL PRIMARY KEY,
-  genotype_version_name VARCHAR(75) UNIQUE NOT NULL,
-  genotype_version VARCHAR(50) NOT NULL,
+  genotype_version_assembly_name VARCHAR(75) UNIQUE NOT NULL,
+  genotype_version_annotation_name VARCHAR(50) NOT NULL,
   reference_genome INTEGER NOT NULL REFERENCES line (line_id),
   genotype_version_population INTEGER NOT NULL REFERENCES population (population_id),
   unique (genotype_version, reference_genome)
