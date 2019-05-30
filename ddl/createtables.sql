@@ -83,7 +83,7 @@ CREATE TABLE genotype_version (
   genotype_version_annotation_name VARCHAR(50) NOT NULL,
   reference_genome INTEGER NOT NULL REFERENCES line (line_id),
   genotype_version_population INTEGER NOT NULL REFERENCES population (population_id),
-  unique (genotype_version, reference_genome)
+  unique (genotype_version_annotation_name, reference_genome)
   );
 
 -- Create the genotype table
