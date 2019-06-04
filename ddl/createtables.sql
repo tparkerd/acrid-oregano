@@ -168,8 +168,8 @@ DROP TABLE IF EXISTS gwas_run;
 CREATE TABLE gwas_run (
   gwas_run_id SERIAL PRIMARY KEY,
   gwas_run_trait INTEGER NOT NULL REFERENCES trait (trait_id),
-  nsnps INTEGER NOT NULL,
-  nlines INTEGER NOT NULL,
+  nsnps INTEGER,
+  nlines INTEGER,
   gwas_run_gwas_algorithm INTEGER NOT NULL REFERENCES gwas_algorithm (gwas_algorithm_id),
   gwas_run_genotype_version INTEGER NOT NULL REFERENCES genotype_version (genotype_version_id),
   missing_snp_cutoff_value NUMERIC NOT NULL,
