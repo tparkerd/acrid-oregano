@@ -1,5 +1,5 @@
 CC := gcc
-CFLAGS := -std=gnu89 -Wall -Wextra -Werror -O3
+CFLAGS := -std=gnu89 -Wall -Wextra -O3
 
 all: array_multi_index.so summarize_variant.so imputed_genotype.so 
 
