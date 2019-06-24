@@ -197,4 +197,11 @@ CREATE TABLE gwas_result (
   pcs INTEGER[],
   unique (gwas_result_chromosome, basepair, gwas_result_gwas_run, model) 
   );
---
+
+-- Create tissue type table
+DROP TABLE IF EXISTS tissue;
+CREATE TABLE tissue (
+  tissue_id SERIAL PRIMARY KEY,
+  tissue_name VARCHAR(128) UNIQUE NOT NULL,
+  description TEXT
+)
