@@ -1,5 +1,5 @@
--- Connect to the pgwasdb_commit_staging database
-\connect pgwasdb_commit_staging
+-- Connect to the pgwasdb database
+\connect pgwasdb_commit_type
 
 -- Create the species table
 DROP TABLE IF EXISTS species;
