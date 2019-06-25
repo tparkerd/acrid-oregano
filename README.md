@@ -62,6 +62,11 @@ cp ./ddl/setup.sql ./ddl/createtables.sql ./ddl/updatepermissions.sql "$pg_insta
 # Run the following command as postgres user
 
 # Make sure to reset the installation directory
+# At this point, you will run these commands once for each instance of the database
+# If you want to create a qa, staging, and production, you'll need to modify
+# the credentials and name of the database in the following files. I suggest
+# using the `sed` command to swap out each of to reflect the commit version and
+# its username and password. I'm considering each of the users as a role
 pg_installdir="/usr/pgsql-9.6/lib/baxdb"
 # Change to your home directory, out of /root
 psql -q -U postgres -f "$pg_installdir/setup.sql"
