@@ -35,7 +35,9 @@ yum -y install yum install https://download.postgresql.org/pub/repos/yum/reporpm
 yum -y install postgresql96 postgresql96-server postgresql96-contrib postgresql96-libs postgresql96-devel && \
 git clone -b development --single-branch https://github.com/tparkerd/acrid-oregano.git pgwasdb && \
 database_types=("prod" "staging" "qa") && \
+pushd pgwasdb && \
 commit_hash="$(git rev-parse --short=7 HEAD)" && \
+popd 
 
 # For each database instance, (prod, staging, qa), create the database and 
 # install the TINYINT library
@@ -43,30 +45,30 @@ for dt in "${database_types[@]}"
 do
     cp -rv pgwasdb "$dt"
     database_name="pgwasdb_${commit_hash}_${dt}"
-    pushd "$dt" && \
-    sed -i "s/pgwasdb_commit_type/${database_name}/g" `find . -type f` && \
-    export PATH=/usr/pgsql-9.6/bin:$PATH && \
-    postgresql96-setup initdb && \
-    pg_libdir=$(pg_config --pkglibdir) && \
-    pg_installdir="$pg_libdir/${database_name}" && \
-    mkdir -p -m 755 "$pg_installdir" && \
-    systemctl enable postgresql-9.6.service && \
-    systemctl start postgresql-9.6.service && \
+    pushd "$dt"
+    sed -i "s/pgwasdb_commit_type/${database_name}/g" `find . -type f`
+    export PATH=/usr/pgsql-9.6/bin:$PATH
+    postgresql96-setup initdb
+    pg_libdir=$(pg_config --pkglibdir)
+    pg_installdir="$pg_libdir/${database_name}"
+    mkdir -vp -m 755 "$pg_installdir"
+    systemctl enable postgresql-9.6.service
+    systemctl start postgresql-9.6.service
+    popd 
+
+    pushd "./$dt/c"
+    make
+    cp -v array_multi_index.so imputed_genotype.so summarize_variant.so "$pg_installdir"
+    chmod -Rv 755 "$pg_installdir" 
     popd
 
-    pushd ./pgwasdb/c && \
-    make && \
-    cp array_multi_index.so imputed_genotype.so summarize_variant.so "$pg_installdir" && \
-    chmod -R 755 "$pg_installdir" 
-    popd
-
-    pushd ./pgwasdb/lib/tinyint-0.1.1 && \
-    make && \
-    sed -i -e "1i\\\connect ${database_name}" -e "s|$libdir\/tinyint|$libdir/${database_name}/tinyint|g" tinyint.sql && \
-    cp tinyint.so "$pg_installdir" && \
-    chmod -R 755 "$pg_installdir" && \
-    cp tinyint.sql "$pg_installdir" && \
-    printf "Created TINYINT SQL and moved to $pg_installdir.\n" && \
+    pushd "./$dt/lib/tinyint-0.1.1"
+    make
+    sed -i -e "1i\\\connect ${database_name}" -e "s|$libdir\/tinyint|$libdir/${database_name}/tinyint|g" tinyint.sql
+    cp -v tinyint.so "$pg_installdir"
+    chmod -Rv 755 "$pg_installdir"
+    cp -v tinyint.sql "$pg_installdir"
+    printf "Created TINYINT SQL and moved to $pg_installdir.\n"
     popd
 
     # At this point, you will run these commands once for each instance of the database
@@ -78,21 +80,28 @@ do
     # cp ./ddl/setup.sql ./ddl/createtables.sql ./ddl/updatepermissions.sql "$pg_installdir"
     cp -rv ./pgwasdb/ddl/ "$pg_installdir"
 
+done
 
 ###### END ROOT ######
 
 sudo su postgres
-# Run the following command as postgres user
-# Make sure to reset the installation directory
-pg_installdir="/usr/pgsql-9.6/lib/baxdb"
-# Change to your home directory, out of /root
-# For each database type
-for folder in $(find "$pg_installdir/ddl" -type d -mindepth 1)
+
+database_types=("prod" "staging" "qa")
+for dt in "${database_types[@]}"
 do
-    psql -q -U postgres -f "$folder/setup.sql"
-    psql -q -U postgres -f "$folder/tinyint.sql"
-    psql -q -U postgres -f "$folder/createtables.sql"
-    psql -q -U postgres -f "$folder/updatepermissions.sql"
+    # Run the following command as postgres user
+    # Make sure to reset the installation directory
+
+    pg_installdir="/usr/pgsql-9.6/lib/${dt}"
+    # Change to your home directory, out of /root
+    # For each database type
+    for folder in $(find "$pg_installdir/ddl")
+    do
+        psql -q -U postgres -f "$folder/setup.sql"
+        psql -q -U postgres -f "$folder/tinyint.sql"
+        psql -q -U postgres -f "$folder/createtables.sql"
+        psql -q -U postgres -f "$folder/updatepermissions.sql"
+    done
 done
 sed -i "1s/^/local baxdb baxdb_owner trust\n/" "$(psql -t -P "format=unaligned" -c "SHOW hba_file;")"
 psql -t -P "format=unaligned" -c "SELECT pg_reload_conf();"
