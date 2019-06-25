@@ -1,5 +1,5 @@
--- Connect to the baxdb database
-\connect baxdb
+-- Connect to the pgwasdb_commit_staging database
+\connect pgwasdb_commit_staging
 
 -- Create the species table
 DROP TABLE IF EXISTS species;
