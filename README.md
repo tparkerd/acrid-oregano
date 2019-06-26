@@ -37,38 +37,48 @@ git clone -b development --single-branch https://github.com/tparkerd/acrid-orega
 database_types=("prod" "staging" "qa") && \
 pushd pgwasdb && \
 commit_hash="$(git rev-parse --short=7 HEAD)" && \
-popd 
+popd && \
+export PATH=/usr/pgsql-9.6/bin:$PATH && \
+pg_libdir=$(pg_config --pkglibdir) && \
+postgresql96-setup initdb && \
+systemctl enable postgresql-9.6.service && \
+systemctl start postgresql-9.6.service
 
 # For each database instance, (prod, staging, qa), create the database and 
 # install the TINYINT library
 for dt in "${database_types[@]}"
 do
-    cp -rv pgwasdb "$dt"
-    database_name="pgwasdb_${commit_hash}_${dt}"
-    pushd "$dt"
-    sed -i "s/pgwasdb_commit_type/${database_name}/g" `find . -type f`
-    export PATH=/usr/pgsql-9.6/bin:$PATH
-    postgresql96-setup initdb
-    pg_libdir=$(pg_config --pkglibdir)
-    pg_installdir="$pg_libdir/${database_name}"
-    mkdir -vp -m 755 "$pg_installdir"
-    systemctl enable postgresql-9.6.service
-    systemctl start postgresql-9.6.service
-    popd 
+    (
+        cp -r pgwasdb "$dt"
+        database_name="pgwasdb_${commit_hash}_${dt}"
+        pushd "$dt"
+        echo -n -e "\e[104mChanging database reference name in each of the DDL files..."
+        for f in $(find ./ddl -type f)
+            do
+                sed -i "s/pgwasdb_commit_type/${database_name}/g" "$f"
+            done
+        echo "Done!\e[0m"
+        popd 
+    )
 
+    pg_installdir="$pg_libdir/${database_name}"
+    echo "Installation directory: ${pg_installdir}"
+    mkdir -vp -m 755 "$pg_installdir"
+ 
     pushd "./$dt/c"
     make
+    echo "Copying the library files into ${pg_installdir}"
     cp -v array_multi_index.so imputed_genotype.so summarize_variant.so "$pg_installdir"
     chmod -Rv 755 "$pg_installdir" 
     popd
-
+ 
     pushd "./$dt/lib/tinyint-0.1.1"
     make
-    sed -i -e "1i\\\connect ${database_name}" -e "s|$libdir\/tinyint|$libdir/${database_name}/tinyint|g" tinyint.sql
     cp -v tinyint.so "$pg_installdir"
     chmod -Rv 755 "$pg_installdir"
     cp -v tinyint.sql "$pg_installdir"
-    printf "Created TINYINT SQL and moved to $pg_installdir.\n"
+    echo -n -e "\e[104mChanging database reference name in <tinyint.sql>..."
+    sed -i -e "1i\\\connect ${database_name}" -e "s|$libdir\/tinyint|$libdir/${database_name}/tinyint|g" "${pg_installdir}/tinyint.sql"
     popd
 
     # At this point, you will run these commands once for each instance of the database
