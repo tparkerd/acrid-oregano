@@ -1,10 +1,10 @@
 CC := gcc
 CFLAGS := -std=gnu89 -Wall -Wextra -O3
 
-all: array_multi_index.so summarize_variant.so imputed_genotype.so 
+all: array_multi_index.so summarize_variant.so imputed_genotype.so
 
 %.o: %.c
-	$(CC) $(CFLAGS) -I/usr/pgsql-9.6/include/server -fpic -c $< # NOTE(timp): this might be the issue when it comes to installation as the guide says to use version 9.5
+	$(CC) $(CFLAGS) -I/usr/pgsql-9.6/include/server -fpic -c $<
 
 %.so: %.o
 	$(CC) $(CFLAGS) -shared -o $@ $<
