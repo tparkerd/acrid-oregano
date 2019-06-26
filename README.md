@@ -33,7 +33,64 @@ yum -y update && \
 yum -y install wget unzip gcc perl dos2unix epel-release && \
 yum -y install yum install https://download.postgresql.org/pub/repos/yum/reporpms/EL-7-x86_64/pgdg-redhat-repo-latest.noarch.rpm && \
 yum -y install postgresql96 postgresql96-server postgresql96-contrib postgresql96-libs postgresql96-devel && \
-sudo
+git clone -b development --single-branch https://github.com/tparkerd/acrid-oregano.git pgwasdb && \
+database_types=("prod" "staging" "qa") && \
+pushd pgwasdb && \
+commit_hash="$(git rev-parse --short=7 HEAD)" && \
+popd && \
+echo "PATH=/usr/pgsql-9.6/bin:$PATH" >> ~/.bashrc && source ~/.bashrc && \
+pg_libdir=$(pg_config --pkglibdir) && \
+postgresql96-setup initdb && \
+systemctl enable postgresql-9.6.service && \
+systemctl start postgresql-9.6.service
+
+
+database_types=("prod" "staging" "qa")
+
+# For each database instance, (prod, staging, qa), create the database and 
+# install the TINYINT library
+for dt in "${database_types[@]}"
+do
+    cp -r pgwasdb "$dt"
+    database_name="pgwasdb_${commit_hash}_${dt}"
+    pushd "$dt"
+    echo -e "\e[104mChanging database reference name in each of the DDL files...\e[0m"
+    for f in $(find ./ddl -type f)
+        do
+            sed -i "s/pgwasdb_commit_type/${database_name}/g" "$f"
+            sed -i "s/pgwasdb_owner/pgwasdb_${dt}_owner/g" "$f"
+        done
+    echo "Done!\e[0m"
+    popd 
+
+    pg_installdir="$pg_libdir/${database_name}"
+    echo "Installation directory: ${pg_installdir}"
+    mkdir -vp -m 755 "$pg_installdir"
+ 
+    pushd "./$dt/c"
+    make
+    echo "Copying the library files into ${pg_installdir}"
+    cp -v array_multi_index.so imputed_genotype.so summarize_variant.so "$pg_installdir"
+    chmod -R 755 "$pg_installdir" 
+    popd
+ 
+    pushd "./$dt/lib/tinyint-0.1.1"
+    make
+    cp -v tinyint.so "$pg_installdir"
+    chmod -R 755 "$pg_installdir"
+    cp -v tinyint.sql "$pg_installdir"
+    echo -e "\e[104mChanging database reference name in <tinyint.sql>\e[0m"
+    sed -i -e "1i\\\\\connect ${database_name}" -e "s|$libdir\/tinyint|$libdir/$database_name/tinyint|g" "${pg_installdir}/tinyint.sql"
+    popd
+
+    # At this point, you will run these commands once for each instance of the database
+    # If you want to create a qa, staging, and production, you'll need to modify
+    # the credentials and name of the database in the following files. I suggest
+    # using the `sed` command to swap out each of to reflect the commit version and
+    # its username and password. I'm considering each of the users as a role
+    cp -rv ./${dt}/ddl/ "$pg_installdir"
+
+done
 
 ###### END ROOT ######
 
@@ -58,6 +115,9 @@ do
     printf "host\t${database_name}\t${owner_name}\t0.0.0.0/0\tmd5\n" >> "$(psql -t -P "format=unaligned" -c "SHOW hba_file;")"
 done
 psql -t -P "format=unaligned" -c "SELECT pg_reload_conf();"
+psql -c "GRANT pgwasdb_staging_owner TO pgwasdb_prod_owner;"
+psql -c "GRANT pgwasdb_qa_owner TO pgwasdb_staging_owner;"
+
 
 # Update the postgresql.conf
 # Change the listening addresses to listen for all
