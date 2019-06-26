@@ -33,87 +33,30 @@ yum -y update && \
 yum -y install wget unzip gcc perl dos2unix epel-release && \
 yum -y install yum install https://download.postgresql.org/pub/repos/yum/reporpms/EL-7-x86_64/pgdg-redhat-repo-latest.noarch.rpm && \
 yum -y install postgresql96 postgresql96-server postgresql96-contrib postgresql96-libs postgresql96-devel && \
-git clone -b development --single-branch https://github.com/tparkerd/acrid-oregano.git pgwasdb && \
-database_types=("prod" "staging" "qa") && \
-pushd pgwasdb && \
-commit_hash="$(git rev-parse --short=7 HEAD)" && \
-popd && \
-export PATH=/usr/pgsql-9.6/bin:$PATH && \
-pg_libdir=$(pg_config --pkglibdir) && \
-postgresql96-setup initdb && \
-systemctl enable postgresql-9.6.service && \
-systemctl start postgresql-9.6.service
-
-# For each database instance, (prod, staging, qa), create the database and 
-# install the TINYINT library
-for dt in "${database_types[@]}"
-do
-    (
-        cp -r pgwasdb "$dt"
-        database_name="pgwasdb_${commit_hash}_${dt}"
-        pushd "$dt"
-        echo -n -e "\e[104mChanging database reference name in each of the DDL files..."
-        for f in $(find ./ddl -type f)
-            do
-                sed -i "s/pgwasdb_commit_type/${database_name}/g" "$f"
-            done
-        echo "Done!\e[0m"
-        popd 
-    )
-
-    pg_installdir="$pg_libdir/${database_name}"
-    echo "Installation directory: ${pg_installdir}"
-    mkdir -vp -m 755 "$pg_installdir"
- 
-    pushd "./$dt/c"
-    make
-    echo "Copying the library files into ${pg_installdir}"
-    cp -v array_multi_index.so imputed_genotype.so summarize_variant.so "$pg_installdir"
-    chmod -Rv 755 "$pg_installdir" 
-    popd
- 
-    pushd "./$dt/lib/tinyint-0.1.1"
-    make
-    cp -v tinyint.so "$pg_installdir"
-    chmod -Rv 755 "$pg_installdir"
-    cp -v tinyint.sql "$pg_installdir"
-    echo -n -e "\e[104mChanging database reference name in <tinyint.sql>..."
-    sed -i -e "1i\\\connect ${database_name}" -e "s|$libdir\/tinyint|$libdir/${database_name}/tinyint|g" "${pg_installdir}/tinyint.sql"
-    popd
-
-    # At this point, you will run these commands once for each instance of the database
-    # If you want to create a qa, staging, and production, you'll need to modify
-    # the credentials and name of the database in the following files. I suggest
-    # using the `sed` command to swap out each of to reflect the commit version and
-    # its username and password. I'm considering each of the users as a role
-
-    # cp ./ddl/setup.sql ./ddl/createtables.sql ./ddl/updatepermissions.sql "$pg_installdir"
-    cp -rv ./pgwasdb/ddl/ "$pg_installdir"
-
-done
+sudo
 
 ###### END ROOT ######
 
 sudo su postgres
 
+cd $HOME
 database_types=("prod" "staging" "qa")
+installation_basedir="/usr/pgsql-9.6/lib/"
 for dt in "${database_types[@]}"
 do
     # Run the following command as postgres user
     # Make sure to reset the installation directory
-
-    pg_installdir="/usr/pgsql-9.6/lib/${dt}"
+    pg_installdir="$(find ${installation_basedir} -type d -iname "*${dt}" -print)"
+    database_name=${pg_installdir##*/}
     # Change to your home directory, out of /root
     # For each database type
-    for folder in $(find "$pg_installdir/ddl")
-    do
-        psql -q -U postgres -f "$folder/setup.sql"
-        psql -q -U postgres -f "$folder/tinyint.sql"
-        psql -q -U postgres -f "$folder/createtables.sql"
-        psql -q -U postgres -f "$folder/updatepermissions.sql"
-    done
+    psql -q -U postgres -f "${pg_installdir}/ddl/setup.sql"
+    psql -q -U postgres -f "${pg_installdir}/tinyint.sql"
+    psql -q -U postgres -f "${pg_installdir}/ddl/createtables.sql"
+    psql -q -U postgres -f "${pg_installdir}/ddl/updatepermissions.sql"
+    owner_name="pgwasdb_${dt}_owner"
+    printf "host\t${database_name}\t${owner_name}\t0.0.0.0/0\tmd5\n" >> "$(psql -t -P "format=unaligned" -c "SHOW hba_file;")"
 done
-sed -i "1s/^/local baxdb baxdb_owner trust\n/" "$(psql -t -P "format=unaligned" -c "SHOW hba_file;")"
 psql -t -P "format=unaligned" -c "SELECT pg_reload_conf();"
 
 # Update the postgresql.conf
