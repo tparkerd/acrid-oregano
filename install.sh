@@ -51,11 +51,11 @@ mkdir -p -m 755 "$pg_installdir" || { printf "Unable to create directory '$pg_in
 )
 
 (
-    cd ./lib/tinyint-0.1.1 &&
-    make &&
-    sed -i -e '1i\\\connect baxdb' -e 's|$libdir\/tinyint|$libdir/baxdb/tinyint|g' tinyint.sql &&
-    cp tinyint.so "$pg_installdir" &&
-    chmod -R 755 "$pg_installdir"
+    cd ./lib/tinyint-0.1.1 && \
+    make && \
+    sed -i -e '1i\\\connect baxdb' -e 's|$libdir\/tinyint|$libdir/baxdb/tinyint|g' tinyint.sql && \
+    cp tinyint.so "$pg_installdir" && \
+    chmod -R 755 "$pg_installdir" && \
     cp tinyint.sql "$pg_installdir" # move the tinyint.sql into a location accessible by postgres user
     printf "Created TINYINT SQL and moved to $pg_installdir.\n"
 )

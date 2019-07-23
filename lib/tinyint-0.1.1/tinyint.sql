@@ -1,20 +1,14 @@
-\connect baxdb
-\connect baxdb
-\connect baxdb
-\connect baxdb
-\connect baxdb
-\connect baxdb
 CREATE FUNCTION tinyint_in(cstring) RETURNS tinyint AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE FUNCTION tinyint_out(tinyint) RETURNS cstring AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE FUNCTION tinyint_recv(internal) RETURNS tinyint AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE FUNCTION tinyint_send(tinyint) RETURNS bytea AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE TYPE tinyint (
  INPUT = tinyint_in,
@@ -27,47 +21,47 @@ CREATE TYPE tinyint (
  STORAGE = plain
 );
 CREATE FUNCTION tinyint_to_i2(tinyint) RETURNS smallint AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE CAST (tinyint AS smallint)
 WITH FUNCTION tinyint_to_i2(tinyint) AS IMPLICIT;
 CREATE FUNCTION i2_to_tinyint(smallint) RETURNS tinyint AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE CAST (smallint AS tinyint)
 WITH FUNCTION i2_to_tinyint(smallint) AS ASSIGNMENT;
 CREATE FUNCTION tinyint_to_i4(tinyint) RETURNS integer AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE CAST (tinyint AS integer)
 WITH FUNCTION tinyint_to_i4(tinyint) AS IMPLICIT;
 CREATE FUNCTION i4_to_tinyint(integer) RETURNS tinyint AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE CAST (integer AS tinyint)
 WITH FUNCTION i4_to_tinyint(integer) AS ASSIGNMENT;
 CREATE FUNCTION tinyint_to_i8(tinyint) RETURNS bigint AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE CAST (tinyint AS bigint)
 WITH FUNCTION tinyint_to_i8(tinyint) AS IMPLICIT;
 CREATE FUNCTION i8_to_tinyint(bigint) RETURNS tinyint AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE CAST (bigint AS tinyint)
 WITH FUNCTION i8_to_tinyint(bigint) AS ASSIGNMENT;
 CREATE FUNCTION tinyint_to_bool(tinyint) RETURNS bool AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE CAST (tinyint AS bool)
 WITH FUNCTION tinyint_to_bool(tinyint) AS ASSIGNMENT;
 CREATE FUNCTION bool_to_tinyint(bool) RETURNS tinyint AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE CAST (bool AS tinyint)
 WITH FUNCTION bool_to_tinyint(bool) AS ASSIGNMENT;
 CREATE FUNCTION tinyint_lt(tinyint, tinyint) RETURNS bool AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE OPERATOR < (
  LEFTARG = tinyint,
@@ -79,7 +73,7 @@ CREATE OPERATOR < (
  JOIN = scalarltjoinsel
 );
 CREATE FUNCTION tinyint_le(tinyint, tinyint) RETURNS bool AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE OPERATOR <= (
  LEFTARG = tinyint,
@@ -91,7 +85,7 @@ CREATE OPERATOR <= (
  JOIN = scalarltjoinsel
 );
 CREATE FUNCTION tinyint_gt(tinyint, tinyint) RETURNS bool AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE OPERATOR > (
  LEFTARG = tinyint,
@@ -103,7 +97,7 @@ CREATE OPERATOR > (
  JOIN = scalargtjoinsel
 );
 CREATE FUNCTION tinyint_ge(tinyint, tinyint) RETURNS bool AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE OPERATOR >= (
  LEFTARG = tinyint,
@@ -115,7 +109,7 @@ CREATE OPERATOR >= (
  JOIN = scalargtjoinsel
 );
 CREATE FUNCTION tinyint_eq(tinyint, tinyint) RETURNS bool AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE OPERATOR = (
  LEFTARG = tinyint,
@@ -129,7 +123,7 @@ CREATE OPERATOR = (
  MERGES
 );
 CREATE FUNCTION tinyint_ne(tinyint, tinyint) RETURNS bool AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE OPERATOR <> (
  LEFTARG = tinyint,
@@ -142,7 +136,7 @@ CREATE OPERATOR <> (
  MERGES
 );
 CREATE FUNCTION tinyint_i2_eq(tinyint, smallint) RETURNS bool AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE OPERATOR = (
  LEFTARG = tinyint,
@@ -156,7 +150,7 @@ CREATE OPERATOR = (
  MERGES
 );
 CREATE FUNCTION tinyint_i2_ne(tinyint, smallint) RETURNS bool AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE OPERATOR <> (
  LEFTARG = tinyint,
@@ -169,7 +163,7 @@ CREATE OPERATOR <> (
  MERGES
 );
 CREATE FUNCTION tinyint_i2_lt(tinyint, smallint) RETURNS bool AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE OPERATOR < (
  LEFTARG = tinyint,
@@ -181,7 +175,7 @@ CREATE OPERATOR < (
  JOIN = scalarltjoinsel
 );
 CREATE FUNCTION tinyint_i2_le(tinyint, smallint) RETURNS bool AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE OPERATOR <= (
  LEFTARG = tinyint,
@@ -193,7 +187,7 @@ CREATE OPERATOR <= (
  JOIN = scalarltjoinsel
 );
 CREATE FUNCTION tinyint_i2_gt(tinyint, smallint) RETURNS bool AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE OPERATOR > (
  LEFTARG = tinyint,
@@ -205,7 +199,7 @@ CREATE OPERATOR > (
  JOIN = scalargtjoinsel
 );
 CREATE FUNCTION tinyint_i2_ge(tinyint, smallint) RETURNS bool AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE OPERATOR >= (
  LEFTARG = tinyint,
@@ -217,7 +211,7 @@ CREATE OPERATOR >= (
  JOIN = scalargtjoinsel
 );
 CREATE FUNCTION tinyint_i4_eq(tinyint, integer) RETURNS bool AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE OPERATOR = (
  LEFTARG = tinyint,
@@ -231,7 +225,7 @@ CREATE OPERATOR = (
  MERGES
 );
 CREATE FUNCTION tinyint_i4_ne(tinyint, integer) RETURNS bool AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE OPERATOR <> (
  LEFTARG = tinyint,
@@ -244,7 +238,7 @@ CREATE OPERATOR <> (
  MERGES
 );
 CREATE FUNCTION tinyint_i4_lt(tinyint, integer) RETURNS bool AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE OPERATOR < (
  LEFTARG = tinyint,
@@ -256,7 +250,7 @@ CREATE OPERATOR < (
  JOIN = scalarltjoinsel
 );
 CREATE FUNCTION tinyint_i4_le(tinyint, integer) RETURNS bool AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE OPERATOR <= (
  LEFTARG = tinyint,
@@ -268,7 +262,7 @@ CREATE OPERATOR <= (
  JOIN = scalarltjoinsel
 );
 CREATE FUNCTION tinyint_i4_gt(tinyint, integer) RETURNS bool AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE OPERATOR > (
  LEFTARG = tinyint,
@@ -280,7 +274,7 @@ CREATE OPERATOR > (
  JOIN = scalargtjoinsel
 );
 CREATE FUNCTION tinyint_i4_ge(tinyint, integer) RETURNS bool AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE OPERATOR >= (
  LEFTARG = tinyint,
@@ -292,7 +286,7 @@ CREATE OPERATOR >= (
  JOIN = scalargtjoinsel
 );
 CREATE FUNCTION tinyint_i8_eq(tinyint, bigint) RETURNS bool AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE OPERATOR = (
  LEFTARG = tinyint,
@@ -306,7 +300,7 @@ CREATE OPERATOR = (
  MERGES
 );
 CREATE FUNCTION tinyint_i8_ne(tinyint, bigint) RETURNS bool AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE OPERATOR <> (
  LEFTARG = tinyint,
@@ -319,7 +313,7 @@ CREATE OPERATOR <> (
  MERGES
 );
 CREATE FUNCTION tinyint_i8_lt(tinyint, bigint) RETURNS bool AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE OPERATOR < (
  LEFTARG = tinyint,
@@ -331,7 +325,7 @@ CREATE OPERATOR < (
  JOIN = scalarltjoinsel
 );
 CREATE FUNCTION tinyint_i8_le(tinyint, bigint) RETURNS bool AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE OPERATOR <= (
  LEFTARG = tinyint,
@@ -343,7 +337,7 @@ CREATE OPERATOR <= (
  JOIN = scalarltjoinsel
 );
 CREATE FUNCTION tinyint_i8_gt(tinyint, bigint) RETURNS bool AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE OPERATOR > (
  LEFTARG = tinyint,
@@ -355,7 +349,7 @@ CREATE OPERATOR > (
  JOIN = scalargtjoinsel
 );
 CREATE FUNCTION tinyint_i8_ge(tinyint, bigint) RETURNS bool AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE OPERATOR >= (
  LEFTARG = tinyint,
@@ -367,7 +361,7 @@ CREATE OPERATOR >= (
  JOIN = scalargtjoinsel
 );
 CREATE FUNCTION i2_tinyint_eq(smallint, tinyint) RETURNS bool AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE OPERATOR = (
  LEFTARG = smallint,
@@ -381,7 +375,7 @@ CREATE OPERATOR = (
  MERGES
 );
 CREATE FUNCTION i2_tinyint_ne(smallint, tinyint) RETURNS bool AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE OPERATOR <> (
  LEFTARG = smallint,
@@ -394,7 +388,7 @@ CREATE OPERATOR <> (
  MERGES
 );
 CREATE FUNCTION i2_tinyint_lt(smallint, tinyint) RETURNS bool AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE OPERATOR < (
  LEFTARG = smallint,
@@ -406,7 +400,7 @@ CREATE OPERATOR < (
  JOIN = scalarltjoinsel
 );
 CREATE FUNCTION i2_tinyint_le(smallint, tinyint) RETURNS bool AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE OPERATOR <= (
  LEFTARG = smallint,
@@ -418,7 +412,7 @@ CREATE OPERATOR <= (
  JOIN = scalarltjoinsel
 );
 CREATE FUNCTION i2_tinyint_gt(smallint, tinyint) RETURNS bool AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE OPERATOR > (
  LEFTARG = smallint,
@@ -430,7 +424,7 @@ CREATE OPERATOR > (
  JOIN = scalargtjoinsel
 );
 CREATE FUNCTION i2_tinyint_ge(smallint, tinyint) RETURNS bool AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE OPERATOR >= (
  LEFTARG = smallint,
@@ -442,7 +436,7 @@ CREATE OPERATOR >= (
  JOIN = scalargtjoinsel
 );
 CREATE FUNCTION i4_tinyint_eq(integer, tinyint) RETURNS bool AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE OPERATOR = (
  LEFTARG = integer,
@@ -456,7 +450,7 @@ CREATE OPERATOR = (
  MERGES
 );
 CREATE FUNCTION i4_tinyint_ne(integer, tinyint) RETURNS bool AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE OPERATOR <> (
  LEFTARG = integer,
@@ -469,7 +463,7 @@ CREATE OPERATOR <> (
  MERGES
 );
 CREATE FUNCTION i4_tinyint_lt(integer, tinyint) RETURNS bool AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE OPERATOR < (
  LEFTARG = integer,
@@ -481,7 +475,7 @@ CREATE OPERATOR < (
  JOIN = scalarltjoinsel
 );
 CREATE FUNCTION i4_tinyint_le(integer, tinyint) RETURNS bool AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE OPERATOR <= (
  LEFTARG = integer,
@@ -493,7 +487,7 @@ CREATE OPERATOR <= (
  JOIN = scalarltjoinsel
 );
 CREATE FUNCTION i4_tinyint_gt(integer, tinyint) RETURNS bool AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE OPERATOR > (
  LEFTARG = integer,
@@ -505,7 +499,7 @@ CREATE OPERATOR > (
  JOIN = scalargtjoinsel
 );
 CREATE FUNCTION i4_tinyint_ge(integer, tinyint) RETURNS bool AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE OPERATOR >= (
  LEFTARG = integer,
@@ -517,7 +511,7 @@ CREATE OPERATOR >= (
  JOIN = scalargtjoinsel
 );
 CREATE FUNCTION i8_tinyint_eq(bigint, tinyint) RETURNS bool AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE OPERATOR = (
  LEFTARG = bigint,
@@ -531,7 +525,7 @@ CREATE OPERATOR = (
  MERGES
 );
 CREATE FUNCTION i8_tinyint_ne(bigint, tinyint) RETURNS bool AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE OPERATOR <> (
  LEFTARG = bigint,
@@ -544,7 +538,7 @@ CREATE OPERATOR <> (
  MERGES
 );
 CREATE FUNCTION i8_tinyint_lt(bigint, tinyint) RETURNS bool AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE OPERATOR < (
  LEFTARG = bigint,
@@ -556,7 +550,7 @@ CREATE OPERATOR < (
  JOIN = scalarltjoinsel
 );
 CREATE FUNCTION i8_tinyint_le(bigint, tinyint) RETURNS bool AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE OPERATOR <= (
  LEFTARG = bigint,
@@ -568,7 +562,7 @@ CREATE OPERATOR <= (
  JOIN = scalarltjoinsel
 );
 CREATE FUNCTION i8_tinyint_gt(bigint, tinyint) RETURNS bool AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE OPERATOR > (
  LEFTARG = bigint,
@@ -580,7 +574,7 @@ CREATE OPERATOR > (
  JOIN = scalargtjoinsel
 );
 CREATE FUNCTION i8_tinyint_ge(bigint, tinyint) RETURNS bool AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE OPERATOR >= (
  LEFTARG = bigint,
@@ -592,21 +586,21 @@ CREATE OPERATOR >= (
  JOIN = scalargtjoinsel
 );
 CREATE FUNCTION tinyint_um(tinyint) RETURNS tinyint AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE OPERATOR - (
  RIGHTARG = tinyint,
  PROCEDURE = tinyint_um
 );
 CREATE FUNCTION tinyint_up(tinyint) RETURNS tinyint AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE OPERATOR + (
  RIGHTARG = tinyint,
  PROCEDURE = tinyint_up
 );
 CREATE FUNCTION tinyint_pl(tinyint, tinyint) RETURNS tinyint AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE OPERATOR + (
  LEFTARG = tinyint,
@@ -615,7 +609,7 @@ CREATE OPERATOR + (
  COMMUTATOR = +
 );
 CREATE FUNCTION tinyint_mi(tinyint, tinyint) RETURNS tinyint AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE OPERATOR - (
  LEFTARG = tinyint,
@@ -623,7 +617,7 @@ CREATE OPERATOR - (
  PROCEDURE = tinyint_mi
 );
 CREATE FUNCTION tinyint_mul(tinyint, tinyint) RETURNS tinyint AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE OPERATOR * (
  LEFTARG = tinyint,
@@ -632,7 +626,7 @@ CREATE OPERATOR * (
  COMMUTATOR = *
 );
 CREATE FUNCTION tinyint_div(tinyint, tinyint) RETURNS tinyint AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE OPERATOR / (
  LEFTARG = tinyint,
@@ -640,10 +634,10 @@ CREATE OPERATOR / (
  PROCEDURE = tinyint_div
 );
 CREATE FUNCTION tinyint_inc(tinyint) RETURNS tinyint AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE FUNCTION tinyint_i2_pl(tinyint, smallint) RETURNS smallint AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE OPERATOR + (
  LEFTARG = tinyint,
@@ -652,7 +646,7 @@ CREATE OPERATOR + (
  COMMUTATOR = +
 );
 CREATE FUNCTION tinyint_i2_mi(tinyint, smallint) RETURNS smallint AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE OPERATOR - (
  LEFTARG = tinyint,
@@ -660,7 +654,7 @@ CREATE OPERATOR - (
  PROCEDURE = tinyint_i2_mi
 );
 CREATE FUNCTION tinyint_i2_mul(tinyint, smallint) RETURNS smallint AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE OPERATOR * (
  LEFTARG = tinyint,
@@ -669,7 +663,7 @@ CREATE OPERATOR * (
  COMMUTATOR = *
 );
 CREATE FUNCTION tinyint_i2_div(tinyint, smallint) RETURNS smallint AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE OPERATOR / (
  LEFTARG = tinyint,
@@ -677,7 +671,7 @@ CREATE OPERATOR / (
  PROCEDURE = tinyint_i2_div
 );
 CREATE FUNCTION tinyint_i4_pl(tinyint, integer) RETURNS integer AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE OPERATOR + (
  LEFTARG = tinyint,
@@ -686,7 +680,7 @@ CREATE OPERATOR + (
  COMMUTATOR = +
 );
 CREATE FUNCTION tinyint_i4_mi(tinyint, integer) RETURNS integer AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE OPERATOR - (
  LEFTARG = tinyint,
@@ -694,7 +688,7 @@ CREATE OPERATOR - (
  PROCEDURE = tinyint_i4_mi
 );
 CREATE FUNCTION tinyint_i4_mul(tinyint, integer) RETURNS integer AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE OPERATOR * (
  LEFTARG = tinyint,
@@ -703,7 +697,7 @@ CREATE OPERATOR * (
  COMMUTATOR = *
 );
 CREATE FUNCTION tinyint_i4_div(tinyint, integer) RETURNS integer AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE OPERATOR / (
  LEFTARG = tinyint,
@@ -711,7 +705,7 @@ CREATE OPERATOR / (
  PROCEDURE = tinyint_i4_div
 );
 CREATE FUNCTION tinyint_i8_pl(tinyint, bigint) RETURNS bigint AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE OPERATOR + (
  LEFTARG = tinyint,
@@ -720,7 +714,7 @@ CREATE OPERATOR + (
  COMMUTATOR = +
 );
 CREATE FUNCTION tinyint_i8_mi(tinyint, bigint) RETURNS bigint AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE OPERATOR - (
  LEFTARG = tinyint,
@@ -728,7 +722,7 @@ CREATE OPERATOR - (
  PROCEDURE = tinyint_i8_mi
 );
 CREATE FUNCTION tinyint_i8_mul(tinyint, bigint) RETURNS bigint AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE OPERATOR * (
  LEFTARG = tinyint,
@@ -737,7 +731,7 @@ CREATE OPERATOR * (
  COMMUTATOR = *
 );
 CREATE FUNCTION tinyint_i8_div(tinyint, bigint) RETURNS bigint AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE OPERATOR / (
  LEFTARG = tinyint,
@@ -745,7 +739,7 @@ CREATE OPERATOR / (
  PROCEDURE = tinyint_i8_div
 );
 CREATE FUNCTION i2_tinyint_pl(smallint, tinyint) RETURNS smallint AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE OPERATOR + (
  LEFTARG = smallint,
@@ -754,7 +748,7 @@ CREATE OPERATOR + (
  COMMUTATOR = +
 );
 CREATE FUNCTION i2_tinyint_mi(smallint, tinyint) RETURNS smallint AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE OPERATOR - (
  LEFTARG = smallint,
@@ -762,7 +756,7 @@ CREATE OPERATOR - (
  PROCEDURE = i2_tinyint_mi
 );
 CREATE FUNCTION i2_tinyint_mul(smallint, tinyint) RETURNS smallint AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE OPERATOR * (
  LEFTARG = smallint,
@@ -771,7 +765,7 @@ CREATE OPERATOR * (
  COMMUTATOR = *
 );
 CREATE FUNCTION i2_tinyint_div(smallint, tinyint) RETURNS smallint AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE OPERATOR / (
  LEFTARG = smallint,
@@ -779,7 +773,7 @@ CREATE OPERATOR / (
  PROCEDURE = i2_tinyint_div
 );
 CREATE FUNCTION i4_tinyint_pl(integer, tinyint) RETURNS integer AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE OPERATOR + (
  LEFTARG = integer,
@@ -788,7 +782,7 @@ CREATE OPERATOR + (
  COMMUTATOR = +
 );
 CREATE FUNCTION i4_tinyint_mi(integer, tinyint) RETURNS integer AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE OPERATOR - (
  LEFTARG = integer,
@@ -796,7 +790,7 @@ CREATE OPERATOR - (
  PROCEDURE = i4_tinyint_mi
 );
 CREATE FUNCTION i4_tinyint_mul(integer, tinyint) RETURNS integer AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE OPERATOR * (
  LEFTARG = integer,
@@ -805,7 +799,7 @@ CREATE OPERATOR * (
  COMMUTATOR = *
 );
 CREATE FUNCTION i4_tinyint_div(integer, tinyint) RETURNS integer AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE OPERATOR / (
  LEFTARG = integer,
@@ -813,7 +807,7 @@ CREATE OPERATOR / (
  PROCEDURE = i4_tinyint_div
 );
 CREATE FUNCTION i8_tinyint_pl(bigint, tinyint) RETURNS bigint AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE OPERATOR + (
  LEFTARG = bigint,
@@ -822,7 +816,7 @@ CREATE OPERATOR + (
  COMMUTATOR = +
 );
 CREATE FUNCTION i8_tinyint_mi(bigint, tinyint) RETURNS bigint AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE OPERATOR - (
  LEFTARG = bigint,
@@ -830,7 +824,7 @@ CREATE OPERATOR - (
  PROCEDURE = i8_tinyint_mi
 );
 CREATE FUNCTION i8_tinyint_mul(bigint, tinyint) RETURNS bigint AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE OPERATOR * (
  LEFTARG = bigint,
@@ -839,7 +833,7 @@ CREATE OPERATOR * (
  COMMUTATOR = *
 );
 CREATE FUNCTION i8_tinyint_div(bigint, tinyint) RETURNS bigint AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE OPERATOR / (
  LEFTARG = bigint,
@@ -847,7 +841,7 @@ CREATE OPERATOR / (
  PROCEDURE = i8_tinyint_div
 );
 CREATE FUNCTION tinyint_mod(tinyint, tinyint) RETURNS tinyint AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE OPERATOR % (
  LEFTARG = tinyint,
@@ -855,10 +849,10 @@ CREATE OPERATOR % (
  PROCEDURE = tinyint_mod
 );
 CREATE FUNCTION tinyint_abs(tinyint) RETURNS tinyint AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE FUNCTION tinyint_larger(tinyint, tinyint) RETURNS tinyint AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE AGGREGATE max(tinyint) (
  SFUNC = tinyint_larger,
@@ -866,7 +860,7 @@ CREATE AGGREGATE max(tinyint) (
  SORTOP = >
 );
 CREATE FUNCTION tinyint_smaller(tinyint, tinyint) RETURNS tinyint AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE AGGREGATE min(tinyint) (
  SFUNC = tinyint_smaller,
@@ -874,7 +868,7 @@ CREATE AGGREGATE min(tinyint) (
  SORTOP = <
 );
 CREATE FUNCTION tinyint_and(tinyint, tinyint) RETURNS tinyint AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE OPERATOR & (
  LEFTARG = tinyint,
@@ -882,7 +876,7 @@ CREATE OPERATOR & (
  PROCEDURE = tinyint_and
 );
 CREATE FUNCTION tinyint_or(tinyint, tinyint) RETURNS tinyint AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE OPERATOR | (
  LEFTARG = tinyint,
@@ -890,7 +884,7 @@ CREATE OPERATOR | (
  PROCEDURE = tinyint_or
 );
 CREATE FUNCTION tinyint_xor(tinyint, tinyint) RETURNS tinyint AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE OPERATOR # (
  LEFTARG = tinyint,
@@ -898,7 +892,7 @@ CREATE OPERATOR # (
  PROCEDURE = tinyint_xor
 );
 CREATE FUNCTION tinyint_shl(tinyint, tinyint) RETURNS tinyint AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE OPERATOR << (
  LEFTARG = tinyint,
@@ -906,7 +900,7 @@ CREATE OPERATOR << (
  PROCEDURE = tinyint_shl
 );
 CREATE FUNCTION tinyint_shr(tinyint, tinyint) RETURNS tinyint AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE OPERATOR >> (
  LEFTARG = tinyint,
@@ -914,32 +908,32 @@ CREATE OPERATOR >> (
  PROCEDURE = tinyint_shr
 );
 CREATE FUNCTION tinyint_not(tinyint) RETURNS tinyint AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE OPERATOR ~ (
  RIGHTARG = tinyint,
  PROCEDURE = tinyint_not
 );
 CREATE FUNCTION bt_tinyint_cmp(tinyint, tinyint) RETURNS integer AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE FUNCTION bt_tinyint_i2_cmp(tinyint, smallint) RETURNS integer AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE FUNCTION bt_tinyint_i4_cmp(tinyint, integer) RETURNS integer AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE FUNCTION bt_tinyint_i8_cmp(tinyint, bigint) RETURNS integer AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE FUNCTION bt_i2_tinyint_cmp(smallint, tinyint) RETURNS integer AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE FUNCTION bt_i4_tinyint_cmp(integer, tinyint) RETURNS integer AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE FUNCTION bt_i8_tinyint_cmp(bigint, tinyint) RETURNS integer AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE OPERATOR CLASS btree_tinyint_ops
 DEFAULT FOR TYPE tinyint USING btree FAMILY integer_ops AS
@@ -999,21 +993,21 @@ DEFAULT FOR TYPE tinyint[] USING gin AS
  FUNCTION 4 ginarrayconsistent(internal, smallint, anyarray, integer, internal, internal, internal, internal),
  STORAGE tinyint;
 CREATE FUNCTION hash_tinyint(tinyint) RETURNS integer AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE OPERATOR CLASS hash_tinyint_ops
 FOR TYPE tinyint USING hash FAMILY integer_ops AS
  OPERATOR 1 =,
  FUNCTION 1 hash_tinyint(tinyint);
 CREATE FUNCTION tinyint_sum(bigint, tinyint) RETURNS bigint AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE;
 CREATE AGGREGATE sum(tinyint) (
  SFUNC = tinyint_sum,
  STYPE = bigint
 );
 CREATE FUNCTION tinyint_avg_accum(bigint[], tinyint) RETURNS bigint[] AS
-'$libdir/baxdb/tinyint'
+'$libdir/tinyint'
 LANGUAGE c IMMUTABLE STRICT;
 CREATE AGGREGATE avg(tinyint) (
  SFUNC = tinyint_avg_accum,

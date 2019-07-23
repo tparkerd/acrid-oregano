@@ -1,0 +1,22 @@
+{
+  "species_shortname": "setaria",
+  "species_binomial_name": "setaria-binomial-name",
+  "species_subspecies": "",
+  "species_variety": "",
+  "population_name": "setaria-population-name",
+  "number_of_chromosomes": 9,
+  "genotype_version_assembly_name": "setaria-assembly-name",
+  "genotype_version_annotation_name ": "setaria-annoation-name",
+  "reference_genome_line_name": "setaria-reference-genome-line-name",
+  "gwas_algorithm_name": "MLMM",
+  "imputation_method_name": "setaria-imputation-method-name",
+  "kinship_algortihm_name": "setaria-kinship-algorithm-name",
+  "population_structure_algorithm_name": "setaria-population-structure-algorithm-name",
+  "kinship_filename": "6.AstleBalding.synbreed.kinship.csv'",
+  "population_structure_filename": "6.Eigenstrat.population.structure.50PCs.csv",
+  "gwas_run_filename": "setaria-gwas-results.csv",
+  "gwas_results_filename": "setaria-gwas-results.csv",
+  "missing_SNP_cutoff_value": 0.2,
+  "missing_line_cutoff_value": 0.2,
+  "minor_allele_frequency_cutoff_value": 0.1
+}

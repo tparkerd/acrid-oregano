@@ -11,7 +11,7 @@ Attributes
     :widths: 20, 10, 70
 
     "``growout_type_id``", "``integer``", ""
-    "``growout_type``", "``varchar``", ""
+    "``growout_type``", "``varchar``", "(e.g., phenotyper, field, etc."
 
 Diagram
 -------

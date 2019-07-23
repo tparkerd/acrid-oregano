@@ -3,6 +3,9 @@
 ``genotype``
 ============
 
+The genotype contains the allele calls for a specific line and chromosome. These are **not** the
+actual DNA sequences.
+
 Attributes
 ----------
 
@@ -14,7 +17,7 @@ Attributes
     "``genotype_line``", "``integer``", "see :ref:`line.line_id <line>`"
     "``genotype_chromosome``", "``integer``", "see :ref:`chromosome.chromosome_id <chromosome>`"
     "``genotype``", "``tinyint[]``", "Possible values: 0, 1, 2"
-    "``genotype_genotype_version``", "``integer``", "see :ref:`genotype_version.genotype_version.id <genotype_version>`"
+    "``genotype_genotype_version``", "``integer``", "Assembly and annotation used to generate the allele calls for any other line of a species. see :ref:`genotype_version.genotype_version.id <genotype_version>`"
 
 Constraints
 -----------

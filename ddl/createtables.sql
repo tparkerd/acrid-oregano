@@ -1,5 +1,5 @@
--- Connect to the baxdb database
-\connect baxdb
+-- Connect to the pgwasdb database
+\connect pgwasdb_commit_type
 
 -- Create the species table
 DROP TABLE IF EXISTS species;
@@ -79,11 +79,11 @@ CREATE TABLE variant (
 DROP TABLE IF EXISTS genotype_version;
 CREATE TABLE genotype_version (
   genotype_version_id SERIAL PRIMARY KEY,
-  genotype_version_name VARCHAR(75) UNIQUE NOT NULL,
-  genotype_version VARCHAR(50) NOT NULL,
+  genotype_version_assembly_name VARCHAR(75) UNIQUE NOT NULL,
+  genotype_version_annotation_name VARCHAR(50) NOT NULL,
   reference_genome INTEGER NOT NULL REFERENCES line (line_id),
   genotype_version_population INTEGER NOT NULL REFERENCES population (population_id),
-  unique (genotype_version, reference_genome)
+  unique (genotype_version_annotation_name, reference_genome)
   );
 
 -- Create the genotype table
@@ -168,8 +168,8 @@ DROP TABLE IF EXISTS gwas_run;
 CREATE TABLE gwas_run (
   gwas_run_id SERIAL PRIMARY KEY,
   gwas_run_trait INTEGER NOT NULL REFERENCES trait (trait_id),
-  nsnps INTEGER NOT NULL,
-  nlines INTEGER NOT NULL,
+  nsnps INTEGER,
+  nlines INTEGER,
   gwas_run_gwas_algorithm INTEGER NOT NULL REFERENCES gwas_algorithm (gwas_algorithm_id),
   gwas_run_genotype_version INTEGER NOT NULL REFERENCES genotype_version (genotype_version_id),
   missing_snp_cutoff_value NUMERIC NOT NULL,
@@ -197,4 +197,11 @@ CREATE TABLE gwas_result (
   pcs INTEGER[],
   unique (gwas_result_chromosome, basepair, gwas_result_gwas_run, model) 
   );
---
+
+-- Create tissue type table
+DROP TABLE IF EXISTS tissue;
+CREATE TABLE tissue (
+  tissue_id SERIAL PRIMARY KEY,
+  tissue_name VARCHAR(128) UNIQUE NOT NULL,
+  description TEXT
+)

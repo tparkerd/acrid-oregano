@@ -1,15 +1,15 @@
 \connect postgres
 
 SET client_min_messages TO WARNING;
-DROP DATABASE IF EXISTS baxdb;
-DROP ROLE IF EXISTS baxdb_owner;
+DROP DATABASE IF EXISTS pgwasdb_commit_type;
+DROP ROLE IF EXISTS pgwasdb_owner;
 
-CREATE ROLE baxdb_owner WITH
+CREATE ROLE pgwasdb_owner WITH
     LOGIN
     CREATEROLE
     ENCRYPTED PASSWORD 'password'
     ;
-CREATE DATABASE baxdb
-    WITH OWNER = baxdb_owner
+CREATE DATABASE pgwasdb_commit_type
+    WITH OWNER = pgwasdb_owner
     ENCODING = 'UTF-8'
     ;
