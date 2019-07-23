@@ -5,7 +5,33 @@ Credit - Ryan Lichtenwalter https://github.com/rlichtenwalter/pgsql_genomics
 
 # Environment
 Operating System: CentOS 7
+
 RDBMS: PostgreSQL 9.6
+
+# Live Database Instance
+
+The live version of the database is stored on a virtual machine hosted by the 
+Data Science Facility at the Danforth Center.
+
+Officially, the only means for connecting to the database is through an R package. Its working title is [Deathy Parsley](https://github.com/tparkerd/deathly-parsley). However, you can connect to the database so long as you are accessing the VM from the Center's
+network (e.g., VPN or SSH tunnel through Data Science Facility).
+
+However, you can access the database directly to view its contents.
+
+#### QA Database Server Credentials
+```
+Hostname: 10.5.1.102
+Database: pgwasdb_3011261_qa
+Username: pgwasdb_qa_owner
+Password: password
+Port:     5432
+```
+
+## Remote Access
+
+In order to access the database server, you must be connected to the Center's network. The easiest way to do this is via the Center's VPN–`asavpn.ddpsc.org`.
+
+If you would like to connect to the database through a database management like, such as DBeaver, then you can connect via an SSH tunnel. You will use your account with the Data Science Facility.
 
 # Installation
 
