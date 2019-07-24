@@ -13,10 +13,13 @@ RDBMS: PostgreSQL 9.6
 The live version of the database is stored on a virtual machine hosted by the 
 Data Science Facility at the Danforth Center.
 
+There are three instances of the database: _production_, _staging_, and _QA_. Each instance 
+has a respective owner. The owner of production has full access to the staging and QA servers as well. The owner of staging has full access to the QA server too.
+
 Officially, the only means for connecting to the database is through an R package. Its working title is [Deathy Parsley](https://github.com/tparkerd/deathly-parsley). However, you can connect to the database so long as you are accessing the VM from the Center's
 network (e.g., VPN or SSH tunnel through Data Science Facility).
 
-However, you can access the database directly to view its contents.
+However, you can access the database directly to view its contents. Below are the credentials for accessing the QA instance of the database. Its contents do not reflect the master copy of data stored in the database; that is stored in the production server. The R package access data stored in the production server. The QA server is subject to purging during development and testing.
 
 #### QA Database Server Credentials
 ```
@@ -31,7 +34,7 @@ Port:     5432
 
 In order to access the database server, you must be connected to the Center's network. The easiest way to do this is via the Center's VPN–`asavpn.ddpsc.org`.
 
-If you would like to connect to the database through a database management like, such as DBeaver, then you can connect via an SSH tunnel. You will use your account with the Data Science Facility.
+If you would like to connect to the database through a database management like, such as [DBeaver](https://dbeaver.io/), then you can connect via an SSH tunnel. You will use your account with the Data Science Facility.
 
 # Installation
 
