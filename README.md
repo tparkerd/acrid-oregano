@@ -157,7 +157,8 @@ sed -i "s/#listen_addresses = 'localhost'/listen_addresses = '*'/g" /var/lib/pgs
 # Change it so that it will listen for VirtualBox bridged connection
 # host      all             all         10.0.0.0/0          md5
 printf "host\tall\tall\t10.0.0.0/0\tmd5" >> /var/lib/pgsql/9.6/data/pg_hba.conf
-
+sed -i "s/local\s+all\s+all\s+peer/local\tall\tall\tmd5/gmi" /var/lib/pgsql/9.6/data/pg_hba.conf
+sed -i -E 's/(local\s+all\s+all\s+)\S+/\1md5/gmi' /var/lib/pgsql/9.6/data/pg_hba.conf
 # Restart postgresql service to update listening addresses and host
 # authentication
 systemctl restart postgresql-9.6.service
