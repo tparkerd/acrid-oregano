@@ -1,0 +1,2 @@
+# Backups for pgwasdb, nightly at 3am, everyday
+0 3 * * * /var/lib/pgsql/9.6/backups/pg_backup_rotated.sh >> /var/lib/pgsql/9.6/data/log/backup.log ; tail -n 100 /var/lib/pgsql/9.6/data/log/backup.log
