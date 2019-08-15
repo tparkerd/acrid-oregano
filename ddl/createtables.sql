@@ -181,6 +181,16 @@ CREATE TABLE gwas_run (
   unique (gwas_run_trait, nsnps, nlines, gwas_run_gwas_algorithm, gwas_run_genotype_version, missing_snp_cutoff_value, missing_line_cutoff_value, minor_allele_frequency_cutoff_value, gwas_run_imputation_method, gwas_run_kinship, gwas_run_population_structure)
   );
 
+-- Create the owner table
+-- NOTE(tparker): I'm not sure if this is necessary, is only the Baxter lab internal, or is it anyone associated with the Danforth Center?
+DROP TABLE IF EXISTS owner;
+CREATE TABLE owner (
+  owner_id SERIAL PRIMARY KEY,
+  name VARCHAR(255) NOT NULL,
+  status VARCHAR(255) NOT NULL DEFAULT 'internal',
+  unique (name)
+);
+
 -- Create the gwas_result table
 DROP TABLE IF EXISTS gwas_result;
 CREATE TABLE gwas_result (
@@ -195,6 +205,8 @@ CREATE TABLE gwas_result (
   model_added_pval NUMERIC CHECK (model_added_pval > 0),
   model TEXT,
   pcs INTEGER[],
+  published BOOLEAN DEFAULT FALSE,
+  owner_id INTEGER REFERENCES owner (owner_id),
   unique (gwas_result_chromosome, basepair, gwas_result_gwas_run, model) 
   );
 
