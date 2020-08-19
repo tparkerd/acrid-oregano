@@ -31,7 +31,7 @@ if [ $psql_status -ne 0 ]; then
     dnf install -y https://download.postgresql.org/pub/repos/yum/reporpms/EL-8-x86_64/pgdg-redhat-repo-latest.noarch.rpm
     dnf -qy module disable postgresql
     dnf install -y postgresql96-server
-    export PATH=/usr/pgsql-9.6/bin/$PATH
+    export PATH="/usr/pgsql-9.6/bin/:$PATH"
     postgresql96-setup initdb
     systemctl enable postgresql-9.6 || {
       printf "Unable to enable postgresql-9.6 Aborting.\n" 1>&2
