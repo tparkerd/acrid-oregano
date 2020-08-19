@@ -1,17 +1,17 @@
 # Plant Genome-wide Association Study Database (PGWASDB)
+
 PostgreSQL Database System for GWAS in the Baxter Lab
 
-Credit - Ryan Lichtenwalter https://github.com/rlichtenwalter/pgsql_genomics
-
 # Environment
-|||
-|-|-|
-|Operating System| Centos 7|
-|RDBMS| PostgreSQL 9.6|
+
+|                  |                |
+| ---------------- | -------------- |
+| Operating System | Centos 7       |
+| RDBMS            | PostgreSQL 9.6 |
 
 # Live Database Instance
 
-The live version of the database is stored on a virtual machine hosted by the 
+The live version of the database is stored on a virtual machine hosted by the
 Data Science Facility at the Danforth Center.
 
 There are three instances of the database: _production_, _staging_, and _QA_.
@@ -20,7 +20,7 @@ the staging and QA servers as well. The owner of staging has full access to the
 QA server too.
 
 Officially, the only means for connecting to the database is through an R
-package. Its working title is 
+package. Its working title is
 [pgwasdbc](https://github.com/danforthcenter/pgwasdbc). However, you can
 connect to the database so long as you are accessing the VM from the Center's
 network (e.g., VPN or SSH tunnel through Data Science Facility).
@@ -32,7 +32,8 @@ the production server. The R package access data stored in the production
 server. The QA server is subject to purging during development and testing.
 
 #### QA Database Server Credentials
-```
+
+```txt
 Hostname: 10.5.1.102
 Database: pgwasdb_3011261_qa
 Username: pgwasdb_qa_owner
@@ -51,15 +52,10 @@ You will use your account with the Data Science Facility.
 
 # Installation
 
-## Docker Installation
-
-    # Start docker container
-    docker-compose up [-d]
-
 ## Manual Installation
 
 The following command will install the GWAS database onto a CentOS 7 System.
-The first portion is just to install PostgreSQL 9.6 onto the system, so it this 
+The first portion is just to install PostgreSQL 9.6 onto the system, so it this
 is already installed, you may skip it and continue with pulling the database's
 code from this repo.
 
@@ -89,7 +85,7 @@ systemctl start postgresql-9.6.service
 
 database_types=("prod" "staging" "qa")
 
-# For each database instance, (prod, staging, qa), create the database and 
+# For each database instance, (prod, staging, qa), create the database and
 # install the TINYINT library
 for dt in "${database_types[@]}"
 do
@@ -103,19 +99,19 @@ do
             sed -i "s/pgwasdb_owner/pgwasdb_${dt}_owner/g" "$f"
         done
     echo "Done!\e[0m"
-    popd 
+    popd
 
     pg_installdir="$pg_libdir/${database_name}"
     echo "Installation directory: ${pg_installdir}"
     mkdir -vp -m 755 "$pg_installdir"
- 
+
     pushd "./$dt/c"
     make
     echo "Copying the library files into ${pg_installdir}"
     cp -v array_multi_index.so imputed_genotype.so summarize_variant.so "$pg_installdir"
-    chmod -R 755 "$pg_installdir" 
+    chmod -R 755 "$pg_installdir"
     popd
- 
+
     pushd "./$dt/lib/tinyint-0.1.1"
     make
     cp -v tinyint.so "$pg_installdir"
@@ -183,9 +179,14 @@ firewall-cmd --reload
 ```
 
 ## Additional Installation Information for Production, Staging, and Test databases
-Install PostgreSQL as you would normally, but once you get to the section that 
+
+Install PostgreSQL as you would normally, but once you get to the section that
 requires actions to be performed by the `postgres` user, you will modify each
 of the SQL files in `./ddl/` to reflect the database name and credentials that
 will be used to connect to each instance of the database.
 
 These may be installed into a single or multiple database clusters.
+
+## Credits
+
+Ryan Lichtenwalter https://github.com/rlichtenwalter/pgsql_genomics
