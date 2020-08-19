@@ -37,7 +37,7 @@ for dt in "${database_types[@]}"; do
     sed -i "s/pgwasdb_commit_type/${database_name}/g" "$f"
     sed -i "s/pgwasdb_owner/pgwasdb_${dt}_owner/g" "$f"
   done
-  echo "Done!\e[0m"
+  echo "Done!"
   popd
 
   pg_installdir="$pg_libdir/${database_name}"
@@ -66,11 +66,10 @@ for dt in "${database_types[@]}"; do
   # using the `sed` command to swap out each of to reflect the commit version and
   # its username and password. I'm considering each of the users as a role
   cp -rv ./${dt}/ddl/ "$pg_installdir"
-
 done
 
 cp -v pgwasdb/initdb.sh /tmp/pgwasdb_initdb.sh
-sudo -u postgres /tmp/pgwasdb_initdb.sh
+sudo -u postgres bash /tmp/pgwasdb_initdb.sh
 rm -v /tmp/pgwasdb_initdb.sh
 
 # Restart postgresql service to update listening addresses and host
