@@ -28,15 +28,16 @@ if [ $psql_status -ne 0 ]; then
 
   # PostgreSQL 9.6 is not installed
   if [ $psql_status -eq 4 ]; then
-    yum -y install https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-7-x86_64/pgdg-centos96-9.6-3.noarch.rpm
-    yum -y install postgresql96 postgresql96-server postgresql96-contrib postgresql96-libs postgresql96-devel
-    export PATH=/usr/pgsql-9.6/bin:$PATH
+    dnf install -y https://download.postgresql.org/pub/repos/yum/reporpms/EL-8-x86_64/pgdg-redhat-repo-latest.noarch.rpm
+    dnf -qy module disable postgresql
+    dnf install -y postgresql96-server
+    export PATH=/usr/pgsql-9.6/bin/$PATH
     postgresql96-setup initdb
-    systemctl enable postgresql-9.6.service || {
+    systemctl enable postgresql-9.6 || {
       printf "Unable to enable postgresql-9.6 Aborting.\n" 1>&2
       exit 1
     }
-    systemctl start postgresql-9.6.service || {
+    systemctl start postgresql-9.6 || {
       printf "Unable to start postgresql-9.6 Aborting.\n" 1>&2
       exit 1
     }
