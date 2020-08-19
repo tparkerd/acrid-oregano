@@ -78,10 +78,11 @@ commit_hash="$(git rev-parse --short=7 HEAD)" && \
 popd && \
 echo "PATH=/usr/pgsql-9.6/bin:$PATH" >> ~/.bashrc && source ~/.bashrc && \
 pg_libdir=$(pg_config --pkglibdir) && \
-postgresql96-setup initdb && \
+dnf install -y https://download.postgresql.org/pub/repos/yum/reporpms/EL-8-x86_64/pgdg-redhat-repo-latest.noarch.rpm && \
+dnf -qy module disable postgresql && \
+dnf install -y postgresql96-server postgresql96-devel && \
 systemctl enable postgresql-9.6.service && \
 systemctl start postgresql-9.6.service
-
 
 database_types=("prod" "staging" "qa")
 
