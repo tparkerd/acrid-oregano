@@ -14,17 +14,20 @@ yum -y update &&
   dnf install -y https://download.postgresql.org/pub/repos/yum/reporpms/EL-8-x86_64/pgdg-redhat-repo-latest.noarch.rpm &&
   dnf -qy module disable postgresql &&
   dnf install -y postgresql96-server postgresql96-devel &&
-  /usr/pgsql-9.6/bin/postgresql96-setup initdb &&
-  systemctl enable postgresql-9.6.service &&
-  systemctl start postgresql-9.6.service &&
-  database_types=("prod" "staging" "qa") &&
+  /usr/pgsql-9.6/bin/postgresql96-setup initdb
+
+systemctl enable postgresql-9.6.service &&
+  systemctl start postgresql-9.6.service
+
+database_types=("prod" "staging" "qa") &&
+  pushd pgwasdb &&
   commit_hash="$(git rev-parse --short=7 HEAD)" &&
   echo 'PATH="/usr/pgsql-9.6/bin:$PATH"' >>~/.bashrc && source ~/.bashrc &&
-  pg_libdir=$(pg_config --pkglibdir)
+  pg_libdir=$(pg_config --pkglibdir) &&
+  popd
 
 # For each database instance, (prod, staging, qa), create the database and
 # install the TINYINT library
-cd ..
 for dt in "${database_types[@]}"; do
   cp -r pgwasdb "$dt"
   database_name="pgwasdb_${commit_hash}_${dt}"
