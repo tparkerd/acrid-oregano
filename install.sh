@@ -10,15 +10,10 @@ if [ "$EUID" -ne 0 ]; then
 fi
 
 yum -y update &&
-  yum -y install wget unzip gcc perl dos2unix epel-release &&
-  yum -y install yum install https://download.postgresql.org/pub/repos/yum/reporpms/EL-7-x86_64/pgdg-redhat-repo-latest.noarch.rpm &&
-  yum -y install postgresql96 postgresql96-server postgresql96-contrib postgresql96-libs postgresql96-devel &&
-  git clone -b development --single-branch https://github.com/tparkerd/acrid-oregano.git pgwasdb &&
+  dnf -y install wget unzip gcc perl dos2unix epel-release &&
   database_types=("prod" "staging" "qa") &&
-  pushd pgwasdb &&
   commit_hash="$(git rev-parse --short=7 HEAD)" &&
-  popd &&
-  echo "PATH=/usr/pgsql-9.6/bin:$PATH" >>~/.bashrc && source ~/.bashrc &&
+  echo 'PATH="/usr/pgsql-9.6/bin:$PATH"' >>~/.bashrc && source ~/.bashrc &&
   pg_libdir=$(pg_config --pkglibdir) &&
   dnf install -y https://download.postgresql.org/pub/repos/yum/reporpms/EL-8-x86_64/pgdg-redhat-repo-latest.noarch.rpm &&
   dnf -qy module disable postgresql &&
