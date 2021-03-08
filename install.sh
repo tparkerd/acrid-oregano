@@ -4,6 +4,9 @@
 # RDBMS: PostgreSQL 9.6
 # NOTE: Make sure to run this under `root` user
 
+set -e
+set -x
+
 if [ "$EUID" -ne 0 ]; then
   echo "Must be installed as root."
   exit
